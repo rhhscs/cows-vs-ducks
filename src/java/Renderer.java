@@ -16,7 +16,7 @@ public class Renderer {
 
 
     public Renderer(){
-        frame = new JFrame("Agar.java");
+        frame = new JFrame("Cows Vs. Ducks");
         canvas = new GraphicsPanel();
         input = Input.globalInput;
     }

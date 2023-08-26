@@ -11,8 +11,8 @@ public class Score implements Comparable<Score> {
 
     /**
      * This creates a new Score object.
-     * @param name
-     * @param score
+     * @param name The scorer's name.
+     * @param score The score.
      */
     public Score(String name, int score) {
         this.name = name;
