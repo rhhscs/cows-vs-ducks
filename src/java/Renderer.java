@@ -8,7 +8,7 @@ public class Renderer {
     GraphicsPanel canvas;
     Game game;
     //Input input
-    boolean fullscreen = false;
+    int fullscreen = 2;
 
 
     public Renderer(){
@@ -41,8 +41,9 @@ public class Renderer {
     }
 
     public void toggleFullscreen(){
-        fullscreen = !fullscreen;
-        if (fullscreen){
+        fullscreen = (fullscreen+1)%4;
+                
+        if (fullscreen == 0){
             frame.dispose();
             //ScreenConsts.FULLSCREEN_DIMS();
             frame.setUndecorated(true);
@@ -50,10 +51,19 @@ public class Renderer {
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         } else {
             frame.dispose();
-            //Consts.WINDOWED_DIMS();
             frame.setUndecorated(false);
             frame.setVisible(true);
             frame.setExtendedState(JFrame.NORMAL);
+            switch (fullscreen){
+                case 1:
+                    frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
+                
+                case 2:
+                    frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
+                
+                case 3:
+                    frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
+            }
             frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
             frame.setLocationRelativeTo(null);
         }
@@ -74,8 +84,9 @@ public class Renderer {
         }
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
+            g.translate(0, 0);
             game.draw(g);
+            super.paintComponent(g);
         }
     }
 }

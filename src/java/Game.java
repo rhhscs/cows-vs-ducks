@@ -18,7 +18,8 @@ public class Game {
         while(running){
             stateManager.run();
             renderer.repaint();
-            try{Thread.sleep(20);} catch(Exception e){}
+            try{Thread.sleep(2000);} catch(Exception e){}
+            renderer.toggleFullscreen();
         }
         renderer.close();
     }

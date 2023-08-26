@@ -4,7 +4,7 @@ public class Button {
     
 
     
-    public void setOnClickFunction( ???? ){
+    //public void setOnClickFunction( ???? ){
 
-    }
+    //}
 }

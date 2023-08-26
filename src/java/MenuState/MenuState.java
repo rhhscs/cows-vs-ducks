@@ -11,19 +11,20 @@ public class MenuState extends State{
 
     @Override
     public void start() {
-        startButton.setOnClickFunction();
+        //startButton.setOnClickFunction();
     }
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        
     }
 
     @Override
     public void draw(Graphics g) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+        g.fillRect(0, 0, 0, 0);
+        g.drawRect(20, 20, 50, 50);
+        g.drawRect(70, 70, 50, 50);
+        g.drawRect(130, 130, 50, 50);
     }
 
     @Override
