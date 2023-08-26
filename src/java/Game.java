@@ -2,12 +2,14 @@ package src.java;
 
 import java.awt.Graphics;
 import src.java.MenuState.MenuState;
+import src.java.Utilities.Input;
 
 public class Game {
 
     private boolean running = false;
     private Renderer renderer;
     private StateMachine stateManager = new StateMachine();
+    private Input input = Input.globalInput;
 
     public void setup(){
         stateManager.init(new MenuState());
@@ -18,8 +20,8 @@ public class Game {
         while(running){
             stateManager.run();
             renderer.repaint();
+            input.update();
             try{Thread.sleep(2000);} catch(Exception e){}
-            renderer.toggleFullscreen();
         }
         renderer.close();
     }

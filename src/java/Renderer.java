@@ -4,12 +4,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import src.java.Utilities.ResolutionManager;
+import src.java.Utilities.Input;
 
 public class Renderer {
     JFrame frame;
     GraphicsPanel canvas;
     Game game;
-    //Input input
+    Input input;
     int fullscreen = 2;
     ResolutionManager resolution = Consts.res;
 
@@ -17,6 +18,7 @@ public class Renderer {
     public Renderer(){
         frame = new JFrame("Agar.java");
         canvas = new GraphicsPanel();
+        input = Input.globalInput;
     }
 
     public void init(){
@@ -26,11 +28,10 @@ public class Renderer {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        //TODO: input management
-        //canvas.addKeyListener(input);
-        //canvas.addMouseListener(input);
-        //canvas.addMouseMotionListener(input);
-        //canvas.addMouseWheelListener(input);
+        canvas.addKeyListener(input.getKeyboard());
+        canvas.addMouseListener(input.getMouse());
+        canvas.addMouseMotionListener(input.getMouse());
+        canvas.addMouseWheelListener(input.getMouse());
 
         frame.add(canvas); 
         
