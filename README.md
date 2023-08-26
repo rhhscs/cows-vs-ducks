@@ -1,6 +1,11 @@
 # cows-vs-ducks
 club fair project!
 
+## todo list
+- lawn class
+- duck manager
+- ui
+
 ## notes
 - 10 pre-unlocked cows
 - 5 by 7/8
