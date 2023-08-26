@@ -13,9 +13,9 @@ public class PauseState extends State{
     }
 
     @Override
-    public void run() {
+    public void update() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
