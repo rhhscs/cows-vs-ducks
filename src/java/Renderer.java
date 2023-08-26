@@ -3,12 +3,15 @@ package src.java;
 import java.awt.*;
 import javax.swing.*;
 
+import src.java.Utilities.ResolutionManager;
+
 public class Renderer {
     JFrame frame;
     GraphicsPanel canvas;
     Game game;
     //Input input
     int fullscreen = 2;
+    ResolutionManager resolution = Consts.res;
 
 
     public Renderer(){
@@ -17,8 +20,8 @@ public class Renderer {
     }
 
     public void init(){
-        frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
-        frame.setMinimumSize(new Dimension(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT));
+        frame.setSize(resolution.WINDOWWIDTH,resolution.WINDOWHEIGHT);
+        frame.setMinimumSize(new Dimension(resolution.WINDOWWIDTH,resolution.WINDOWHEIGHT));
         frame.setResizable(false);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,15 +59,13 @@ public class Renderer {
             frame.setExtendedState(JFrame.NORMAL);
             switch (fullscreen){
                 case 1:
-                    frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
-                
+                    resolution.SMALL_DIMS();
                 case 2:
-                    frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
-                
+                    resolution.MED_DIMS();
                 case 3:
-                    frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
+                    resolution.LARGE_DIMS();
             }
-            frame.setSize(Consts.WINDOWWIDTH,Consts.WINDOWHEIGHT);
+            frame.setSize(resolution.WINDOWWIDTH,resolution.WINDOWHEIGHT);
             frame.setLocationRelativeTo(null);
         }
     }
