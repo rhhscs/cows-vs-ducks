@@ -2,10 +2,12 @@ package src.java.GameState;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.awt.Color;
 
 import src.java.Drawable;
 import src.java.Updatable;
+import src.java.GameState.Cows.Cow;
 
 /**
  * This class represents the lawn in the game. It manages the cows but not the
@@ -19,23 +21,23 @@ public class PlayingField extends Entity implements Drawable, Updatable {
     /**
      * This creates a new PlayingField object.
      * 
-     * @param x_     The top-left x coordinate.
-     * @param y_     The top-left y coordinate.
+     * @param x      The top-left x coordinate.
+     * @param y      The top-left y coordinate.
      * @param width  The number of tiles across horizontally.
      * @param height The number of tiles across vertically.
      */
-    public PlayingField(int x_, int y_, int width, int height) {
-        super(x_, y_, 
-            width * Tile.SIZE + (width - 1) * Tile.MARGIN.x, 
-            height * Tile.SIZE + (height - 1) * Tile.MARGIN.y);
+    public PlayingField(int x, int y, int width, int height) {
+        super(x, y,
+                width * Tile.SIZE + (width - 1) * Tile.MARGIN.x,
+                height * Tile.SIZE + (height - 1) * Tile.MARGIN.y);
         this.grid = new Tile[width][height];
 
-        for (int y = 0; y < this.getHeight(); y++) {
-            for (int x = 0; x < this.getWidth(); x++) {
-                int tileX = this.getX() + Tile.SIZE * x + Tile.MARGIN.x * x;
-                int tileY = this.getY() + Tile.SIZE * y + Tile.MARGIN.y * y;
+        for (int cellY = 0; cellY < this.getHeight(); cellY++) {
+            for (int cellX = 0; cellX < this.getWidth(); cellX++) {
+                int tileX = this.getX() + Tile.SIZE * cellX + Tile.MARGIN.x * cellX;
+                int tileY = this.getY() + Tile.SIZE * cellY + Tile.MARGIN.y * cellY;
 
-                this.grid[x][y] = new Tile(tileX, tileY);
+                this.grid[cellX][cellY] = new Tile(tileX, tileY);
             }
         }
     }
@@ -56,6 +58,22 @@ public class PlayingField extends Entity implements Drawable, Updatable {
             return null;
         }
         return grid[x / Tile.SIZE][y / Tile.SIZE];
+    }
+
+    /**
+     * This gets whether the tile at the given coordinate is occupied by a cow or
+     * not. For stackable cows (pea pod), it only is occupied if no more cows can be
+     * stacked.
+     * 
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if it is occupied, false otherwise.
+     */
+    public boolean isOccupied(int x, int y) {
+        Tile tile = getTileAt(x, y);
+        if (tile == null)
+            return false;
+        return tile.isOccupied();
     }
 
     @Override
@@ -99,15 +117,19 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
     /**
      * This removes the cow from the tile at a coordinate on the screen.
+     * 
      * @param x The x coordinate.
      * @param y The y coordinate.
-     * @return True if the cow is removed, false if there is no tile or there is no cow.
+     * @return True if the cow is removed, false if there is no tile or there is no
+     *         cow.
      */
     public boolean removeCow(int x, int y) {
         Tile tile = this.getTileAt(x, y);
 
-        if (tile == null) return false;
-        if (!tile.isOccupied()) return false;
+        if (tile == null)
+            return false;
+        if (!tile.isOccupied())
+            return false;
 
         tile.removeCow();
         return true;
@@ -132,21 +154,24 @@ public class PlayingField extends Entity implements Drawable, Updatable {
     }
 
     /**
-     * This class represents a tile on the grid of a playing field. It manages the cow(s) on it.
+     * This class represents a tile on the grid of a playing field. It manages the
+     * cow(s) on it.
      */
     public static class Tile extends Entity implements Drawable, Updatable {
         // the padding inside for where the cow sprite gets drawn.
-        public static final Point PADDING = new Point(15, 15); 
+        public static final Point PADDING = new Point(15, 15);
         // the size of each tile of the lawn.
-        public static final int SIZE = 100; 
+        public static final int SIZE = 100;
         // the margin around the tile.
         public static final Point MARGIN = new Point(10, 10);
 
         private Cow cow;
         private boolean hovered;
+        private BufferedImage sprite;
 
         /**
-         * This creates a new Tile object.
+         * This creates a new Tile object without a sprite.
+         * 
          * @param x The top-left x coordinate.
          * @param y The top-right y coordinate.
          */
@@ -154,6 +179,21 @@ public class PlayingField extends Entity implements Drawable, Updatable {
             super(x, y, Tile.SIZE, Tile.SIZE);
             this.cow = null;
             this.hovered = false;
+            this.sprite = null;
+        }
+
+        /**
+         * This creates a new Tile object with a sprite.
+         * 
+         * @param x              The top-left x coordinate.
+         * @param y              The top-right y coordinate.
+         * @param spriteFilePath The file path of the sprite.
+         */
+        public Tile(int x, int y, String spriteFilePath) {
+            super(x, y, Tile.SIZE, Tile.SIZE);
+            this.cow = null;
+            this.hovered = false;
+            this.sprite = null; // TODO create sprites
         }
 
         /**
@@ -186,7 +226,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @param cow The cow to place in this tile.
          */
         public void placeCow(Cow cow) {
-            cow.setPos(this.getX() + Tile.PADDING.x, this.getY() + Tile.PADDING.y);
+            cow.setPos(cow.getX() + this.getX() + Tile.PADDING.x, cow.getY() + this.getY() + Tile.PADDING.y);
             this.cow = cow;
         }
 
@@ -205,8 +245,10 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
         @Override
         public void draw(Graphics g) {
-            g.setColor(new Color(80, 145, 70));
-            g.fillRect(this.getX(), this.getY(), Tile.SIZE, Tile.SIZE);
+            if (sprite == null) {
+                g.setColor(new Color(80, 145, 70));
+                g.fillRect(this.getX(), this.getY(), Tile.SIZE, Tile.SIZE);
+            }
 
             if (cow != null)
                 cow.draw(g);
