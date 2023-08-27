@@ -61,7 +61,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     }
 
     public void attack() {
-        ProjectileManager.projectileManager.addProjectile(this.projectile);
+        ProjectileManager.projectileManager.addProjectile(this.projectile.clone());
     }
 
     public int getAttackSpeed() {
@@ -115,10 +115,10 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
-        if (this.timeUntilFirstAttack > 0) {
+        if (this.timeUntilNextAttack > 0) {
             this.timeUntilNextAttack--;
         } 
-        else if (this.timeUntilFirstAttack == 0 /* && should attack */) {
+        if (this.timeUntilNextAttack == 0 /* && should attack */) {
             // Attack restarts
             this.timeUntilNextAttack = this.attackSpeed + this.attackDuration;
             // or just attackSpeed if we dont want to count attackDuration
@@ -126,11 +126,11 @@ public class Cow extends Entity implements Drawable, Updatable {
 
         // the time between the start of attacks is attackSpeed + attackDuration
 
-        if (this.timeUntilNextAttack > this.attackSpeed - this.attackDuration) {
+        if (this.timeUntilNextAttack > this.attackSpeed) {
             // Attack animation begins
             this.setState(State.ATTACK);
         } 
-        else if (this.timeUntilNextAttack == this.attackSpeed - this.attackDuration) {
+        else if (this.timeUntilNextAttack == this.attackSpeed) {
             // Attack animation ends, launch projectile
             this.setState(State.IDLE);
             this.attack();
