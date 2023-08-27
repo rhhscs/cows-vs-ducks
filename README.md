@@ -7,12 +7,14 @@ club fair project!
   - button: in progress
   - test overlayed menu
 - game
-  - lawn class
+  - lawn (playing field)
     - cow
   - duck manager
     - abstract duck
     - 10 ducks
   - UI
+  - projectile manager
+    - projectil
 
 ## notes
 - 10 pre-unlocked cows
