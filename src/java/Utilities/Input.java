@@ -63,13 +63,13 @@ public class Input {
 
         @Override
         public void keyTyped(KeyEvent e) {
-            tappedCode = e.getKeyCode();
             tappedChar = e.getKeyChar();
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
             down.put(e.getKeyCode(), true);
+            tappedCode = e.getKeyCode();
         }
 
         @Override
@@ -82,24 +82,28 @@ public class Input {
     private class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
         int x = 0, y = 0;
         double scroll = 0;
+
         boolean tapped = false;
         boolean released = false;
         boolean down = false;
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-            tapped = true;
-        }
+        public void mouseClicked(MouseEvent e) {}
 
         @Override
         public void mousePressed(MouseEvent e) {
-            down = true;
+            if (e.getButton() == 1) {
+                down = true;
+                tapped = true;
+            }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            down = false;
-            released = true;
+            if (e.getButton() == 1) {
+                down = false;
+                released = true;
+            }
         }
 
         @Override
@@ -108,9 +112,7 @@ public class Input {
         }
 
         @Override
-        public void mouseDragged(MouseEvent e) {
-            System.out.println("a");
-        }
+        public void mouseDragged(MouseEvent e) {}
 
         @Override
         public void mouseMoved(MouseEvent e) {

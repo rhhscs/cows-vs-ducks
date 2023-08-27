@@ -1,6 +1,8 @@
 package src.java;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+
 import src.java.MenuState.MenuState;
 import src.java.Utilities.Input;
 
@@ -20,8 +22,11 @@ public class Game {
         while(running){
             stateManager.run();
             renderer.repaint();
+            if (input.keyIsTapped(KeyEvent.VK_F11)){
+                renderer.toggleFullscreen();
+            }
             input.update();
-            try{Thread.sleep(2000);} catch(Exception e){}
+            try{Thread.sleep(20);} catch(Exception e){}
         }
         renderer.close();
     }

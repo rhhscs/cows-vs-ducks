@@ -15,7 +15,15 @@ public class StateMachine {
     }
 
     public void run(){
-        active.peek().update();
+        State runningState = active.peek();
+        if (runningState.nextState != null){
+            changeActiveState(runningState.nextState);
+        } else if (runningState.appendState != null){
+            appendActiveState(runningState);
+        } else if (runningState.popState){
+            popActiveState();
+        }
+        runningState.update();
     }
 
     public void draw(Graphics g){
@@ -26,14 +34,22 @@ public class StateMachine {
     }
 
     public void changeActiveState(State newState){
+        System.out.println("Changing State: " + active.peek() + " to " + newState);
         active.pop().stop();
         newState.start();
         active.push(newState);
     }
 
     public void popActiveState(){
+        System.out.println("Killing State: " + active.peek());
         if (active.size() != 1){
             active.pop().stop();
         }
+    }
+    public void appendActiveState(State newState){
+        System.out.println("Sleeping State: " + active.peek());
+        System.out.println("Appending State: " + newState);
+        newState.start();
+        active.push(newState);
     }
 }

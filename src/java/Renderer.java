@@ -12,7 +12,7 @@ public class Renderer {
     Game game;
     Input input;
     int fullscreen = 2;
-    ResolutionManager resolution = Consts.res;
+    ResolutionManager resolution = ResolutionManager.getGlobalResolutionManager();
 
 
     public Renderer(){
@@ -23,7 +23,7 @@ public class Renderer {
 
     public void init(){
         frame.setSize(resolution.WINDOWWIDTH,resolution.WINDOWHEIGHT);
-        frame.setMinimumSize(new Dimension(resolution.WINDOWWIDTH,resolution.WINDOWHEIGHT));
+        //frame.setMinimumSize(new Dimension(resolution.WINDOWWIDTH,resolution.WINDOWHEIGHT));
         frame.setResizable(false);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,10 +61,11 @@ public class Renderer {
             switch (fullscreen){
                 case 1:
                     resolution.SMALL_DIMS();
-                case 2:
+                break; case 2:
                     resolution.MED_DIMS();
-                case 3:
+                break; case 3:
                     resolution.LARGE_DIMS();
+                break; 
             }
             frame.setSize(resolution.WINDOWWIDTH,resolution.WINDOWHEIGHT);
             frame.setLocationRelativeTo(null);
@@ -86,9 +87,9 @@ public class Renderer {
         }
         @Override
         protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
             g.translate(0, 0);
             game.draw(g);
-            super.paintComponent(g);
         }
     }
 }

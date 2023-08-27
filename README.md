@@ -2,9 +2,17 @@
 club fair project!
 
 ## todo list
-- lawn class
-- duck manager
-- ui
+- menus
+  - main menu
+  - button: in progress
+  - test overlayed menu
+- game
+  - lawn class
+    - cow
+  - duck manager
+    - abstract duck
+    - 10 ducks
+  - UI
 
 ## notes
 - 10 pre-unlocked cows

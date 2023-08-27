@@ -2,35 +2,36 @@ package src.java.MenuState;
 
 import src.java.State;
 import src.java.Components.Button;
+import src.java.GameState.GameState;
+import src.java.Utilities.Input;
+import src.java.Utilities.ResolutionManager;
+
 import java.awt.Graphics;
 
 public class MenuState extends State{
-    private Button startButton = new Button();
-    private Button bookButton;
-    private Button scoresButton;
+    private Button startButton = new Button(100, ResolutionManager.HEIGHT/2 - 100, 700, 80);
+    private Button scoresButton = new Button(100, ResolutionManager.HEIGHT/2, 600, 80);
+    private Button bookButton = new Button(100 + 620, ResolutionManager.HEIGHT/2, 80, 80);
 
     @Override
     public void start() {
-        //startButton.setOnClickFunction();
+        startButton.setOnClickFunction(() -> {nextState = new GameState();});
     }
 
     @Override
     public void update() {
-        
+        startButton.update();
     }
 
     @Override
     public void draw(Graphics g) {
-        g.fillRect(0, 0, 0, 0);
-        g.drawRect(20, 20, 50, 50);
-        g.drawRect(70, 70, 50, 50);
-        g.drawRect(130, 130, 50, 50);
+        startButton.draw(g);
+        scoresButton.draw(g);
+        bookButton.draw(g);
     }
 
+
     @Override
-    public void stop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stop'");
-    }
+    public void stop() {}
     
 }
