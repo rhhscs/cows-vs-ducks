@@ -15,6 +15,7 @@ public class ProjectileManager implements Drawable, Updatable{
     private ProjectileManager(){}
 
     public void setDuckManager(DuckManager duckManager){
+        this.projectiles = new ArrayList<>();
         this.duckManager = duckManager;
     }
 
@@ -26,12 +27,27 @@ public class ProjectileManager implements Drawable, Updatable{
     public void update(){
         // check for collisions with the ducks
         for(Projectile cur: this.projectiles){
-
+            boolean used = false;
+            for(Duck nextDuck: this.duckManager.getDucks()){
+                if(cur.getActive() && nextDuck.collides(cur)){
+                    if(cur.getSingleTarget()){
+                        // do damage
+                        cur.setActive(false);
+                        cur.setDuration(0);
+                    }else{
+                        used = true;
+                        // do damage
+                    }
+                }
+            }
+            if(used){
+                cur.setActive(false);
+            }
         }
         // if the projectile duration is over, or is inactive, remove it
         for(int i=this.projectiles.size()-1; i>=0; i--){
             Projectile cur = this.projectiles.get(i);
-            if(!cur.getActive() || cur.getDuration() <= 0){
+            if(cur.getDuration() <= 0){
                 this.projectiles.remove(i);
             }
         }

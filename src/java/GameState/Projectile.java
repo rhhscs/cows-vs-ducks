@@ -96,7 +96,7 @@ public class Projectile extends Entity implements Drawable, Updatable{
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return new Projectile(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.speed, this.damage,
             this.slowTime, this.singleTarget, this.slowEffect, this.active, this.duration, this.filePath);
     }
