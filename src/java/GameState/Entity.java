@@ -1,5 +1,6 @@
 package src.java.GameState;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 /**
@@ -90,5 +91,9 @@ public class Entity {
 
     public void setHeight(int height) {
         this.rect.setSize(this.getWidth(), height);
+    }
+
+    public Point getPos() {
+        return this.rect.getLocation();
     }
 }

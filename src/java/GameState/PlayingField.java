@@ -43,7 +43,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
     }
 
     /**
-     * This gets the tile at the given coordinate on the screen.
+     * This gets the tile at the real given coordinate on the screen.
      * 
      * @param x The x coordinate.
      * @param y The y coordinate.
@@ -53,11 +53,35 @@ public class PlayingField extends Entity implements Drawable, Updatable {
     public Tile getTileAt(int x, int y) {
         x -= this.getX();
         y -= this.getY();
+        return this.getTileAtByCell(x / this.getWidth(), y / this.getHeight());
+    }
 
-        if (x < 0 || y < 0 || x >= Tile.SIZE * this.getWidth() || y >= Tile.SIZE * this.getHeight()) {
+    /**
+     * This gets the tile given its cell coordinate in the grid.
+     * 
+     * @param cellX The cell x coordinate.
+     * @param cellY The cell y coordinate.
+     * @return The tile at the cell coordinate if the coordinate is within the grid,
+     *         null otherwise.
+     */
+    private Tile getTileAtByCell(int cellX, int cellY) {
+        if (cellX < 0 || cellY < 0 || cellX >= this.getWidth() || cellY >= this.getHeight())
             return null;
-        }
-        return grid[x / Tile.SIZE][y / Tile.SIZE];
+
+        return this.grid[cellX][cellY];
+    }
+
+    /**
+     * This gets the top-left coordinate of the tile that contains the given
+     * coordinate.
+     * 
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The real coordinate of the tile at the given coordinate.
+     */
+    public Point getRealTileCoordinate(int x, int y) {
+        Tile tile = getTileAt(x, y);
+        return tile.getPos();
     }
 
     /**
