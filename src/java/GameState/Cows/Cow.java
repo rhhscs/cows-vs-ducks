@@ -133,9 +133,11 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public Cow clone() throws CloneNotSupportedException {
-        return new Cow(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getHealth(),
+        Cow cow = new Cow(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getHealth(),
                 this.getAttackSpeed(), this.getTimeUntilNextAttack(), this.getAttackDuration(), this.isTargetable(),
                 this.getSpriteFilePath(), (Projectile) this.projectile.clone());
+        cow.setDuckManager(this.duckManager);
+        return cow;
     }
 
     public enum State {

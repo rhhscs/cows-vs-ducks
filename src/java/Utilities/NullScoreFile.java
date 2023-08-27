@@ -3,7 +3,7 @@ package src.java.Utilities;
 import java.io.IOException;
 
 /**
- * This does not actually save the score file.
+ * This does not actually save the score file. For debug use.
  */
 public class NullScoreFile implements ScoreFile {
     @Override
