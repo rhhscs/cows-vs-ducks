@@ -250,7 +250,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @param cow The cow to place in this tile.
          */
         public void placeCow(Cow cow) {
-            cow.setPos(cow.getX() + this.getX() + Tile.PADDING.x, cow.getY() + this.getY() + Tile.PADDING.y);
+            cow.setPos(this.getX() + Tile.PADDING.x, this.getY() + Tile.PADDING.y);
             this.cow = cow;
         }
 
