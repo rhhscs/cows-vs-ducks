@@ -34,8 +34,7 @@ public class Entity {
      * @param y The new y position.
      */
     public void setPos(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.rect.setLocation(x, y);
     }
 
     /**
