@@ -25,16 +25,17 @@ public class DocumentManager implements Drawable{
         int removeIndex = -1;
         for (int i = 0; i < applicants.size(); i++){
             Document applicant = applicants.get(i);
-            if (focusedIndex == -1){
-                if (input.mouseClicked() && applicant.containsPoint(input.mouseX(), input.mouseY())){
+            if (input.mouseClicked() && applicant.containsPoint(input.mouseX(), input.mouseY())){
                     focusedIndex = i;
                     dragged = true;
-                }
-            } else {
-                if (input.mouseClicked() && !field.isOccupied(input.mouseX(), input.mouseY())) {
-                    field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
-                    removeIndex = i;
-                    focusedIndex = -1;
+            }
+            if (focusedIndex != -1){
+                if (focusedIndex == i) {
+                    if (input.mouseClicked() && !field.isOccupied(input.mouseX(), input.mouseY())) {
+                        field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
+                        removeIndex = i;
+                        focusedIndex = -1;
+                    }
                 }
             }
             
@@ -42,10 +43,11 @@ public class DocumentManager implements Drawable{
             if (dragged){
                 if (input.mouseReleased()){
                     dragged = false;
-                    focusedIndex = -1;
+                    System.out.println(field.isOccupied(input.mouseX(), input.mouseY()));
                     if (!field.isOccupied(input.mouseX(), input.mouseY())) {
                         field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
                         removeIndex = i;
+                        focusedIndex = -1;
                     }
                 }
             }
