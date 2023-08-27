@@ -14,7 +14,6 @@ public class Projectile extends Entity implements Drawable, Updatable{
 
     private int speed;
     private int damage;
-    private int stunTime;
     private int slowTime;
     private boolean singleTarget;
     private int slowEffect;
@@ -31,7 +30,6 @@ public class Projectile extends Entity implements Drawable, Updatable{
      * @param height       The number of tiles across vertically.
      * @param speed        The speed of the projectile
      * @param damage       The amount of damage
-     * @param stunTime     The stun duration
      * @param slowTime     The slow duration
      * @param singleTarget If the projectile is single target
      * @param slowEffect   The slow percentage
@@ -39,12 +37,11 @@ public class Projectile extends Entity implements Drawable, Updatable{
      * @param duration     The duration of the projectile
      * @param filePath     File path to the sprite
      */
-    public Projectile(int x, int y, int width, int height, int speed, int damage, int stunTime, int slowTime, boolean singleTarget, int slowEffect, boolean active, int duration, String filePath){
+    public Projectile(int x, int y, int width, int height, int speed, int damage, int slowTime, boolean singleTarget, int slowEffect, boolean active, int duration, String filePath){
         super(x, y, width, height);
 
         this.speed = speed;
         this.damage = damage;
-        this.stunTime = stunTime;
         this.slowTime = slowTime;
         this.singleTarget = singleTarget;
         this.slowEffect = slowEffect;
@@ -70,10 +67,6 @@ public class Projectile extends Entity implements Drawable, Updatable{
         return this.damage;
     }
 
-    public int getStunTime(){
-        return this.stunTime;
-    }
-
     public int getSlowTime(){
         return this.slowTime;
     }
@@ -94,13 +87,17 @@ public class Projectile extends Entity implements Drawable, Updatable{
         return this.duration;
     }
 
+    public void setDuration(int duration){
+        this.duration = duration;
+    }
+
     public void setActive(boolean active){
         this.active = active;
     }
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return new Projectile(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.speed, this.damage, this.stunTime,
+        return new Projectile(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.speed, this.damage,
             this.slowTime, this.singleTarget, this.slowEffect, this.active, this.duration, this.filePath);
     }
     
