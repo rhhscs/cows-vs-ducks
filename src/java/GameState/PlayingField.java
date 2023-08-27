@@ -92,7 +92,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         x -= this.getX();
         y -= this.getY();
 
-        return new Point(x / this.getWidth(), y / this.getHeight());
+        return new Point(x / Tile.SIZE, y / Tile.SIZE);
     }
 
     /**
