@@ -5,11 +5,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
 import javax.imageio.ImageIO;
+
+import src.java.Drawable;
+import src.java.Updatable;
 import src.java.Components.ButtonFunction;
 import src.java.Utilities.Input;
 import src.java.Utilities.ResolutionManager;
 
-public class Button {
+public class Button implements Drawable, Updatable {
     private int x, y;
     private int width, height;
     private ButtonFunction func;
