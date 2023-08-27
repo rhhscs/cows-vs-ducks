@@ -113,22 +113,22 @@ public class Cow extends Entity implements Drawable, Updatable {
     public void update() {
         this.timeUntilNextAttack--;
 
-        // currently, the total time between the start of each attack is attackSpeed +
-        // attackDuration
+        // the total time between the start of each attack is attackSpeed + attackDuration
 
-        // Attack begins
-        if (this.timeUntilNextAttack > this.attackSpeed - this.attackDuration) {
+        if (this.timeUntilFirstAttack == 0) {
+            // Attack restarts
+            this.timeUntilNextAttack = this.attackSpeed + this.attackDuration; 
+            // or just attackSpeed if we dont want to count attackDuration
+        }
+        else if (this.timeUntilNextAttack > this.attackSpeed - this.attackDuration) {
+            // Attack animation begins
             this.setState(State.ATTACK);
         }
-
-        // Attack ends
-        if (this.timeUntilNextAttack == 0) {
+        else if (this.timeUntilNextAttack == this.attackSpeed - this.attackDuration) {
+            // Attack animation ends, launch projectile
             this.setState(State.IDLE);
-            this.timeUntilNextAttack = this.attackSpeed + this.attackDuration; // or just attackSpeed if we dont want to
-                                                                               // count attackDuration
-            // ProjectileManager.projectileManager.addWindup(this.windup);
+            this.attack();
         }
-
     }
 
     @Override

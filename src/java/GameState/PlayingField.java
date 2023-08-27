@@ -27,15 +27,13 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      * @param height The number of tiles across vertically.
      */
     public PlayingField(int x, int y, int width, int height) {
-        super(x, y,
-                width * Tile.SIZE + (width - 1) * Tile.MARGIN.x,
-                height * Tile.SIZE + (height - 1) * Tile.MARGIN.y);
+        super(x, y, width * Tile.SIZE, height * Tile.SIZE);
         this.grid = new Tile[width][height];
 
         for (int cellY = 0; cellY < this.getHeight(); cellY++) {
             for (int cellX = 0; cellX < this.getWidth(); cellX++) {
-                int tileX = this.getX() + Tile.SIZE * cellX + Tile.MARGIN.x * cellX;
-                int tileY = this.getY() + Tile.SIZE * cellY + Tile.MARGIN.y * cellY;
+                int tileX = this.getX() + Tile.SIZE * cellX;
+                int tileY = this.getY() + Tile.SIZE * cellY;
 
                 this.grid[cellX][cellY] = new Tile(tileX, tileY);
             }
@@ -51,9 +49,9 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      *         otherwise.
      */
     public Tile getTileAt(int x, int y) {
-        x -= this.getX();
-        y -= this.getY();
-        return this.getTileAtByCell(x / this.getWidth(), y / this.getHeight());
+        Point cellPos = this.getCellTileCoordinate(x, y);
+
+        return this.getTileAtByCell(cellPos.x, cellPos.y);
     }
 
     /**
@@ -73,15 +71,28 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
     /**
      * This gets the top-left coordinate of the tile that contains the given
-     * coordinate.
+     * real coordinate.
      * 
-     * @param x The x coordinate.
-     * @param y The y coordinate.
+     * @param x The real x coordinate.
+     * @param y The real y coordinate.
      * @return The real coordinate of the tile at the given coordinate.
      */
     public Point getRealTileCoordinate(int x, int y) {
         Tile tile = getTileAt(x, y);
         return tile.getPos();
+    }
+
+    /**
+     * This gets the cell coordinate of a tile given a real coordinate.
+     * @param x The real x coordinate.
+     * @param y The real y coordinate.
+     * @return The cell coordinate within the grid.
+     */
+    public Point getCellTileCoordinate(int x, int y) {
+        x -= this.getX();
+        y -= this.getY();
+
+        return new Point(x / this.getWidth(), y / this.getHeight());
     }
 
     /**
@@ -186,8 +197,6 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         public static final Point PADDING = new Point(15, 15);
         // the size of each tile of the lawn.
         public static final int SIZE = 100;
-        // the margin around the tile.
-        public static final Point MARGIN = new Point(10, 10);
 
         private Cow cow;
         private boolean hovered;
@@ -270,8 +279,10 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         @Override
         public void draw(Graphics g) {
             if (sprite == null) {
-                g.setColor(new Color(80, 145, 70));
+                g.setColor(new Color(50, 125, 50));
                 g.fillRect(this.getX(), this.getY(), Tile.SIZE, Tile.SIZE);
+                g.setColor(new Color(80, 145, 70));
+                g.fillRect(this.getX() + 5, this.getY() + 5, Tile.SIZE - 10, Tile.SIZE - 10);
             }
 
             if (cow != null)
