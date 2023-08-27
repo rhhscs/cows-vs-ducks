@@ -89,7 +89,9 @@ public class Renderer {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.translate(0, 0);
-            game.draw(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.scale(resolution.SCALE, resolution.SCALE);
+            game.draw(g2);
         }
     }
 }

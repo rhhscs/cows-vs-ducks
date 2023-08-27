@@ -7,6 +7,7 @@ public class Input {
     public static Input globalInput = new Input();
     private Mouse mouse = new Mouse();
     private Keyboard keyboard = new Keyboard();
+    private ResolutionManager res = ResolutionManager.getGlobalResolutionManager();
 
     private Input(){}
 
@@ -47,10 +48,10 @@ public class Input {
     }
 
     public int mouseX(){
-        return mouse.x;
+        return (int)(mouse.x/res.SCALE);
     }
     public int mouseY(){
-        return mouse.y;
+        return (int)(mouse.y/res.SCALE);
     }
 
 

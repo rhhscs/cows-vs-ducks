@@ -62,17 +62,15 @@ public class Button implements Drawable, Updatable {
     }
 
     public void draw (Graphics g){
-        ResolutionManager res = ResolutionManager.getGlobalResolutionManager();
         if (buttonSprite != null){
 
         } else {
             g.setColor(buttonColor);
-            g.fillRect(res.s(x), res.s(y), res.s(width), res.s(height));
+            g.fillRect(x, y, width, height);
         }
     }
 
     private boolean pointIntersects(int _x, int _y){
-        ResolutionManager res = ResolutionManager.getGlobalResolutionManager();
-        return (res.s(x) <= _x && _x <= res.s(x+width)) && (res.s(y) <= _y && _y <= res.s(y+height));
+        return (x <= _x && _x <= x+width) && (y <= _y && _y <= y+height);
     }
 }

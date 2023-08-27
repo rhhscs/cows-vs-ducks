@@ -38,12 +38,6 @@ public class ResolutionManager {
     public int OFFSET_X = 0;
     public int OFFSET_Y = 0;
 
-
-    // scaling function for lazy people
-    public int s(int val) {
-        return (int) (val*SCALE);
-    }
-
     public static ResolutionManager getGlobalResolutionManager() {
         return res;
     }
