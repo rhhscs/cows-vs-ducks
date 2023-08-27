@@ -39,11 +39,21 @@ public class Entity {
 
     /**
      * This checks if this entity collides with another entity.
-     * @param entity
+     * @param entity The entity to check.
      * @return True if the entities collide, false otherwise.
      */
     public boolean collides(Entity entity) {
         return this.rect.intersects(entity.getRect());
+    }
+
+    /**
+     * This checks if this entity contains a point.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if the entity contains the point, false otherwise.
+     */
+    public boolean containsPoint(int x, int y) {
+        return this.rect.contains(x, y);
     }
 
     public Rectangle getRect() {
