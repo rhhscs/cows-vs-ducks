@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 
 import src.java.Drawable;
+import src.java.GameState.Cows.Cow;
 import src.java.Utilities.Input;
 
 public class DocumentManager implements Drawable{
@@ -18,7 +19,7 @@ public class DocumentManager implements Drawable{
 
     public void init(PlayingField field){
         this.field = field;
-        applicants.add(new Document(null));
+        applicants.add(new Document(Cow.CHEERIO_CATAPULT.clone()));
     }
 
     public void update(){
@@ -43,7 +44,6 @@ public class DocumentManager implements Drawable{
             if (dragged){
                 if (input.mouseReleased()){
                     dragged = false;
-                    System.out.println(field.isOccupied(input.mouseX(), input.mouseY()));
                     if (!field.isOccupied(input.mouseX(), input.mouseY())) {
                         field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
                         removeIndex = i;
