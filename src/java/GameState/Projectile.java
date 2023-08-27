@@ -19,6 +19,7 @@ public class Projectile extends Entity implements Drawable, Updatable{
     private boolean singleTarget;
     private int slowEffect;
     private boolean active;
+    private int duration;
     private String filePath;
 
     /**
@@ -35,9 +36,10 @@ public class Projectile extends Entity implements Drawable, Updatable{
      * @param singleTarget If the projectile is single target
      * @param slowEffect   The slow percentage
      * @param active       If the projectile is active
+     * @param duration     The duration of the projectile
      * @param filePath     File path to the sprite
      */
-    public Projectile(int x, int y, int width, int height, int speed, int damage, int stunTime, int slowTime, boolean singleTarget, int slowEffect, boolean active, String filePath){
+    public Projectile(int x, int y, int width, int height, int speed, int damage, int stunTime, int slowTime, boolean singleTarget, int slowEffect, boolean active, int duration, String filePath){
         super(x, y, width, height);
 
         this.speed = speed;
@@ -47,6 +49,7 @@ public class Projectile extends Entity implements Drawable, Updatable{
         this.singleTarget = singleTarget;
         this.slowEffect = slowEffect;
         this.active = active;
+        this.duration = duration;
         this.filePath = filePath;
     }
 
@@ -60,6 +63,7 @@ public class Projectile extends Entity implements Drawable, Updatable{
     @Override
     public void update(){
         this.setX(this.getX() + this.speed);
+        this.duration --;
     }
 
     public int getDamage(){
@@ -86,6 +90,10 @@ public class Projectile extends Entity implements Drawable, Updatable{
         return this.active;
     }
 
+    public int getDuration(){
+        return this.duration;
+    }
+
     public void setActive(boolean active){
         this.active = active;
     }
@@ -93,7 +101,7 @@ public class Projectile extends Entity implements Drawable, Updatable{
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return new Projectile(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.speed, this.damage, this.stunTime,
-            this.slowTime, this.singleTarget, this.slowEffect, this.active, this.filePath);
+            this.slowTime, this.singleTarget, this.slowEffect, this.active, this.duration, this.filePath);
     }
     
 }
