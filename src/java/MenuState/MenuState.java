@@ -3,7 +3,6 @@ package src.java.MenuState;
 import src.java.State;
 import src.java.Components.Button;
 import src.java.GameState.GameState;
-import src.java.Utilities.Input;
 import src.java.Utilities.ResolutionManager;
 
 import java.awt.Graphics;

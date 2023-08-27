@@ -1,7 +1,5 @@
 package src.java;
 
-import java.awt.Graphics;
-
 public abstract class State implements Drawable, Updatable {
 
     public State nextState = null;

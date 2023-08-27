@@ -50,8 +50,14 @@ public class Input {
     public int mouseX(){
         return (int)(mouse.x/res.SCALE);
     }
+    public int rawMouseX(){
+        return mouse.x;
+    }
     public int mouseY(){
         return (int)(mouse.y/res.SCALE);
+    }
+    public int rawMouseY(){
+        return mouse.y;
     }
 
 
@@ -113,7 +119,10 @@ public class Input {
         }
 
         @Override
-        public void mouseDragged(MouseEvent e) {}
+        public void mouseDragged(MouseEvent e) {
+            x = e.getX();
+            y = e.getY();
+        }
 
         @Override
         public void mouseMoved(MouseEvent e) {

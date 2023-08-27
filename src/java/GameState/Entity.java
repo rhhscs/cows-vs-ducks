@@ -74,7 +74,7 @@ public class Entity {
     }
 
     public void setY(int y) {
-        this.rect.setLocation(this.getY(), y);
+        this.rect.setLocation(this.getX(), y);
     }
 
     public int getWidth() {
