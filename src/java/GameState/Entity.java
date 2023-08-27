@@ -3,7 +3,7 @@ package src.java.GameState;
 import java.awt.Rectangle;
 
 /**
- * This represents the parent class of all game objects. It is a rectangle with a position and dimension.
+ * This represents the parent class for all game objects. It is a rectangle with a position and dimension.
  */
 public class Entity {
     private Rectangle rect;

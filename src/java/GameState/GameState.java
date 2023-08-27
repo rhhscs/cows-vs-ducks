@@ -4,23 +4,21 @@ import src.java.State;
 import java.awt.Graphics;
 
 public class GameState extends State{
+    private PlayingField lawn;
 
     @Override
     public void start() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
+        this.lawn = new PlayingField(300, 140, 7, 5);
     }
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        this.lawn.update();
     }
 
     @Override
     public void draw(Graphics g) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+        this.lawn.draw(g);
     }
 
     @Override
@@ -28,5 +26,4 @@ public class GameState extends State{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stop'");
     }
-    
 }
