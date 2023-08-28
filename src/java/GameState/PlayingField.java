@@ -3,6 +3,7 @@ package src.java.GameState;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.awt.Color;
 
 import src.java.Drawable;
@@ -171,6 +172,23 @@ public class PlayingField extends Entity implements Drawable, Updatable {
     }
 
     /**
+     * This gets a list of the cows in the specified lane.
+     * @param laneIndex The index of the lane to get.
+     * @return A non-null list containing the cows in the lane.
+     */
+    public ArrayList<Entity> getCowsInLane(int laneIndex) {
+        ArrayList<Entity> cows = new ArrayList<Entity>();
+
+        for (int x = 0; x < this.getWidth(); x++) {
+            if (this.grid[x][laneIndex].isOccupied()) {
+                cows.add(this.grid[x][laneIndex].getCow());
+            }
+        }
+
+        return cows;
+    }
+
+    /**
      * This gets the number of tiles across this playing field horizontally.
      * 
      * @return The width.
@@ -235,6 +253,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         public boolean isOccupied() {
             if (cow == null)
                 return false;
+            // TODO support stacking cows
             return true;
         }
 
@@ -266,6 +285,14 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          */
         public void removeCow() {
             this.cow = null;
+        }
+
+        /**
+         * This gets the cow stored at this tile.
+         * @return The cowe if there is one stored, null otherwise.
+         */
+        public Cow getCow() {
+            return this.cow;
         }
 
         @Override
