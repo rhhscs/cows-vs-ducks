@@ -28,15 +28,19 @@ public class ProjectileManager implements Drawable, Updatable{
         // check for collisions with the ducks
         for(Projectile cur: this.projectiles){
             boolean used = false;
-            for(Duck nextDuck: this.duckManager.getDucks()){
-                if(cur.getActive() && nextDuck.collides(cur)){
-                    if(cur.getSingleTarget()){
-                        // do damage
-                        cur.setActive(false);
-                        cur.setDuration(0);
-                    }else{
-                        used = true;
-                        // do damage
+            ArrayList<Lane> collidingLanes = this.duckManager.getCollidingLanes(cur);
+            for(Lane nextLane: collidingLanes){
+                ArrayList<Duck> ducks = nextLane.getDucks();
+                for(Duck nextDuck: ducks){
+                    if(cur.getActive() && nextDuck.collides(cur)){
+                        if(cur.getSingleTarget()){
+                            // do damage
+                            cur.setActive(false);
+                            cur.setDuration(0);
+                        }else{
+                            used = true;
+                            // do damage
+                        }
                     }
                 }
             }

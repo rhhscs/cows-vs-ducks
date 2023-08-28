@@ -7,27 +7,38 @@ import src.java.Updatable;
 
 public class DuckManager implements Updatable, Drawable{
 
-    private ArrayList<Duck> ducks;
+    private ArrayList<Lane> lanes;
 
     public DuckManager(){
-        this.ducks = new ArrayList<>();
+        this.lanes = new ArrayList<>();
     }
 
-    public ArrayList<Duck> getDucks(){
-        return this.ducks;
+    public ArrayList<Lane> getCollidingLanes(Entity entity){
+        ArrayList<Lane> ret = new ArrayList<>();
+        for(Lane nextLane: this.lanes){
+            if(nextLane.collides(entity)){
+                ret.add(nextLane);
+            }
+        }
+        return ret;
+    }
+
+    public void addDuck(int lane, Duck duck){
+        this.lanes.get(lane).getDucks().add(duck);
     }
 
     @Override
     public void update(){
-        for(Duck duck: this.ducks){
-            duck.update();
+        for(Lane nextLane: this.lanes){
+            nextLane.update();
         }
     }
     
     @Override
     public void draw(Graphics g){
-        for(Duck duck: this.ducks){
-            duck.draw(g);
+        for(Lane nextLane: this.lanes){
+            nextLane.draw(g);
         }
     }
+
 }
