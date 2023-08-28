@@ -2,14 +2,18 @@ package src.java.GameState.Cows;
 
 import src.java.Drawable;
 import src.java.Updatable;
+import src.java.GameState.AI;
+import src.java.GameState.Duck;
 import src.java.GameState.DuckManager;
 import src.java.GameState.Entity;
+import src.java.GameState.PlayingField;
 import src.java.GameState.ProjectileManager;
 import src.java.GameState.Projectile;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Cow extends Entity implements Drawable, Updatable {
     private int attackSpeed;
@@ -25,12 +29,14 @@ public class Cow extends Entity implements Drawable, Updatable {
     private State state;
     private Projectile projectile;
     private DuckManager duckManager;
+    private AI ai;
 
-    public static final Cow CHEERIO_CATAPULT = new Cow(0, 0, 50, 50, 100, 100, 10, 15, true, null,
-        new Projectile(0, 20, 30, 30, 30, 10, 0, true, 0, true, 100000, null));
+    public static final Cow CHEERIO_CATAPULT = new Cow(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 100,
+            10, 15, true, null,
+            new Projectile(0, 20, 30, 30, 20, 10, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
 
     public Cow(int x, int y, int width, int height, int health, int attackSpeed, int timeUntilFirstAttack,
-            int attackDuration, boolean isTargetable, String spriteFilePath, Projectile projectile) {
+            int attackDuration, boolean isTargetable, String spriteFilePath, Projectile projectile, AI ai) {
         super(x, y, width, height);
 
         this.attackSpeed = attackSpeed;
@@ -43,6 +49,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.sprite = null;
         this.state = State.IDLE;
         this.projectile = projectile;
+        this.ai = ai;
     }
 
     public void setDuckManager(DuckManager duckManager) {
@@ -105,8 +112,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         if (sprite == null) {
             if (this.state == State.ATTACK) {
                 g.setColor(new Color(150, 100, 100));
-            } 
-            else {
+            } else {
                 g.setColor(new Color(50, 50, 50));
             }
             g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
@@ -117,8 +123,8 @@ public class Cow extends Entity implements Drawable, Updatable {
     public void update() {
         if (this.timeUntilNextAttack > 0) {
             this.timeUntilNextAttack--;
-        } 
-        if (this.timeUntilNextAttack == 0 /* && should attack */) {
+        }
+        if (this.timeUntilNextAttack == 0 && this.ai.shouldAttack(new ArrayList<Entity>(), this)) {
             // Attack restarts
             this.timeUntilNextAttack = this.attackSpeed + this.attackDuration;
             // or just attackSpeed if we dont want to count attackDuration
@@ -129,8 +135,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         if (this.timeUntilNextAttack > this.attackSpeed) {
             // Attack animation begins
             this.setState(State.ATTACK);
-        } 
-        else if (this.timeUntilNextAttack == this.attackSpeed) {
+        } else if (this.timeUntilNextAttack == this.attackSpeed) {
             // Attack animation ends, launch projectile
             this.setState(State.IDLE);
             this.attack();
@@ -141,9 +146,25 @@ public class Cow extends Entity implements Drawable, Updatable {
     public Cow clone() {
         Cow cow = new Cow(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getHealth(),
                 this.getAttackSpeed(), this.getTimeUntilNextAttack(), this.getAttackDuration(), this.isTargetable(),
-                this.getSpriteFilePath(), (Projectile) this.projectile.clone());
+                this.getSpriteFilePath(), (Projectile) this.projectile.clone(), this.ai);
         cow.setDuckManager(this.duckManager);
         return cow;
+    }
+
+    @Override
+    public void setX(int x) {
+        int dx = x - this.getX();
+
+        this.projectile.setX(dx + this.projectile.getX());
+        super.setX(x);
+    }
+
+    @Override
+    public void setY(int y) {
+        int dy = y - this.getY();
+
+        this.projectile.setY(dy + this.projectile.getY());
+        super.setY(y);
     }
 
     @Override

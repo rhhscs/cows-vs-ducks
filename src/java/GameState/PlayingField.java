@@ -193,8 +193,6 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      * cow(s) on it.
      */
     public static class Tile extends Entity implements Drawable, Updatable {
-        // the padding inside for where the cow sprite gets drawn.
-        public static final Point PADDING = new Point(15, 15);
         // the size of each tile of the lawn.
         public static final int SIZE = 100;
 
@@ -259,7 +257,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @param cow The cow to place in this tile.
          */
         public void placeCow(Cow cow) {
-            cow.setPos(this.getX() + Tile.PADDING.x, this.getY() + Tile.PADDING.y);
+            cow.setPos(this.getX(), this.getY());
             this.cow = cow;
         }
 
