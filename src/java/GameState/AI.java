@@ -13,8 +13,9 @@ public interface AI {
     public static final AI MELEE_COW_AI = new AI() {
         /**
          * This type of cow attacks if any duck collides with its hitbox.
+         * 
          * @param lanes The lanes of ducks that the cow could possibly reach.
-         * @param cow The cow to check.
+         * @param cow   The cow to check.
          */
         @Override
         public boolean shouldAttack(ArrayList<Entity> lanes, Entity cow) {
@@ -47,14 +48,28 @@ public interface AI {
         }
     };
 
+    public static final AI WHEAT_CROP_COW_AI = new AI() {
+        /**
+         * This type of cow (wheat crop) always sends out an "attack" (produces wheat)
+         * when available.
+         * 
+         * @param whatever  Doesn't matter what this is.
+         * @param wheatCrop The wheat crop/cow.
+         */
+        public boolean shouldAttack(ArrayList<Entity> whatever, Entity wheatCrop) {
+            return true;
+        }
+    };
+
     public static final AI MELEE_DUCK_AI = new AI() {
         /**
          * This type of duck attacks if any cow collides with its hitbox.
-         * @param lanes An arraylist containing one lane that the duck collides with.
-         * @param cow The duck to check.
+         * 
+         * @param cows An arraylist of cows in the duck's lane.
+         * @param duck The duck to check.
          */
         @Override
-        public boolean shouldAttack(ArrayList<Entity> lanes, Entity duck) {
+        public boolean shouldAttack(ArrayList<Entity> cows, Entity duck) {
             return false;
         }
     };
