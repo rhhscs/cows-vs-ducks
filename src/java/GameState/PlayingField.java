@@ -212,7 +212,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      */
     public static class Tile extends Entity implements Drawable, Updatable {
         // the size of each tile of the lawn.
-        public static final int SIZE = 100;
+        public static final int SIZE = 150;
 
         private Cow cow;
         private boolean hovered;

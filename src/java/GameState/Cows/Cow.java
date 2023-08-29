@@ -3,7 +3,6 @@ package src.java.GameState.Cows;
 import src.java.Drawable;
 import src.java.Updatable;
 import src.java.GameState.AI;
-import src.java.GameState.Duck;
 import src.java.GameState.DuckManager;
 import src.java.GameState.Entity;
 import src.java.GameState.PlayingField;
@@ -13,7 +12,6 @@ import src.java.GameState.Projectile;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Cow extends Entity implements Drawable, Updatable {
     public enum State {
@@ -36,9 +34,12 @@ public class Cow extends Entity implements Drawable, Updatable {
     private DuckManager duckManager;
     private AI ai;
 
-    public static final Cow CHEERIO_CATAPULT = new Cow(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 100,
-            10, 15, true, null,
-            new Projectile(0, 20, 30, 30, 20, 10, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
+    public static final Cow CHEERIO_CATAPULT = new Cow(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 70,
+            10, 5, true, null,
+            new Projectile(0, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
+
+    public static final Cow WHEAT_CROP = new WheatCrop(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 100,
+            20, 10, null, 50, null);
 
     /**
      * This creates a new cow object.
@@ -76,6 +77,16 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.ai = ai;
     }
 
+    /**
+     * This sets the duck manager of the constant static cows.
+     * 
+     * @param duckManager The duck manager to use.
+     */
+    public static void setStaticDuckManager(DuckManager duckManager) {
+        CHEERIO_CATAPULT.setDuckManager(duckManager);
+        WHEAT_CROP.setDuckManager(duckManager);
+    }
+
     @Override
     public void draw(Graphics g) {
         if (sprite == null) {
@@ -93,7 +104,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         if (this.timeUntilNextAttack > 0) {
             this.timeUntilNextAttack--;
         }
-        if (this.timeUntilNextAttack == 0 && this.ai.shouldAttack(new ArrayList<Entity>(), this)) {
+        if (this.timeUntilNextAttack == 0 && this.ai.shouldAttack(this.duckManager.getCollidingLanes(this), this)) {
             // Attack restarts
             this.timeUntilNextAttack = this.attackSpeed + this.attackDuration;
             // or just attackSpeed if we dont want to count attackDuration
@@ -149,6 +160,12 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.duckManager = duckManager;
     }
 
+    @Override
+    public void move(int dx, int dy) {
+        super.move(dx, dy);
+        this.projectile.move(dx, dy);
+    }
+
     public void setState(State newState) {
         if (newState == this.state)
             return;
@@ -163,6 +180,15 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public void attack() {
         ProjectileManager.projectileManager.addProjectile(this.projectile.clone());
+    }
+
+    /**
+     * This deals damage to this cow.
+     * 
+     * @param damage Amount of damage to do.
+     */
+    public void takeDamage(int damage) {
+        this.health -= damage;
     }
 
     public int getAttackSpeed() {
@@ -203,5 +229,9 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public AI getAI() {
         return ai;
+    }
+
+    public boolean isAlive() {
+        return this.health > 0;
     }
 }

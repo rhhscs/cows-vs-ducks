@@ -5,68 +5,76 @@ import java.util.ArrayList;
 import src.java.Drawable;
 import src.java.Updatable;
 
-public class ProjectileManager implements Drawable, Updatable{
+public class ProjectileManager implements Drawable, Updatable {
 
     public static ProjectileManager projectileManager = new ProjectileManager();
 
     private DuckManager duckManager;
     private ArrayList<Projectile> projectiles;
 
-    private ProjectileManager(){}
+    private ProjectileManager() {
+    }
 
-    public void setDuckManager(DuckManager duckManager){
+    public void setDuckManager(DuckManager duckManager) {
         this.projectiles = new ArrayList<>();
         this.duckManager = duckManager;
     }
 
-    public void addProjectile(Projectile projectile){
+    public void addProjectile(Projectile projectile) {
         this.projectiles.add(projectile);
     }
 
     @Override
-    public void update(){
+    public void update() {
         // check for collisions with the ducks
-        for(Projectile cur: this.projectiles){
+        for (Projectile projectile : this.projectiles) {
             boolean used = false;
-            ArrayList<Lane> collidingLanes = this.duckManager.getCollidingLanes(cur);
-            for(Lane nextLane: collidingLanes){
-                ArrayList<Duck> ducks = nextLane.getDucks();
-                for(Duck nextDuck: ducks){
-                    if(cur.getActive() && nextDuck.collides(cur)){
-                        if(cur.getSingleTarget()){
-                            // do damage
-                            cur.setActive(false);
-                            cur.setDuration(0);
-                        }else{
+            ArrayList<Entity> collidingLanes = this.duckManager.getCollidingLanes(projectile);
+            projectile.update();
+
+            for (Entity lane : collidingLanes) {
+                ArrayList<Duck> ducks = ((Lane) lane).getDucks();
+                for (Duck duck : ducks) {
+                    if (projectile.getActive() && duck.collides(projectile)) {
+                        // collision occurred.
+
+                        if (projectile.getSingleTarget()) {
+                            // delete projectile after hit.
+                            projectile.setActive(false);
+                            projectile.setDuration(0);
+                        } else {
+                            // delete projectile at the end of this frame.
                             used = true;
-                            // do damage
                         }
+
+                        // damage duck.
+                        duck.takeDamage(projectile.getDamage());
                     }
                 }
             }
-            if(used){
-                cur.setActive(false);
+            if (used) {
+                projectile.setActive(false);
             }
         }
         // if the projectile duration is over, or is inactive, remove it
-        for(int i=this.projectiles.size()-1; i>=0; i--){
+        for (int i = this.projectiles.size() - 1; i >= 0; i--) {
             Projectile cur = this.projectiles.get(i);
-            if(cur.getDuration() <= 0){
+            if (cur.getDuration() <= 0) {
                 this.projectiles.remove(i);
             }
         }
     }
 
     @Override
-    public void draw(Graphics g){
-        for(Projectile cur: this.projectiles){
-            cur.draw(g);
+    public void draw(Graphics g) {
+        for (Projectile projectile : this.projectiles) {
+            projectile.draw(g);
         }
     }
 
-    public void reset(){
+    public void reset() {
         this.duckManager = null;
         this.projectiles.clear();
     }
-    
+
 }

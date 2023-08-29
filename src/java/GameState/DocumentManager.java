@@ -19,7 +19,7 @@ public class DocumentManager implements Drawable{
 
     public void init(PlayingField field){
         this.field = field;
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT.clone()));
+        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
     }
 
     public void update(){

@@ -1,6 +1,7 @@
 package src.java.GameState;
 
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 import java.awt.Graphics;
 import src.java.Drawable;
 import src.java.Updatable;
@@ -10,7 +11,7 @@ import src.java.Updatable;
  * 
  * @see ProjectileManager
  */
-public class Projectile extends Entity implements Drawable, Updatable{
+public class Projectile extends Entity implements Drawable, Updatable {
 
     private int speed;
     private int damage;
@@ -37,7 +38,8 @@ public class Projectile extends Entity implements Drawable, Updatable{
      * @param duration     The duration of the projectile
      * @param filePath     File path to the sprite
      */
-    public Projectile(int x, int y, int width, int height, int speed, int damage, int slowTime, boolean singleTarget, int slowEffect, boolean active, int duration, String filePath){
+    public Projectile(int x, int y, int width, int height, int speed, int damage, int slowTime, boolean singleTarget,
+            int slowEffect, boolean active, int duration, String filePath) {
         super(x, y, width, height);
 
         this.speed = speed;
@@ -51,54 +53,55 @@ public class Projectile extends Entity implements Drawable, Updatable{
     }
 
     @Override
-    public void draw(Graphics g){
-        if(this.filePath == null){
-            g.drawRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    public void draw(Graphics g) {
+        if (this.filePath == null) {
+            g.setColor(Color.BLACK);
+            g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
     }
 
     @Override
-    public void update(){
+    public void update() {
         this.setX(this.getX() + this.speed);
-        this.duration --;
+        this.duration--;
     }
 
-    public int getDamage(){
+    public int getDamage() {
         return this.damage;
     }
 
-    public int getSlowTime(){
+    public int getSlowTime() {
         return this.slowTime;
     }
 
-    public boolean getSingleTarget(){
+    public boolean getSingleTarget() {
         return this.singleTarget;
     }
 
-    public int getSlowEffect(){
+    public int getSlowEffect() {
         return this.slowEffect;
     }
 
-    public boolean getActive(){
+    public boolean getActive() {
         return this.active;
     }
 
-    public int getDuration(){
+    public int getDuration() {
         return this.duration;
     }
 
-    public void setDuration(int duration){
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
-    public void setActive(boolean active){
+    public void setActive(boolean active) {
         this.active = active;
     }
 
     @Override
     public Projectile clone() {
         return new Projectile(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.speed, this.damage,
-            this.slowTime, this.singleTarget, this.slowEffect, this.active, this.duration, this.filePath);
+                this.slowTime, this.singleTarget, this.slowEffect, this.active, this.duration, this.filePath);
     }
-    
+
 }

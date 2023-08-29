@@ -44,7 +44,14 @@ public interface AI {
          */
         @Override
         public boolean shouldAttack(ArrayList<Entity> lanes, Entity cow) {
-            return true;
+            for (Entity entity: lanes) {
+                Lane lane = (Lane) entity;
+                if (!lane.isEmpty() && cow.getX() <= lane.getFarthestDuck().getX()) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     };
 

@@ -37,6 +37,6 @@ public class Document extends Entity implements Drawable, Updatable{
 
     // .getCow()
     public Cow hire(){
-        return applicant;
+        return applicant.clone();
     }
 }
