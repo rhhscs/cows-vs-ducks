@@ -9,12 +9,14 @@ club fair project!
 - game
   - lawn (playing field)
     - cow
+    - lawnmowers
   - duck manager
     - abstract duck
     - 10 ducks
   - UI
   - projectile manager
-    - projectil
+    - projectile
+  - sprites
 
 ## notes
 - 10 pre-unlocked cows
