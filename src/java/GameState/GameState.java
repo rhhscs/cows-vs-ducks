@@ -13,8 +13,8 @@ public class GameState extends State{
 
     @Override
     public void start() {
-        this.lawn = new PlayingField(300, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
-        this.ducks = new DuckManager(300, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
+        this.lawn = new PlayingField(450, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
+        this.ducks = new DuckManager(450, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
         Cow.setStaticDuckManager(ducks);
         ProjectileManager.projectileManager.setDuckManager(ducks);
 
@@ -37,9 +37,9 @@ public class GameState extends State{
     @Override
     public void draw(Graphics g) {
         this.lawn.draw(g);
-        this.gooey.draw(g);
         this.ducks.draw(g);
         ProjectileManager.projectileManager.draw(g);
+        this.gooey.draw(g);
     }
 
     @Override
