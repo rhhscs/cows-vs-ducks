@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import src.java.Drawable;
 import src.java.Updatable;
+import src.java.Utilities.Stat;
 
 public class Duck extends Entity implements Drawable, Updatable {
     public enum State {
@@ -13,36 +14,68 @@ public class Duck extends Entity implements Drawable, Updatable {
         DIE
     }
 
-    private int speed;
+    private Stat<Integer> moveSpeed;
+    private Stat<Integer> damage;
+    private Stat<Integer> attackSpeed;
+
     private int health;
-    private int damage;
     private String sprite;
     private State state;
     private PlayingField lawn;
     private int laneIndex;
 
-    public Duck(int x, int y, int width, int height, int speed, int health, int damage, String sprite,
+    /**
+     * This creates a new duck object.
+     * @param x The top-left x coordinate.
+     * @param y The top-left y coordinate.
+     * @param width The width of this duck.
+     * @param height The height of this duck.
+     * @param moveSpeed The move speed of this duck.
+     * @param damage The damage per attack.
+     * @param attackSpeed The number of frames between attacks.
+     * @param health The health points.
+     * @param sprite The sprite of this duck.
+     * @param lawn The lawn that this duck should interact with.
+     * @param laneIndex The index of the lane this duck is in.
+     */
+    public Duck(int x, int y, int width, int height, int moveSpeed, int damage, int attackSpeed, int health, String sprite,
             PlayingField lawn, int laneIndex) {
         super(x, y, width, height);
-        this.speed = speed;
+        this.moveSpeed = new Stat<Integer>(moveSpeed);
+        this.damage = new Stat<Integer>(damage);
+        this.attackSpeed = new Stat<Integer>(attackSpeed);
+
         this.health = health;
-        this.damage = damage;
         this.sprite = sprite;
         this.state = State.WALK;
         this.lawn = lawn;
         this.laneIndex = laneIndex;
-        // TODO handle slow effects
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.GRAY);
+        if (this.state == State.WALK || this.state == State.IDLE) {
+            g.setColor(Color.GRAY);
+        } else if (this.state == State.ATTACK) {
+            g.setColor(Color.RED);
+        }
+        
         g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 
     @Override
     public void update() {
-        this.move(-this.speed, 0);
+        this.moveSpeed.update();
+        this.damage.update();
+        this.attackSpeed.update();
+
+        if (this.state == State.WALK) {
+            this.move(-this.moveSpeed.getValue(), 0);
+        } else if (this.state == State.ATTACK) {
+
+        } else {
+
+        }
     }
 
     public int getHealth() {
@@ -54,7 +87,7 @@ public class Duck extends Entity implements Drawable, Updatable {
     }
 
     public int getDamage() {
-        return this.damage;
+        return this.damage.getValue();
     }
 
     public boolean isAlive() {
@@ -68,5 +101,65 @@ public class Duck extends Entity implements Drawable, Updatable {
      */
     public void takeDamage(int damage) {
         this.health -= damage;
+    }
+
+    /**
+     * This applies a move speed multiplier to this duck.
+     * @param multiplier The multiplier on move speed.
+     * @param duration The duration to apply the effect.
+     */
+    public void applyMoveSpeedMultiplier(double multiplier, int duration) {
+        int modifiedValue = (int) (this.moveSpeed.getDefaultValue() * multiplier);
+        this.moveSpeed.applyModifier(modifiedValue, duration);
+    }
+
+    /**
+     * This changes the move speed of this duck.
+     * @param quantity The amount to change the move speed by.
+     * @param duration The duration to apply the effect.
+     */
+    public void applyMoveSpeedEffect(int quantity, int duration) {
+        int modifiedValue = this.moveSpeed.getDefaultValue() + quantity;
+        this.moveSpeed.applyModifier(modifiedValue, duration);
+    }
+
+    /**
+     * This applies an attack speed multiplier to this duck.
+     * @param multiplier The multiplier on the time between duck attacks.
+     * @param duration The duration to apply the effect.
+     */
+    public void applyAttackSpeedMultiplier(double multiplier, int duration) {
+        int modifiedValue = (int) (this.attackSpeed.getDefaultValue() * multiplier);
+        this.attackSpeed.applyModifier(modifiedValue, duration);
+    }
+
+        /**
+     * This changes the attack speed of this duck.
+     * @param quantity The amount to change the attack speed by.
+     * @param duration The duration to apply the effect.
+     */
+    public void applyAttackSpeedEffect(int quantity, int duration) {
+        int modifiedValue = this.attackSpeed.getDefaultValue() + quantity;
+        this.attackSpeed.applyModifier(modifiedValue, duration);
+    }
+
+    /**
+     * This applies a damage multiplier to this duck.
+     * @param multiplier The multiplier on theis duck's attack damage.
+     * @param duration The duration to apply the effect.
+     */
+    public void applyDamageMultiplier(double multiplier, int duration) {
+        int modifiedValue = (int) (this.damage.getDefaultValue() * multiplier);
+        this.damage.applyModifier(modifiedValue, duration);
+    }
+
+        /**
+     * This changes the attack damage of this duck.
+     * @param quantity The amount to change the attack damage by.
+     * @param duration The duration to apply the effect.
+     */
+    public void applyDamageEffect(int quantity, int duration) {
+        int modifiedValue = this.damage.getDefaultValue() + quantity;
+        this.damage.applyModifier(modifiedValue, duration);
     }
 }
