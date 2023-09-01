@@ -79,8 +79,8 @@ public class ScoreManager implements Iterable<Score> {
 
     /**
      * Get the top scores.
-     * @param numScores
-     * @return
+     * @param numScores The number of scores to get.
+     * @return An arraylist of scores, capped at the number of scores in the file.
      */
     public ArrayList<Score> getTopScores(int numScores) {
         this.scores.sort(Score.SCORE_COMPARATOR);

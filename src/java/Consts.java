@@ -5,7 +5,8 @@ public final class Consts {
     public static final int NUM_LANES = 5;
     public static final int NUM_COLUMNS = 7;
 
-    public static final long FRAME_DURATION = 20;
+    public static final long FPS = 50;
+    public static final long FRAME_DURATION = 1000 / FPS;
     
     /**
      * This gets the time a number of frames appears.
