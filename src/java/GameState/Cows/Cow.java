@@ -3,10 +3,12 @@ package src.java.GameState.Cows;
 import src.java.Drawable;
 import src.java.Updatable;
 import src.java.GameState.AI;
+import src.java.GameState.Duck;
 import src.java.GameState.DuckManager;
 import src.java.GameState.Entity;
 import src.java.GameState.PlayingField;
 import src.java.GameState.ProjectileManager;
+import src.java.Utilities.Stat;
 import src.java.GameState.Projectile;
 
 import java.awt.Color;
@@ -22,6 +24,9 @@ public class Cow extends Entity implements Drawable, Updatable {
     private int attackSpeed;
     private int timeUntilFirstAttack;
     private int timeUntilNextAttack;
+    private Stat<Boolean> isAttacking;
+    private Stat<Boolean> attackReady;
+
     private int attackDuration; // needed for playing attack animation?
     private int health;
     private boolean isTargetable; // for spike weed and cherry bomb
@@ -33,9 +38,10 @@ public class Cow extends Entity implements Drawable, Updatable {
     private Projectile projectile;
     private DuckManager duckManager;
     private AI ai;
+    private Duck target;
 
     public static final Cow CHEERIO_CATAPULT = new Cow(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 70,
-            10, 5, true, null,
+            20, 5, true, null,
             new Projectile(0, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
 
     public static final Cow WHEAT_CROP = new WheatCrop(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 100,
@@ -49,7 +55,7 @@ public class Cow extends Entity implements Drawable, Updatable {
      * @param width                The width of this cow.
      * @param height               The height of this cow.
      * @param health               The health points.
-     * @param attackSpeed          The attack speed.
+     * @param attackSpeed          The number of frames between attacks.
      * @param timeUntilFirstAttack The time until the first attack.
      * @param attackDuration       The time between the end of an attack and the
      *                             start of a new one.
@@ -64,8 +70,10 @@ public class Cow extends Entity implements Drawable, Updatable {
         super(x, y, width, height);
 
         this.attackSpeed = attackSpeed;
+        this.isAttacking = new Stat<Boolean>(false);
+        this.attackReady = new Stat<Boolean>(true);
+        this.attackReady.applyModifier(false, timeUntilFirstAttack);
         this.timeUntilFirstAttack = timeUntilFirstAttack;
-        this.timeUntilNextAttack = timeUntilFirstAttack;
         this.attackDuration = attackDuration;
 
         this.health = health;
@@ -101,24 +109,31 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
-        if (this.timeUntilNextAttack > 0) {
-            this.timeUntilNextAttack--;
-        }
-        if (this.timeUntilNextAttack == 0 && this.ai.shouldAttack(this.duckManager.getCollidingLanes(this), this)) {
-            // Attack restarts
-            this.timeUntilNextAttack = this.attackSpeed + this.attackDuration;
-            // or just attackSpeed if we dont want to count attackDuration
-        }
+        this.isAttacking.update();
+        this.attackReady.update();
 
-        // the time between the start of attacks is attackSpeed + attackDuration
-
-        if (this.timeUntilNextAttack > this.attackSpeed) {
-            // Attack animation begins
-            this.setState(State.ATTACK);
-        } else if (this.timeUntilNextAttack == this.attackSpeed) {
-            // Attack animation ends, launch projectile
+        if (!this.isAttacking.getValue()) {
             this.setState(State.IDLE);
-            this.attack();
+        }
+
+        if (this.attackReady.getValue() && !this.isAttacking.getValue()) {
+            // Check if still has a target.
+            if (this.target != null && !this.target.isAlive()) {
+                this.target = null;
+            }
+
+            // Find a new target if needed.
+            if (this.target == null) {
+                this.target = (Duck) this.ai.findTarget(this.duckManager.getCollidingLanes(this), this);
+            }
+
+            // Attack if has a target.
+            if (this.target != null) {
+                this.attack();
+                this.isAttacking.applyModifier(true, this.attackDuration);
+                this.attackReady.applyModifier(false, this.attackSpeed + this.attackDuration);
+                this.setState(State.ATTACK);
+            }
         }
     }
 
