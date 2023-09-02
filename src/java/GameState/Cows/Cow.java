@@ -43,6 +43,10 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow WHEAT_CROP = new WheatCrop(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 200,
             200, 0, null, 50, null);
+    
+    public static final Cow CHERRY_BOMB = new CherryBomb(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 0,
+            0, 100, null,
+            new Projectile(-PlayingField.Tile.SIZE,-PlayingField.Tile.SIZE, PlayingField.Tile.SIZE*3, PlayingField.Tile.SIZE*3, 0, 200, 0, false, 0, true, 30, null));
 
     /**
      * This creates a new cow object.
@@ -89,6 +93,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     public static void setStaticDuckManager(DuckManager duckManager) {
         CHEERIO_CATAPULT.setDuckManager(duckManager);
         WHEAT_CROP.setDuckManager(duckManager);
+        CHERRY_BOMB.setDuckManager(duckManager);
     }
 
     @Override
@@ -105,6 +110,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
+
         if (this.state == State.ATTACK || this.attackTimer < this.attackSpeed) {
             this.attackTimer++;
         }
@@ -220,12 +226,20 @@ public class Cow extends Entity implements Drawable, Updatable {
         return attackTimer;
     }
 
+    public void setAttackTimer(int attackTimer){
+        this.attackTimer = attackTimer;
+    }
+
     public int getAttackDuration() {
         return attackDuration;
     }
 
     public int getHealth() {
         return health;
+    }
+
+    public Projectile getProjectileClone(){
+        return (Projectile) this.projectile.clone();
     }
 
     public boolean isTargetable() {
