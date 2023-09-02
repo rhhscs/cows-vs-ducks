@@ -18,11 +18,12 @@ public class CherryBomb extends Cow {
      *                             the next wheat produced.
      * @param spriteFilePath       The sprite sheet file path.
      */
-    public CherryBomb(int x, int y, int width, int height, int health, int attackSpeed, int timeUntilFirstAttack,
+    public CherryBomb(int width, int height, int health, int attackSpeed, int timeUntilFirstAttack,
             Projectile projectile) {
-        super(x, y, width, height, health, attackSpeed, timeUntilFirstAttack, true,
-                null,
-                projectile, null);
+        super(width, height, health, 
+            attackSpeed, timeUntilFirstAttack, 100,
+            true, 0,
+            null, 0, projectile, null);
             this.setState(State.ATTACK);
     }
 
@@ -40,7 +41,7 @@ public class CherryBomb extends Cow {
     @Override
     public void update(){
 
-        if (this.getAttackTimer() == this.getAttackDuration()) {
+        if (this.getAttackTimer() == this.getAttackDelay()) {
             // Attack animation ends, launch projectile
             this.attack();
 
@@ -52,7 +53,7 @@ public class CherryBomb extends Cow {
 
     @Override
     public CherryBomb clone() {
-        CherryBomb cherryBomb = new CherryBomb(this.getX(), this.getY(), this.getWidth(), this.getHeight(),
+        CherryBomb cherryBomb = new CherryBomb(this.getWidth(), this.getHeight(),
                 this.getHealth(), this.getAttackSpeed(), this.getTimeUntilFirstAttack(),
                 this.getProjectileClone());
         cherryBomb.setDuckManager(getDuckManager());
