@@ -14,7 +14,7 @@ public class UI {
 
     public void update(){
         docs.update();
-
+        pauseButton.update();
         
     }
 

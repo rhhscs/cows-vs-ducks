@@ -16,13 +16,14 @@ public class StateMachine {
 
     public void run(){
         State runningState = active.peek();
+        if (runningState.popState){
+            popActiveState();
+        }
         if (runningState.nextState != null){
             changeActiveState(runningState.nextState);
         } else if (runningState.appendState != null){
-            appendActiveState(runningState);
-        } else if (runningState.popState){
-            popActiveState();
-        }
+            appendActiveState(runningState.appendState);
+        } 
         runningState.update();
     }
 

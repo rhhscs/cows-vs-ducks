@@ -25,7 +25,7 @@ public class GameState extends State {
         this.gooey = new UI();
         this.gooey.docs.init(lawn);
         // GUI button initialization
-        this.gooey.bookButton.setOnClickFunction(() -> {appendState = new PauseState();});
+        this.gooey.pauseButton.setOnClickFunction(() -> {appendState = new PauseState();});
 
         this.ducks.addDuck(0, new Duck(1, 10, 10, 50, 100, null, lawn, 0, AI.MELEE_DUCK_AI));
         // resets
