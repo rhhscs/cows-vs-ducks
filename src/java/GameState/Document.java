@@ -23,7 +23,7 @@ public class Document extends Entity implements Drawable, Updatable{
         super(10, 10, 250, 200);
         xDest = getX();
         yDest = getY();
-        applicant = cow;
+        applicant = cow.clone();
     }
 
     @Override
@@ -54,7 +54,8 @@ public class Document extends Entity implements Drawable, Updatable{
 
     // .getCow()
     public Cow hire(){
-        return applicant.clone();
+        
+        return applicant;
     }
 
     public void moveTo(int x, int y){

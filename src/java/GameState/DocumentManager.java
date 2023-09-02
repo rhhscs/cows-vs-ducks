@@ -10,12 +10,14 @@ import src.java.Utilities.Input;
 import src.java.Utilities.ResolutionManager;
 
 public class DocumentManager implements Drawable{
+    Input input = Input.globalInput;
+    
     LinkedList<Document> applicants = new LinkedList<Document>();
+    DocumentTimer documentTimer = new DocumentTimer();
     Trash trashCan = new Trash();
     PlayingField field;
     private int focusedIndex = -1;
     private boolean dragged = false;
-    Input input = Input.globalInput;
 
     // draw constants
     private final int folderGap = 60; // gap between each folder
@@ -25,25 +27,22 @@ public class DocumentManager implements Drawable{
     private final int marginTop = 140;
     private final int undraggable = marginLeft+selectTab + 80; // undraggable area (from left)
 
-
     DocumentManager(){}
 
     public void init(PlayingField field){
         this.field = field;
+        applicants.add(new Document(Cow.WHEAT_CROP));
+        applicants.add(new Document(Cow.WHEAT_CROP));
         applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
-        applicants.add(new Document(Cow.CHEERIO_CATAPULT));
+    }
+
+    public void addApplicant(Cow applicant){
+        applicants.add(new Document(applicant));
     }
 
     public void update(){
         trashCan.update();
+        documentTimer.update();
 
         int removeIndex = -1;
         for (int i = 0; i < applicants.size(); i++){
@@ -120,4 +119,50 @@ public class DocumentManager implements Drawable{
         trashCan.draw(g);
     }
     
+
+    private class DocumentTimer {
+        int stage = 0;
+
+        private final int[] nextStageDelays = {40, 1000, 1500, 2000, 2000, 3000, 3000, 3000, 3000 ,3000};
+        private final int[] newDocWeight = {3, 6, 1, 1, 1, 1, 1, 1, 1, 1}; // chance of document appearing
+        private int nextStageTimer = nextStageDelays[0];
+
+            
+        private final int newDocDelayMin = 200; // generate a number between delay and delay + rng - (stage*decrease) for new delay
+        private final int newDocDelayRng = 300;
+        private final int newDocDelayStageDecrease = 15; // stage  1: [200 , 500]
+        private final int newDocDelayRngDecrease = 18;   // stage 10: [ 50 , 170]
+
+        private int newDocTimer = newDocDelayMin;
+
+        private void update(){
+
+            if (stage < 10) {
+                nextStageTimer--;
+                if (nextStageTimer <= 0){
+                    stage++;
+                      
+                    if (stage < 10){
+                        nextStageTimer = nextStageDelays[stage];
+                    }
+                }
+            }
+
+            if (newDocTimer > 0){
+                newDocTimer--;
+            }
+
+            if (applicants.size() < 10){
+                if (newDocTimer <= 0){
+                    // TODO: applicants.add new document( random cow [0, stage] ) --> somehow weighted random??
+                    Document applicant = new Document(Cow.WHEAT_CROP);
+                    applicant.setY(ResolutionManager.HEIGHT);
+                    applicants.add(applicant);
+                    newDocTimer = newDocDelayMin + (int)(Math.random() * (newDocDelayRng - newDocDelayRngDecrease*stage)) - (newDocDelayStageDecrease * stage);
+                    System.out.println(newDocTimer);
+                }
+            }
+        }
+        
+    }
 }

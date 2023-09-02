@@ -21,7 +21,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     private int attackSpeed;
     private int timeUntilFirstAttack;
-    private int timeUntilNextAttack;
+    protected int timeUntilNextAttack;
     private int attackDuration; // needed for playing attack animation?
     private int health;
     private boolean isTargetable; // for spike weed and cherry bomb
@@ -38,8 +38,8 @@ public class Cow extends Entity implements Drawable, Updatable {
             10, 5, true, null,
             new Projectile(0, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
 
-    public static final Cow WHEAT_CROP = new WheatCrop(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 100,
-            20, 10, null, 50, null);
+    public static final Cow WHEAT_CROP = new WheatCrop(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 200,
+            200, 0, null, 50, null);
 
     /**
      * This creates a new cow object.
@@ -152,12 +152,17 @@ public class Cow extends Entity implements Drawable, Updatable {
         int dx = x - this.getX();
         int dy = y - this.getY();
 
-        this.projectile.move(dx, dy);
+        if (this.projectile != null){
+            this.projectile.move(dx, dy);
+        }
         super.setPos(x, y);
     }
 
     public void setDuckManager(DuckManager duckManager) {
         this.duckManager = duckManager;
+    }
+    protected DuckManager getDuckManager(){
+        return duckManager;
     }
 
     @Override
