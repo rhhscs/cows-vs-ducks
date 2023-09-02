@@ -28,9 +28,16 @@ public class MenuState extends State{
         scoresButton.draw(g);
         bookButton.draw(g);
     }
+    
+    @Override
+    public void pause() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'pause'");
+    }
 
 
     @Override
     public void stop() {}
+
     
 }

@@ -50,6 +50,7 @@ public class StateMachine {
     public void appendActiveState(State newState){
         System.out.println("Sleeping State: " + active.peek());
         System.out.println("Appending State: " + newState);
+        active.peek().appendState = null;
         newState.start();
         active.push(newState);
     }

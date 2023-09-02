@@ -56,9 +56,10 @@ public class GameState extends State {
     }
 
     @Override
+    public void pause() {}
+
+    @Override
     public void stop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stop'");
     }
 
     @Override
