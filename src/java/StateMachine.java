@@ -18,8 +18,9 @@ public class StateMachine {
         State runningState = active.peek();
         if (runningState.popState){
             popActiveState();
-        }
-        if (runningState.nextState != null){
+        } else if (runningState.resetStates != null) {
+            resetAllStates(runningState.resetStates);
+        } else if (runningState.nextState != null){
             changeActiveState(runningState.nextState);
         } else if (runningState.appendState != null){
             appendActiveState(runningState.appendState);
@@ -51,7 +52,17 @@ public class StateMachine {
         System.out.println("Sleeping State: " + active.peek());
         System.out.println("Appending State: " + newState);
         active.peek().appendState = null;
+        active.peek().pause();
         newState.start();
         active.push(newState);
+    }
+
+    private void resetAllStates(State initialState) {
+        System.out.println("Clearing State Stack: " + active.toString());
+        System.out.println("Appending State: " + initialState);
+        active.peek().stop();
+        active.clear();
+        initialState.start();
+        active.push(initialState);
     }
 }

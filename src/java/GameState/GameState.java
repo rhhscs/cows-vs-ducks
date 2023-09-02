@@ -64,6 +64,6 @@ public class GameState extends State {
 
     @Override
     public String toString() {
-        return "GameState:" + this.hashCode();
+        return "GameState:" + Integer.toHexString(hashCode());
     }
 }
