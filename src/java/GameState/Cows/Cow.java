@@ -8,7 +8,6 @@ import src.java.GameState.DuckManager;
 import src.java.GameState.Entity;
 import src.java.GameState.PlayingField;
 import src.java.GameState.ProjectileManager;
-import src.java.Utilities.Stat;
 import src.java.GameState.Projectile;
 
 import java.awt.Color;
@@ -24,8 +23,6 @@ public class Cow extends Entity implements Drawable, Updatable {
     private int attackSpeed;
     private int timeUntilFirstAttack;
     private int timeUntilNextAttack;
-    private Stat<Boolean> isAttacking;
-    private Stat<Boolean> attackReady;
 
     private int attackDuration; // needed for playing attack animation?
     private int health;
@@ -70,9 +67,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         super(x, y, width, height);
 
         this.attackSpeed = attackSpeed;
-        this.isAttacking = new Stat<Boolean>(false);
-        this.attackReady = new Stat<Boolean>(true);
-        this.attackReady.applyModifier(false, timeUntilFirstAttack);
+        this.timeUntilNextAttack = timeUntilFirstAttack;
         this.timeUntilFirstAttack = timeUntilFirstAttack;
         this.attackDuration = attackDuration;
 
@@ -83,6 +78,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.state = State.IDLE;
         this.projectile = projectile;
         this.ai = ai;
+        this.target = null;
     }
 
     /**
@@ -109,31 +105,33 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
-        this.isAttacking.update();
-        this.attackReady.update();
-
-        if (!this.isAttacking.getValue()) {
-            this.setState(State.IDLE);
+        if (this.timeUntilNextAttack > 0) {
+            this.timeUntilNextAttack--;
         }
 
-        if (this.attackReady.getValue() && !this.isAttacking.getValue()) {
-            // Check if still has a target.
+        if (this.timeUntilNextAttack == 0) {
+            // Update the target if the target dies.
             if (this.target != null && !this.target.isAlive()) {
                 this.target = null;
             }
 
-            // Find a new target if needed.
+            // Find a new target if necessary.
             if (this.target == null) {
                 this.target = (Duck) this.ai.findTarget(this.duckManager.getCollidingLanes(this), this);
             }
 
-            // Attack if has a target.
+            // Start attack animation.
             if (this.target != null) {
-                this.attack();
-                this.isAttacking.applyModifier(true, this.attackDuration);
-                this.attackReady.applyModifier(false, this.attackSpeed + this.attackDuration);
+                this.timeUntilNextAttack = this.attackSpeed + this.attackDuration;
                 this.setState(State.ATTACK);
             }
+        }
+
+        // the time between the start of attacks is attackSpeed + attackDuration
+        if (this.timeUntilNextAttack == this.attackSpeed) {
+            // Attack animation ends, launch projectile
+            this.setState(State.IDLE);
+            this.attack();
         }
     }
 
