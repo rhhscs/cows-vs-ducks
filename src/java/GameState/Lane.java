@@ -16,7 +16,7 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
      * @param laneIndex The index of the lane.
      */
     public Lane(int laneIndex) {
-        super(PlayingField.X, PlayingField.Y + PlayingField.Tile.SIZE * laneIndex, PlayingField.WIDTH, PlayingField.HEIGHT);
+        super(PlayingField.X, PlayingField.Y + PlayingField.Tile.SIZE * laneIndex, PlayingField.WIDTH, PlayingField.Tile.SIZE);
         this.ducks = new ArrayList<Duck>();
         this.farthestDuck = null;
     }
