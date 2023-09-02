@@ -23,6 +23,9 @@ public class PlayingField extends Entity implements Drawable, Updatable {
     public static final int NUM_LANES = 5;
     public static final int NUM_COLUMNS = 7;
 
+    public static final int WIDTH = NUM_COLUMNS * Tile.SIZE;
+    public static final int HEIGHT = NUM_LANES * Tile.SIZE;
+
     private Tile[][] grid;
 
     /**
