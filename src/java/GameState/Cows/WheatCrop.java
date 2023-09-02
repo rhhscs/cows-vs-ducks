@@ -34,9 +34,8 @@ public class WheatCrop extends Cow {
      * @param wheatSpriteFilePath  The wheat sprite sheet file path.
      */
     public WheatCrop(int x, int y, int width, int height, int health, int attackSpeed, int timeUntilFirstAttack,
-            int attackDuration, String spriteFilePath, int wheatSize,
-            String wheatSpriteFilePath) {
-        super(x, y, width, height, health, attackSpeed, timeUntilFirstAttack, attackDuration, true,
+            String spriteFilePath, int wheatSize) {
+        super(x, y, width, height, health, attackSpeed, timeUntilFirstAttack, true,
                 spriteFilePath,
                 null, AI.WHEAT_CROP_COW_AI);
         this.wheat = 0;
@@ -109,9 +108,8 @@ public class WheatCrop extends Cow {
     @Override
     public WheatCrop clone() {
         WheatCrop wheatCrop = new WheatCrop(this.getX(), this.getY(), this.getWidth(), this.getHeight(),
-                this.getHealth(), this.getAttackSpeed(), this.getTimeUntilFirstAttack(), this.getAttackDuration(),
-                this.getSpriteFilePath(), this.getWheatSize(),
-                this.getWheatSpriteFilePath());
+                this.getHealth(), this.getAttackSpeed(), this.getTimeUntilFirstAttack(),
+                this.getSpriteFilePath(), this.getWheatSize());
         wheatCrop.setDuckManager(getDuckManager());
         return wheatCrop;
     }

@@ -13,6 +13,11 @@ import src.java.GameState.Projectile;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
+import java.awt.Image;
 
 public class Cow extends Entity implements Drawable, Updatable {
     public enum State {
@@ -28,8 +33,10 @@ public class Cow extends Entity implements Drawable, Updatable {
     private int health;
     private boolean isTargetable; // for spike weed and cherry bomb
 
-    private BufferedImage sprite;
+    private Image[] attackSprites;
     private String spriteFilePath;
+    private final int spriteTileSize = 256;
+    private float frame = 0.0f;
 
     private State state;
     private Projectile projectile;
@@ -38,11 +45,15 @@ public class Cow extends Entity implements Drawable, Updatable {
     private Duck target;
 
     public static final Cow CHEERIO_CATAPULT = new Cow(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 70,
-            20, 5, true, null,
+            20, true, "src/img/sprite/cow_catapult",
             new Projectile(0, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
 
     public static final Cow WHEAT_CROP = new WheatCrop(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 200,
-            200, 0, null, 50, null);
+            200, null, 50);
+    
+    public static final Cow CHERRY_BOMB = new CherryBomb(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 0,
+            80,
+            new Projectile(-PlayingField.Tile.SIZE,-PlayingField.Tile.SIZE, PlayingField.Tile.SIZE*3, PlayingField.Tile.SIZE*3, 0, 200, 0, false, 0, true, 30, null));
 
     /**
      * This creates a new cow object.
@@ -63,22 +74,42 @@ public class Cow extends Entity implements Drawable, Updatable {
      *                             attack.
      */
     public Cow(int x, int y, int width, int height, int health, int attackSpeed, int timeUntilFirstAttack,
-            int attackDuration, boolean isTargetable, String spriteFilePath, Projectile projectile, AI ai) {
+            boolean isTargetable, String spritesFilePath, Projectile projectile, AI ai) {
         super(x, y, width, height);
 
         this.attackSpeed = attackSpeed;
         this.attackTimer = 0;
         this.timeUntilFirstAttack = timeUntilFirstAttack;
-        this.attackDuration = attackDuration;
 
         this.health = health;
         this.isTargetable = isTargetable;
-        this.sprite = null;
-        this.spriteFilePath = spriteFilePath;
+        
+        BufferedImage tempSpriteSheet;
+        try {
+            tempSpriteSheet = ImageIO.read(new File(spritesFilePath + "/attack.png"));
+            attackSprites = new Image[(tempSpriteSheet.getWidth()/spriteTileSize)*(tempSpriteSheet.getHeight()/spriteTileSize)];
+            int i = 0;
+            for (int yPos = 0; yPos < tempSpriteSheet.getWidth(); yPos += spriteTileSize){
+                for (int xPos = 0; xPos < tempSpriteSheet.getWidth(); xPos += spriteTileSize){
+                    attackSprites[i] = tempSpriteSheet.getSubimage(xPos, yPos, spriteTileSize, spriteTileSize);
+                    i++;
+                }
+            }
+            attackDuration = i*4;
+        } catch (Exception e){
+            this.attackSprites = null;
+        }
+        //this.sprite = null;
+        this.spriteFilePath = spritesFilePath;
+
         this.state = State.IDLE;
         this.projectile = projectile;
         this.ai = ai;
         this.target = null;
+
+
+
+
     }
 
     /**
@@ -89,22 +120,33 @@ public class Cow extends Entity implements Drawable, Updatable {
     public static void setStaticDuckManager(DuckManager duckManager) {
         CHEERIO_CATAPULT.setDuckManager(duckManager);
         WHEAT_CROP.setDuckManager(duckManager);
+        CHERRY_BOMB.setDuckManager(duckManager);
     }
 
     @Override
     public void draw(Graphics g) {
-        if (sprite == null) {
-            if (this.state == State.ATTACK) {
+        if (this.state == State.ATTACK){
+            if (attackSprites != null){
+                g.drawImage(attackSprites[((int)frame) % attackSprites.length], this.getX(), this.getY() - 15, this.getWidth(), this.getHeight(), null);
+            } else {
                 g.setColor(new Color(150, 100, 100));
+                g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            }
+            frame+=0.25;
+        } else {
+            if (attackSprites != null) {
+                g.drawImage(attackSprites[0], this.getX(), this.getY() - 15, this.getWidth(), this.getHeight(), null);
             } else {
                 g.setColor(new Color(50, 50, 50));
+                g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
             }
-            g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
         }
     }
 
     @Override
     public void update() {
+
         if (this.state == State.ATTACK || this.attackTimer < this.attackSpeed) {
             this.attackTimer++;
         }
@@ -137,7 +179,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     @Override
     public Cow clone() {
         Cow cow = new Cow(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getHealth(),
-                this.getAttackSpeed(), this.getAttackTimer(), this.getAttackDuration(), this.isTargetable(),
+                this.getAttackSpeed(), this.getAttackTimer(), this.isTargetable(),
                 this.getSpriteFilePath(), (Projectile) this.projectile.clone(), this.getAI());
         cow.setDuckManager(this.duckManager);
         return cow;
@@ -220,6 +262,10 @@ public class Cow extends Entity implements Drawable, Updatable {
         return attackTimer;
     }
 
+    public void setAttackTimer(int attackTimer){
+        this.attackTimer = attackTimer;
+    }
+
     public int getAttackDuration() {
         return attackDuration;
     }
@@ -228,12 +274,12 @@ public class Cow extends Entity implements Drawable, Updatable {
         return health;
     }
 
-    public boolean isTargetable() {
-        return isTargetable;
+    public Projectile getProjectileClone(){
+        return (Projectile) this.projectile.clone();
     }
 
-    public BufferedImage getSprite() {
-        return sprite;
+    public boolean isTargetable() {
+        return isTargetable;
     }
 
     public String getSpriteFilePath() {
