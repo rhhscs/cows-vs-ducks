@@ -13,13 +13,10 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
     /**
      * This constructs a new lane object.
      * 
-     * @param x      The top-left x coordinate.
-     * @param y      The top-left y coordinate.
-     * @param width  The lane width.
-     * @param height The lane height.
+     * @param laneIndex The index of the lane.
      */
-    public Lane(int x, int y, int width, int height) {
-        super(x, y, width, height);
+    public Lane(int laneIndex) {
+        super(PlayingField.X, PlayingField.Y + PlayingField.Tile.SIZE * laneIndex, PlayingField.WIDTH, PlayingField.HEIGHT);
         this.ducks = new ArrayList<Duck>();
         this.farthestDuck = null;
     }

@@ -1,6 +1,5 @@
 package src.java.GameState;
 
-import src.java.Consts;
 import src.java.State;
 import src.java.GameState.Cows.Cow;
 import src.java.PauseState.PauseState;
@@ -11,16 +10,18 @@ import java.awt.Graphics;
 
 import java.awt.event.KeyEvent;
 
-public class GameState extends State{
+
+import java.awt.event.KeyEvent;
+
+public class GameState extends State {
     private PlayingField lawn;
     private UI gooey;
     private DuckManager ducks;
 
     @Override
     public void start() {
-        // game object initialization
-        this.lawn = new PlayingField(450, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
-        this.ducks = new DuckManager(450, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
+        this.lawn = new PlayingField();
+        this.ducks = new DuckManager();
         Cow.setStaticDuckManager(ducks);
         ProjectileManager.projectileManager.setDuckManager(ducks);
 
@@ -29,9 +30,8 @@ public class GameState extends State{
         this.gooey.docs.init(lawn);
         // GUI button initialization
         this.gooey.bookButton.setOnClickFunction(() -> {appendState = new PauseState();});
-        
-        this.ducks.addDuck(0, new Duck(0, 30, 60, 60, 1, 100, 10, null, lawn, 0));
 
+        this.ducks.addDuck(0, new Duck(1, 10, 10, 50, 100, null, lawn, 0, AI.MELEE_DUCK_AI));
         // resets
         CheerioManager.getGlobalCheerios().reset();
     }
@@ -47,8 +47,7 @@ public class GameState extends State{
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_1)){
             if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
                 ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
-                    new Duck(0, 0, 60, 60, 1, 100, 10, null, lawn, lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y
-                ));
+                    new Duck(1, 10, 10, 50, 100, null, lawn, lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, AI.MELEE_DUCK_AI));
             }
         }
     }

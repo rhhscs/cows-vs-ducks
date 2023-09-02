@@ -47,8 +47,10 @@ public class ProjectileManager implements Drawable, Updatable {
                             used = true;
                         }
 
-                        // damage duck.
+                        // damage duck and apply status effects.
                         duck.takeDamage(projectile.getDamage());
+                        duck.applyMoveSpeedEffect(projectile.getSlowEffect(), projectile.getSlowTime());
+                        duck.applyAttackSpeedEffect(projectile.getSlowEffect(), projectile.getSlowTime());
                     }
                 }
             }

@@ -2,13 +2,15 @@ package src.java.GameState;
 
 import java.util.ArrayList;
 
+import src.java.GameState.Cows.Cow;
+import src.java.GameState.PlayingField.Tile;
+
 /**
- * This represents an interface that determines whether an entity (cow or duck)
- * should attack or not, assuming it is ready to attack.
+ * This represents an interface that determines what this entity should attack next.
  */
 @FunctionalInterface
 public interface AI {
-    public boolean shouldAttack(ArrayList<Entity> targets, Entity self);
+    public Entity findTarget(ArrayList<Entity> targets, Entity self);
 
     public static final AI MELEE_COW_AI = new AI() {
         /**
@@ -16,20 +18,31 @@ public interface AI {
          * 
          * @param lanes The lanes of ducks that the cow could possibly reach.
          * @param cow   The cow to check.
+         * @return The duck that this cow should hit, null if there is no duck.
          */
         @Override
-        public boolean shouldAttack(ArrayList<Entity> lanes, Entity cow) {
-            return true;
+        public Entity findTarget(ArrayList<Entity> lanes, Entity cow) {
+            for (Entity entity: lanes) {
+                Lane lane = (Lane) entity;
+                for (Duck duck: lane) {
+                    if (cow.collides(duck)) {
+                        return duck;
+                    }
+                }
+            }
+
+            return null;
         }
     };
 
     public static final AI SHIELD_COW_AI = new AI() {
         /**
          * This type of cow never attacks.
+         * @return null.
          */
         @Override
-        public boolean shouldAttack(ArrayList<Entity> lanes, Entity cow) {
-            return false;
+        public Entity findTarget(ArrayList<Entity> lanes, Entity cow) {
+            return null;
         }
     };
 
@@ -41,17 +54,19 @@ public interface AI {
          * 
          * @param lanes The lanes of ducks.
          * @param cow   The cow to decide attack behaviour.
+         * @return The last duck in this cow's lane.
          */
         @Override
-        public boolean shouldAttack(ArrayList<Entity> lanes, Entity cow) {
+        public Entity findTarget(ArrayList<Entity> lanes, Entity cow) {
             for (Entity entity: lanes) {
                 Lane lane = (Lane) entity;
-                if (!lane.isEmpty() && cow.getX() <= lane.getFarthestDuck().getX()) {
-                    return true;
+                Duck duck = lane.getFarthestDuck();
+                if (!lane.isEmpty() && cow.getX() < duck.getX()) {
+                    return duck;
                 }
             }
 
-            return false;
+            return null;
         }
     };
 
@@ -62,9 +77,10 @@ public interface AI {
          * 
          * @param whatever  Doesn't matter what this is.
          * @param wheatCrop The wheat crop/cow.
+         * @return The wheat crop itself.
          */
-        public boolean shouldAttack(ArrayList<Entity> whatever, Entity wheatCrop) {
-            return true;
+        public Entity findTarget(ArrayList<Entity> whatever, Entity wheatCrop) {
+            return wheatCrop;
         }
     };
 
@@ -74,10 +90,18 @@ public interface AI {
          * 
          * @param cows An arraylist of cows in the duck's lane.
          * @param duck The duck to check.
+         * @return The cow to attack, null if there is no cow to hit.
          */
         @Override
-        public boolean shouldAttack(ArrayList<Entity> cows, Entity duck) {
-            return false;
+        public Entity findTarget(ArrayList<Entity> cows, Entity duck) {
+            for (Entity entity: cows) {
+                Cow cow = (Cow) entity;
+                    if (duck.collides(cow)) {
+                        return cow;
+                    }
+            }
+
+            return null;
         }
     };
 }
