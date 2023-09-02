@@ -2,6 +2,10 @@ package src.java.GameState;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import java.awt.Color;
 import src.java.Drawable;
@@ -24,6 +28,11 @@ public class Document extends Entity implements Drawable, Updatable{
         xDest = getX();
         yDest = getY();
         applicant = cow.clone();
+        try {
+            fileSprite = ImageIO.read(new File(applicant.getSpriteFilePath() + "/file.png"));
+        } catch (IOException e) {
+            System.out.println("Image not found: " + applicant.getSpriteFilePath() + "/file.png");
+        }
     }
 
     @Override
@@ -49,7 +58,9 @@ public class Document extends Entity implements Drawable, Updatable{
             g.fillRect(getX(), getY(), getWidth(), getHeight());
             g.setColor(borderColor);
             g.drawRect(getX(), getY(), getWidth(), getHeight());
-        } 
+        } else {
+            g.drawImage(fileSprite, getX(), getY(), getWidth(), getHeight(), null);
+        }
     }
 
     // .getCow()

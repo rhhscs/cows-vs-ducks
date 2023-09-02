@@ -21,7 +21,7 @@ public class DocumentManager implements Drawable{
 
     // draw constants
     private final int folderGap = 60; // gap between each folder
-    private final int selectGap = 90; // additional gap on selected folder
+    private final int selectGap = 100; // additional gap on selected folder
     private final int selectTab = 40; // additional left potrusion size
     private final int marginLeft = 20;
     private final int marginTop = 140;

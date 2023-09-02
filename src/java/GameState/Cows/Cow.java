@@ -36,7 +36,8 @@ public class Cow extends Entity implements Drawable, Updatable {
     private Image[] attackSprites;
     private String spriteFilePath;
     private final int spriteTileSize = 256;
-    private float frame = 0.0f;
+    private int frame = 0;
+    private final int ticksPerFrame = 3;
 
     private State state;
     private Projectile projectile;
@@ -45,7 +46,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     private Duck target;
 
     public static final Cow CHEERIO_CATAPULT = new Cow(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 70,
-            20, true, "src/img/sprite/cow_catapult",
+            20, true, Sprites.CATAPULT,
             new Projectile(0, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
 
     public static final Cow WHEAT_CROP = new WheatCrop(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 100, 200,
@@ -80,6 +81,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.attackSpeed = attackSpeed;
         this.attackTimer = 0;
         this.timeUntilFirstAttack = timeUntilFirstAttack;
+        attackDuration = Sprites.Frames.CATAPULT*ticksPerFrame;
 
         this.health = health;
         this.isTargetable = isTargetable;
@@ -87,15 +89,16 @@ public class Cow extends Entity implements Drawable, Updatable {
         BufferedImage tempSpriteSheet;
         try {
             tempSpriteSheet = ImageIO.read(new File(spritesFilePath + "/attack.png"));
-            attackSprites = new Image[(tempSpriteSheet.getWidth()/spriteTileSize)*(tempSpriteSheet.getHeight()/spriteTileSize)];
+            attackSprites = new Image[Sprites.Frames.CATAPULT];
             int i = 0;
             for (int yPos = 0; yPos < tempSpriteSheet.getWidth(); yPos += spriteTileSize){
                 for (int xPos = 0; xPos < tempSpriteSheet.getWidth(); xPos += spriteTileSize){
-                    attackSprites[i] = tempSpriteSheet.getSubimage(xPos, yPos, spriteTileSize, spriteTileSize);
-                    i++;
+                    if (i < Sprites.Frames.CATAPULT){
+                        attackSprites[i] = tempSpriteSheet.getSubimage(xPos, yPos, spriteTileSize, spriteTileSize);
+                        i++;
+                    } else {break;}
                 }
             }
-            attackDuration = i*4;
         } catch (Exception e){
             this.attackSprites = null;
         }
@@ -128,12 +131,12 @@ public class Cow extends Entity implements Drawable, Updatable {
     public void draw(Graphics g) {
         if (this.state == State.ATTACK){
             if (attackSprites != null){
-                g.drawImage(attackSprites[((int)frame) % attackSprites.length], this.getX(), this.getY() - 15, this.getWidth(), this.getHeight(), null);
+                g.drawImage(attackSprites[(frame/ticksPerFrame) % attackSprites.length], this.getX(), this.getY() - 15, this.getWidth(), this.getHeight(), null);
             } else {
                 g.setColor(new Color(150, 100, 100));
                 g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
             }
-            frame+=0.25;
+            frame++;
         } else {
             if (attackSprites != null) {
                 g.drawImage(attackSprites[0], this.getX(), this.getY() - 15, this.getWidth(), this.getHeight(), null);
