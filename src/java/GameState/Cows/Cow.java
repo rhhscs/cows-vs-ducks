@@ -22,7 +22,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     private int attackSpeed;
     private int timeUntilFirstAttack;
-    private int timeUntilNextAttack;
+    private int attackTimer;
 
     private int attackDuration; // needed for playing attack animation?
     private int health;
@@ -67,7 +67,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         super(x, y, width, height);
 
         this.attackSpeed = attackSpeed;
-        this.timeUntilNextAttack = timeUntilFirstAttack;
+        this.attackTimer = 0;
         this.timeUntilFirstAttack = timeUntilFirstAttack;
         this.attackDuration = attackDuration;
 
@@ -105,11 +105,11 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
-        if (this.timeUntilNextAttack > 0) {
-            this.timeUntilNextAttack--;
+        if (this.state == State.ATTACK || this.attackTimer < this.attackSpeed) {
+            this.attackTimer++;
         }
 
-        if (this.timeUntilNextAttack == 0) {
+        if (this.attackTimer == this.attackSpeed) {
             // Update the target if the target dies.
             if (this.target != null && !this.target.isAlive()) {
                 this.target = null;
@@ -122,23 +122,22 @@ public class Cow extends Entity implements Drawable, Updatable {
 
             // Start attack animation.
             if (this.target != null) {
-                this.timeUntilNextAttack = this.attackSpeed + this.attackDuration;
                 this.setState(State.ATTACK);
             }
         }
 
-        // the time between the start of attacks is attackSpeed + attackDuration
-        if (this.timeUntilNextAttack == this.attackSpeed) {
+        if (this.attackTimer == this.attackSpeed + this.attackDuration) {
             // Attack animation ends, launch projectile
             this.setState(State.IDLE);
             this.attack();
+            this.attackTimer = 0;
         }
     }
 
     @Override
     public Cow clone() {
         Cow cow = new Cow(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getHealth(),
-                this.getAttackSpeed(), this.getTimeUntilNextAttack(), this.getAttackDuration(), this.isTargetable(),
+                this.getAttackSpeed(), this.getAttackTimer(), this.getAttackDuration(), this.isTargetable(),
                 this.getSpriteFilePath(), (Projectile) this.projectile.clone(), this.getAI());
         cow.setDuckManager(this.duckManager);
         return cow;
@@ -212,8 +211,8 @@ public class Cow extends Entity implements Drawable, Updatable {
         return timeUntilFirstAttack;
     }
 
-    public int getTimeUntilNextAttack() {
-        return timeUntilNextAttack;
+    public int getAttackTimer() {
+        return attackTimer;
     }
 
     public int getAttackDuration() {
