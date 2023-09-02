@@ -112,7 +112,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      */
     public boolean isOccupied(int x, int y) {
         Tile tile = getTileAt(x, y);
-        if (tile == null)
+        if (tile == null || !this.containsPoint(x, y))
             return true;
         return tile.isOccupied();
     }

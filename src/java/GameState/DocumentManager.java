@@ -12,6 +12,7 @@ import src.java.Utilities.ResolutionManager;
 public class DocumentManager implements Drawable{
     Input input = Input.globalInput;
     
+    CheerioManager cheerioManager = CheerioManager.getGlobalCheerios();
     LinkedList<Document> applicants = new LinkedList<Document>();
     DocumentTimer documentTimer = new DocumentTimer();
     Trash trashCan = new Trash();
@@ -58,9 +59,12 @@ public class DocumentManager implements Drawable{
                     if (field.isOccupied(input.mouseX(), input.mouseY())) {
                         focusedIndex = -1;
                     } else {
-                        field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
-                        removeIndex = i;
-                        focusedIndex = -1;
+                        if (applicant.getSalary() <= cheerioManager.getCheerios()){
+                            field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
+                            removeIndex = i;
+                            focusedIndex = -1;
+                            cheerioManager.spendCheerios(applicant.getSalary());
+                        }
                     }
                 }
             }
@@ -75,9 +79,12 @@ public class DocumentManager implements Drawable{
                 if (input.mouseReleased()){
                     dragged = false;
                     if (!field.isOccupied(input.mouseX(), input.mouseY())) {
-                        field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
-                        removeIndex = i;
-                        focusedIndex = -1;
+                        if (applicant.getSalary() <= cheerioManager.getCheerios()){
+                            field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
+                            removeIndex = i;
+                            focusedIndex = -1;
+                            cheerioManager.spendCheerios(applicant.getSalary());
+                        }
                     } else if (trashCan.containsPoint(input.mouseX(), input.mouseY())){
                         removeIndex = i;
                         focusedIndex = -1;

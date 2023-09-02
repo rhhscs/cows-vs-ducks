@@ -114,7 +114,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.ai = ai;
         this.target = null;
 
-
+        this.cost = cost;
 
 
     }

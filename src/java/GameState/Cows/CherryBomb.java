@@ -22,7 +22,7 @@ public class CherryBomb extends Cow {
             Projectile projectile) {
         super(width, height, health, 
             attackSpeed, timeUntilFirstAttack, 100,
-            true, 0,
+            true, 500,
             null, 0, projectile, null);
             this.setState(State.ATTACK);
     }

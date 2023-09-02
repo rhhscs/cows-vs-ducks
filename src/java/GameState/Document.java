@@ -65,8 +65,10 @@ public class Document extends Entity implements Drawable, Updatable{
 
     // .getCow()
     public Cow hire(){
-        
         return applicant;
+    }
+    public int getSalary(){
+        return applicant.getCost();
     }
 
     public void moveTo(int x, int y){
