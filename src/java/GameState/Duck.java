@@ -98,7 +98,7 @@ public class Duck extends Entity implements Drawable, Updatable {
         }
 
         if (this.attackTimer == this.attackDuration) {
-            // Update the target if the taret dies.
+            // Update the target if the target dies.
             if (this.target != null && !this.target.isAlive()) {
                 this.target = null;
             }
@@ -117,7 +117,11 @@ public class Duck extends Entity implements Drawable, Updatable {
 
         if (this.attackTimer == 0) {
             // Attack animation ends
-            this.setState(State.IDLE);
+            if (this.target == null || !this.target.isAlive()) {
+                this.setState(State.WALK);
+            } else {
+                this.setState(State.IDLE);
+            }
             this.attackTimer = this.attackSpeed.getValue() + this.attackDuration;
         }
     }
