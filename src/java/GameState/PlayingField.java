@@ -17,19 +17,20 @@ import src.java.GameState.Cows.Cow;
  * @see DuckManager
  */
 public class PlayingField extends Entity implements Drawable, Updatable {
+    public static final int X = 450;
+    public static final int Y = 140;
+
+    public static final int NUM_LANES = 5;
+    public static final int NUM_COLUMNS = 7;
+
     private Tile[][] grid;
 
     /**
      * This creates a new PlayingField object.
-     * 
-     * @param x      The top-left x coordinate.
-     * @param y      The top-left y coordinate.
-     * @param width  The number of tiles across horizontally.
-     * @param height The number of tiles across vertically.
      */
-    public PlayingField(int x, int y, int width, int height) {
-        super(x, y, width * Tile.SIZE, height * Tile.SIZE);
-        this.grid = new Tile[width][height];
+    public PlayingField() {
+        super(X, Y, NUM_COLUMNS * Tile.SIZE, NUM_LANES * Tile.SIZE);
+        this.grid = new Tile[this.getWidth()][this.getHeight()];
 
         for (int cellY = 0; cellY < this.getHeight(); cellY++) {
             for (int cellX = 0; cellX < this.getWidth(); cellX++) {
@@ -85,6 +86,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
     /**
      * This gets the cell coordinate of a tile given a real coordinate.
+     * 
      * @param x The real x coordinate.
      * @param y The real y coordinate.
      * @return The cell coordinate within the grid.
@@ -173,6 +175,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
     /**
      * This gets a list of the cows in the specified lane.
+     * 
      * @param laneIndex The index of the lane to get.
      * @return A non-null list containing the cows in the lane.
      */
@@ -289,6 +292,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
         /**
          * This gets the cow stored at this tile.
+         * 
          * @return The cowe if there is one stored, null otherwise.
          */
         public Cow getCow() {
@@ -297,8 +301,12 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
         @Override
         public void update() {
-            if (cow != null)
-                cow.update();
+            if (this.cow != null) {
+                this.cow.update();
+                if (!this.cow.isAlive()) {
+                    this.cow = null;
+                }
+            }
         }
 
         @Override
@@ -310,8 +318,8 @@ public class PlayingField extends Entity implements Drawable, Updatable {
                 g.fillRect(this.getX() + 5, this.getY() + 5, Tile.SIZE - 10, Tile.SIZE - 10);
             }
 
-            if (cow != null)
-                cow.draw(g);
+            if (this.cow != null)
+                this.cow.draw(g);
         }
     }
 }

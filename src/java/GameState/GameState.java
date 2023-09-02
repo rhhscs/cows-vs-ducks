@@ -1,28 +1,27 @@
 package src.java.GameState;
 
-import src.java.Consts;
 import src.java.State;
 import src.java.GameState.Cows.Cow;
 
 import java.awt.Graphics;
 
-public class GameState extends State{
+public class GameState extends State {
     private PlayingField lawn;
     private UI gooey;
     private DuckManager ducks;
 
     @Override
     public void start() {
-        this.lawn = new PlayingField(450, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
-        this.ducks = new DuckManager(450, 140, Consts.NUM_COLUMNS, Consts.NUM_LANES);
+        this.lawn = new PlayingField();
+        this.ducks = new DuckManager();
         Cow.setStaticDuckManager(ducks);
         ProjectileManager.projectileManager.setDuckManager(ducks);
 
         this.gooey = new UI();
         this.gooey.init();
         this.gooey.docs.init(lawn);
-        
-        this.ducks.addDuck(0, new Duck(0, 30, 60, 60, 1, 10, 50, 100, null, lawn, 0));
+
+        this.ducks.addDuck(0, new Duck(1, 10, 50, 100, null, lawn, 0));
     }
 
     @Override

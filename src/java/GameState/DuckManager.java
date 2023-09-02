@@ -10,18 +10,13 @@ public class DuckManager implements Updatable, Drawable {
 
     /**
      * This constructs a new duck manager object.
-     * 
-     * @param x        The top-left x coordinate of the playing field.
-     * @param y        THe top-left y coordinate of the playing field.
-     * @param numCols  The number of tiles across the playing field.
-     * @param numLanes The number of rows across the playing field.
-     * @see src.java.GameState.PlayingField
      */
-    public DuckManager(int x, int y, int numCols, int numLanes) {
+    public DuckManager() {
         this.lanes = new ArrayList<Lane>();
 
-        for (int i = 0; i < numLanes; i++) {
-            this.lanes.add(new Lane(x, y + i * PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * numCols,
+        for (int i = 0; i < PlayingField.NUM_LANES; i++) {
+            this.lanes.add(new Lane(PlayingField.X, PlayingField.Y + i * PlayingField.Tile.SIZE,
+                    PlayingField.Tile.SIZE * PlayingField.NUM_COLUMNS,
                     PlayingField.Tile.SIZE));
         }
     }
@@ -34,7 +29,7 @@ public class DuckManager implements Updatable, Drawable {
      */
     public ArrayList<Entity> getCollidingLanes(Entity entity) {
         ArrayList<Entity> collidingLanes = new ArrayList<Entity>();
-        for (Lane lane: this.lanes) {
+        for (Lane lane : this.lanes) {
             if (lane.collides(entity)) {
                 collidingLanes.add(lane);
             }
@@ -46,7 +41,7 @@ public class DuckManager implements Updatable, Drawable {
      * This adds a duck to the end of a lane.
      * 
      * @param laneIndex The index of the lane to add to.
-     * @param duck   The duck to add.
+     * @param duck      The duck to add.
      */
     public void addDuck(int laneIndex, Duck duck) {
         this.lanes.get(laneIndex).add(duck);
@@ -65,7 +60,7 @@ public class DuckManager implements Updatable, Drawable {
 
     @Override
     public void draw(Graphics g) {
-        for (Lane lane: this.lanes) {
+        for (Lane lane : this.lanes) {
             lane.draw(g);
         }
     }
