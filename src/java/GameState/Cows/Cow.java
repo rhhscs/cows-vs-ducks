@@ -121,6 +121,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         CHEERIO_CATAPULT.setDuckManager(duckManager);
         WHEAT_CROP.setDuckManager(duckManager);
         CHERRY_BOMB.setDuckManager(duckManager);
+        CHERRY_BOMB.setDuckManager(duckManager);
     }
 
     @Override
@@ -146,6 +147,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
+
 
         if (this.state == State.ATTACK || this.attackTimer < this.attackSpeed) {
             this.attackTimer++;
