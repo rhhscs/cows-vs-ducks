@@ -21,7 +21,7 @@ public class GameState extends State {
         this.gooey.init();
         this.gooey.docs.init(lawn);
 
-        this.ducks.addDuck(0, new Duck(1, 10, 50, 100, null, lawn, 0));
+        this.ducks.addDuck(0, new Duck(1, 10, 10, 50, 100, null, lawn, 0, AI.MELEE_DUCK_AI));
     }
 
     @Override

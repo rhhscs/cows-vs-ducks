@@ -88,20 +88,17 @@ public interface AI {
         /**
          * This type of duck attacks if any cow collides with its hitbox.
          * 
-         * @param cows An arraylist of tiles in the duck's lane.
+         * @param cows An arraylist of cows in the duck's lane.
          * @param duck The duck to check.
          * @return The cow to attack, null if there is no cow to hit.
          */
         @Override
-        public Entity findTarget(ArrayList<Entity> tiles, Entity duck) {
-            for (Entity entity: tiles) {
-                Tile tile = (Tile) entity;
-                if (tile.isOccupied()) {
-                    Cow cow = tile.getCow();
+        public Entity findTarget(ArrayList<Entity> cows, Entity duck) {
+            for (Entity entity: cows) {
+                Cow cow = (Cow) entity;
                     if (duck.collides(cow)) {
                         return cow;
                     }
-                }
             }
 
             return null;

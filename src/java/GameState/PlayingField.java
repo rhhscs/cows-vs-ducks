@@ -32,7 +32,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      * This creates a new PlayingField object.
      */
     public PlayingField() {
-        super(X, Y, NUM_COLUMNS * Tile.SIZE, NUM_LANES * Tile.SIZE);
+        super(X, Y, WIDTH, HEIGHT);
         this.grid = new Tile[this.getWidth()][this.getHeight()];
 
         for (int cellY = 0; cellY < this.getHeight(); cellY++) {
@@ -199,8 +199,9 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      * 
      * @return The width.
      */
+    @Override
     public int getWidth() {
-        return this.grid.length;
+        return WIDTH;
     }
 
     /**
@@ -208,8 +209,9 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      * 
      * @return The height.
      */
+    @Override
     public int getHeight() {
-        return this.grid[0].length;
+        return HEIGHT;
     }
 
     /**
