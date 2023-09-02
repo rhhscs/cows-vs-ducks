@@ -15,9 +15,7 @@ public class DuckManager implements Updatable, Drawable {
         this.lanes = new ArrayList<Lane>();
 
         for (int i = 0; i < PlayingField.NUM_LANES; i++) {
-            this.lanes.add(new Lane(PlayingField.X, PlayingField.Y + i * PlayingField.Tile.SIZE,
-                    PlayingField.Tile.SIZE * PlayingField.NUM_COLUMNS,
-                    PlayingField.Tile.SIZE));
+            this.lanes.add(new Lane(i));
         }
     }
 
