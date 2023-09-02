@@ -19,6 +19,8 @@ public class Duck extends Entity implements Drawable, Updatable {
     public static final int HEIGHT = PlayingField.Tile.SIZE;
     public static final int X = PlayingField.X + PlayingField.WIDTH;
 
+    public static final Duck NULL_DUCK = new Duck(0, 0, 0, 0, 0, null, null, 0, null);
+
     private Stat moveSpeed;
     private Stat damage;
     private Stat attackSpeed;

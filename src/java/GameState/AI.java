@@ -61,7 +61,7 @@ public interface AI {
             for (Entity entity: lanes) {
                 Lane lane = (Lane) entity;
                 Duck duck = lane.getFarthestDuck();
-                if (!lane.isEmpty() && cow.getX() < duck.getX()) {
+                if (duck != null && cow.getX() < duck.getX()) {
                     return duck;
                 }
             }
@@ -77,10 +77,10 @@ public interface AI {
          * 
          * @param whatever  Doesn't matter what this is.
          * @param wheatCrop The wheat crop/cow.
-         * @return The wheat crop itself.
+         * @return A null duck
          */
         public Entity findTarget(ArrayList<Entity> whatever, Entity wheatCrop) {
-            return wheatCrop;
+            return Duck.NULL_DUCK;
         }
     };
 

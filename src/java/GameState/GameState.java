@@ -7,10 +7,6 @@ import src.java.Utilities.Input;
 
 import java.awt.Graphics;
 
-
-import java.awt.event.KeyEvent;
-
-
 import java.awt.event.KeyEvent;
 
 public class GameState extends State {
@@ -42,7 +38,6 @@ public class GameState extends State {
         this.gooey.update();
         this.ducks.update();
         ProjectileManager.projectileManager.update();
-
 
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_1)){
             if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
