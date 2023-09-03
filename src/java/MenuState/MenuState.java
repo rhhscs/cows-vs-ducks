@@ -36,13 +36,14 @@ public class MenuState extends State{
         startButton.draw(g);
         scoresButton.draw(g);
         bookButton.draw(g);
-        if(showScores){
+
+        /*if(showScores){
             g.fillRect(Consts.SCORES_X, Consts.SCORES_Y, Consts.SCORES_WIDTH, Consts.SCORES_HEIGHT);
             for(int i = 0; i < scoreManager.getScores().size() || i < 5; i++){
                 // Fix this part later. I dont like that i have to call getScores() a lot. If you guys are ok with importing Score.java into this file that would be nice.
                 g.drawString(scoreManager.getScores().get(i).getName() + ": " + scoreManager.getScores().get(i).getScore(), Consts.SCORES_X + 100, Consts.SCORES_Y + 100 + (75*i));
             }
-        }
+        }*/
     }
     
     @Override

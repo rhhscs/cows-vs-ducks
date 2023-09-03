@@ -24,7 +24,7 @@ public class Document extends Entity implements Drawable, Updatable{
     private int yDest = 0;
     
     Document(Cow cow){
-        super(10, 10, 250, 200);
+        super(10, 10, 275, 200);
         xDest = getX();
         yDest = getY();
         applicant = cow.clone();

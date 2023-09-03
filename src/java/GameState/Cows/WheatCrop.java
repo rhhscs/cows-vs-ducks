@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+
+
 import src.java.GameState.AI;
 import src.java.GameState.CheerioManager;
 import src.java.GameState.PlayingField.Tile;
@@ -37,11 +39,12 @@ public class WheatCrop extends Cow {
         super(health, 
             200, 200, 0,
             true, cost,
-            null, 0, 0, null, AI.WHEAT_CROP_COW_AI);
+            Sprites.WHEAT, 0, 0, null, AI.WHEAT_CROP_COW_AI);
         this.wheat = 0;
         this.wheatSize = wheatSize;
         this.wheatSprite = null;
         this.wheatSpriteFilePath = wheatSpriteFilePath;
+
     }
 
     /**
@@ -52,7 +55,7 @@ public class WheatCrop extends Cow {
         // drop wheat
         if (wheat < maxWheat){
             this.wheat += this.wheatSize;
-            System.out.println("Wheat produced");
+            //System.out.println("Wheat produced");
         }
     }
 
@@ -61,6 +64,8 @@ public class WheatCrop extends Cow {
      * 
      * @return The amount of wheat stored.
      */
+    
+    
     public int collectWheat() {
         int wheatCollected = this.wheat;
         this.wheat = 0;

@@ -16,7 +16,7 @@ public class CerealBox extends Cow {
 
     public CerealBox(int health, int cost) {
         super(health, -1, -1, -1, 
-        true, 150, Sprites.BODYGUARD, 0, 12, null, AI.SHIELD_COW_AI);
+        true, cost, Sprites.BODYGUARD, 0, 12, null, AI.SHIELD_COW_AI);
         this.maxHealth = health;
         this.ticksPerFrame = 4;
         this.idleAnimationDuration = ticksPerFrame * (12/stagesOfOuch);
@@ -33,7 +33,7 @@ public class CerealBox extends Cow {
     @Override
     public void draw(Graphics g){
         if (this.getHealth() > 0)
-        g.drawImage(idleSprites[(((maxHealth-this.getHealth()+1)/healthPerOuch)*this.getIdleAnimationFrames()) + (frame/ticksPerFrame)], this.getX(), this.getY() - 25, this.getWidth() + 10, this.getHeight() + 10, null);
+        g.drawImage(idleSprites[(((maxHealth-this.getHealth()+1)/healthPerOuch)*this.getIdleAnimationFrames()) + (frame/ticksPerFrame)], this.getX()-10, this.getY() - 25, this.getWidth() + 10, this.getHeight() + 10, null);
     }
 
     @Override
