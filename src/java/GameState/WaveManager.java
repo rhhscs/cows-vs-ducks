@@ -57,7 +57,8 @@ public class WaveManager implements Drawable, Updatable{
 
         // spawn the ducks from the wave
         if(this.duckCount < this.waveSize && this.delay == 0){
-            this.duckManager.addDuck((int)(Math.random() * 5), new Duck(1, 10, 10, 50, 100, null, lawn, 0, AI.MELEE_DUCK_AI));
+            int laneIndex = (int) (Math.random() * 5);
+            this.duckManager.addDuck(laneIndex, new Duck(1, 10, 10, 50, 100, null, lawn, laneIndex, AI.MELEE_DUCK_AI));
             this.delay = (int)(Math.random() * WaveManager.WAVE_DURATION / this.waveSize / 2);
             this.duckCount ++;
         }else if(this.delay > 0){
@@ -66,7 +67,8 @@ public class WaveManager implements Drawable, Updatable{
 
         // spawn the passively spawning ducks
         if(this.counter % (WaveManager.WAVE_DURATION / (this.currentLevel * 3 + this.currentWave)) == 0){
-            this.duckManager.addDuck((int)(Math.random() * 5), new Duck(1, 10, 10, 50, 100, null, lawn, 0, AI.MELEE_DUCK_AI));
+            int laneIndex = (int) (Math.random() * 5);
+            this.duckManager.addDuck(laneIndex, new Duck(1, 10, 10, 50, 100, null, lawn, laneIndex, AI.MELEE_DUCK_AI));
         }
 
         this.counter ++;

@@ -102,12 +102,12 @@ public class Duck extends Entity implements Drawable, Updatable {
             if (this.target != null && !this.target.isAlive()) {
                 this.target = null;
             }
-    
+            
             // Find a new target if necessary.
             if (this.target == null) {
                 this.target = (Cow) this.ai.findTarget(this.lawn.getCowsInLane(this.laneIndex), this);
             }
-
+            
             if (this.target != null) {
                 // Start attack animation.
                 this.setState(State.ATTACK);
@@ -171,11 +171,11 @@ public class Duck extends Entity implements Drawable, Updatable {
     /**
      * This changes the move speed of this duck.
      * 
-     * @param value The amount to change the move speed by.
+     * @param value The amount to decrease the move speed by.
      * @param duration The duration to apply the effect.
      */
     public void applyMoveSpeedEffect(int value, int duration) {
-        this.moveSpeed.addModifier(value, duration);
+        this.moveSpeed.addModifier(-value, duration);
     }
 
     /**

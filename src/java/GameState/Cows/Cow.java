@@ -72,7 +72,7 @@ public class Cow extends Entity implements Drawable, Updatable {
             70, 20, 12,
             true, 300,
             Sprite.CATAPULT,
-            new Projectile(20, 20, 30, 30, 14, 18, 40, true, -1, true, 100000, null), AI.SHOOTER_COW_AI);
+            new Projectile(20, 20, 30, 30, 14, 18, 40, true, 1, true, 100000, null), AI.SHOOTER_COW_AI);
 
     public static final Cow PEA_POD = new StackableCow(true, 25, Sprite.NULL);
 
