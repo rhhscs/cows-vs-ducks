@@ -133,6 +133,11 @@ public class PlayingField extends Entity implements Drawable, Updatable {
                 this.grid[x][y].draw(g);
             }
         }
+        for (int y = 0; y < this.getHeight(); y++) {
+            for (int x = 0; x < this.getWidth(); x++) {
+                this.grid[x][y].drawCow(g);
+            }
+        }
     }
 
     /**
@@ -322,7 +327,8 @@ public class PlayingField extends Entity implements Drawable, Updatable {
                 g.setColor(new Color(80, 145, 70));
                 g.fillRect(this.getX() + 5, this.getY() + 5, Tile.SIZE - 10, Tile.SIZE - 10);
             }
-
+        }
+        public void drawCow(Graphics g){
             if (this.cow != null)
                 this.cow.draw(g);
         }
