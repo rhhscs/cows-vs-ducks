@@ -28,10 +28,13 @@ public class Document extends Entity implements Drawable, Updatable{
         xDest = getX();
         yDest = getY();
         applicant = cow.clone();
-        try {
-            fileSprite = ImageIO.read(new File(applicant.getSpriteFilePath() + "/file.png"));
-        } catch (IOException e) {
-            System.out.println("Image not found: " + applicant.getSpriteFilePath() + "/file.png");
+        if (applicant.getSprite().filepath != null){
+            try {
+                fileSprite = ImageIO.read(new File(applicant.getSprite().filepath + "/file.png"));
+            } catch (IOException e) {
+                System.out.println("Image not found: " + applicant.getSprite().filepath + "/file.png");
+            }
+
         }
     }
 

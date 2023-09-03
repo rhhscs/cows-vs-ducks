@@ -7,7 +7,8 @@ import src.java.GameState.Projectile;
  */
 public class CherryBomb extends Cow {
     public CherryBomb(int cost, int attackDelay, Projectile projectile) {
-        super(1, 0, 0, attackDelay, false, cost, null, 0, 0, projectile, null);
+        super(1, 0, 0, attackDelay, false, cost, 
+        Sprite.NULL, projectile, null);
         this.setState(State.ATTACK);
     }
 

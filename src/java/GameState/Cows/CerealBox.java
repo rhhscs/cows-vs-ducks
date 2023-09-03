@@ -11,29 +11,37 @@ import src.java.GameState.Projectile;
 
 public class CerealBox extends Cow {
     private final int stagesOfOuch = 3;
-    private final int healthPerOuch = this.getHealth()/stagesOfOuch;
-    private int maxHealth;
+    private final int healthPerOuch;
+    private int idleTicks;
 
     public CerealBox(int health, int cost) {
         super(health, -1, -1, -1, 
-        true, cost, Sprites.BODYGUARD, 0, 12, null, AI.SHIELD_COW_AI);
-        this.maxHealth = health;
-        this.ticksPerFrame = 4;
-        this.idleAnimationDuration = ticksPerFrame * (12/stagesOfOuch);
+        true, cost, Sprite.BODYGUARD, null, AI.SHIELD_COW_AI);
+        this.healthPerOuch = this.getHealth()/stagesOfOuch;
+        this.idleTicks = getSprite().getIdleTicks()/stagesOfOuch;
     }
 
     @Override
     public void update(){
         frame++;
-        if (frame >= this.idleAnimationDuration){
+        if (frame >= this.idleTicks){
             frame = 0;
         }
     }
     
     @Override
     public void draw(Graphics g){
-        if (this.getHealth() > 0)
-        g.drawImage(idleSprites[(((maxHealth-this.getHealth()+1)/healthPerOuch)*this.getIdleAnimationFrames()) + (frame/ticksPerFrame)], this.getX()-10, this.getY() - 25, this.getWidth() + 10, this.getHeight() + 10, null);
+        int a = 0;
+        if (this.getHealth() > healthPerOuch*2){
+            a = 0;
+        } else if (this.getHealth() > healthPerOuch){
+            a = 4;
+        } else {
+            a = 8;
+
+        }
+        g.drawImage(idleSprites[a + (frame/getSprite().ticksPerFrame)], this.getX()-10, this.getY() - 25, this.getWidth() + 15, this.getHeight() + 15, null);
+        
     }
 
     @Override

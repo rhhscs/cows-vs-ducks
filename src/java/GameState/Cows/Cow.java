@@ -27,7 +27,8 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     private int attackSpeed;
     private int timeUntilFirstAttack;
-    private int attackTimer;
+    private int attackTimer = 0;
+    private int attackDelay;
 
     private int health;
     private boolean isTargetable;
@@ -37,17 +38,11 @@ public class Cow extends Entity implements Drawable, Updatable {
      * The number of frames between the start of the attack animation and when the
      * projectile gets released.
      */
-    private int attackDelay;
 
-    private int attackAnimationDuration;
-    protected int idleAnimationDuration;
+    private Sprite sprite;
     protected Image[] attackSprites;
     protected Image[] idleSprites;
-    private String spriteFilePath;
-    protected final int spriteTileSize = 256;
     protected int frame = 0;
-    private final static int defaultTicksPerFrame = 3;
-    protected int ticksPerFrame = defaultTicksPerFrame;
 
     private State state;
     private Projectile projectile;
@@ -56,9 +51,9 @@ public class Cow extends Entity implements Drawable, Updatable {
     private Duck target;
 
     public static final Cow CHEERIO_CATAPULT = new Cow(100,
-            70, 20, 4 * defaultTicksPerFrame,
+            70, 20, 12,
             true, 200,
-            Sprites.CATAPULT, Sprites.Frames.CATAPULT, 0,
+            Sprite.CATAPULT,
             new Projectile(20, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
 
     public static final Cow CEREAL_BOX = new CerealBox(300, 200); // make sure HP is divisible by 3
@@ -69,8 +64,7 @@ public class Cow extends Entity implements Drawable, Updatable {
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
                     PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 30, null));
 
-    public static final Cow CRUSHED_CEREAL = new Cow(100, 40, 0, 5, false, 100, Sprites.CRUSHED_CEREAL,
-            Sprites.Frames.CRUSHED_CEREAL, 1,
+    public static final Cow CRUSHED_CEREAL = new Cow(100, 40, 0, 5, false, 100, Sprite.SPIKES,
             new Projectile(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 0, 18, 0, false, 0, true, 20, null),
             AI.MELEE_COW_AI);
 
@@ -91,10 +85,9 @@ public class Cow extends Entity implements Drawable, Updatable {
      * @param ai                   The AI to use to determine ducks to attack.
      */
     public Cow(int health, int attackSpeed, int timeUntilFirstAttack, int attackDelay,
-            boolean isTargetable, int cost, String spritesFilePath, int attackFrames, int idleFrames,
-            Projectile projectile, AI ai) {
+            boolean isTargetable, int cost, Sprite sprite, Projectile projectile, AI ai) {
         this(PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, health, attackSpeed, timeUntilFirstAttack, attackDelay,
-                isTargetable, cost, spritesFilePath, attackFrames, idleFrames, projectile, ai);
+                isTargetable, cost, sprite, projectile, ai);
     }
 
     /**
@@ -118,29 +111,30 @@ public class Cow extends Entity implements Drawable, Updatable {
     public Cow(int width, int height, int health,
             int attackSpeed, int timeUntilFirstAttack, int attackDelay,
             boolean isTargetable, int cost,
-            String spritesFilePath, int attackFrames, int idleFrames,
-            Projectile projectile, AI ai) {
+            Sprite sprite, Projectile projectile, AI ai) {
         super(0, 0, width, height);
 
+        // stats
         this.attackSpeed = attackSpeed;
         this.attackTimer = attackSpeed - timeUntilFirstAttack;
         this.timeUntilFirstAttack = timeUntilFirstAttack;
         this.attackDelay = attackDelay;
-        this.attackAnimationDuration = attackFrames * ticksPerFrame;
-
         this.health = health;
         this.isTargetable = isTargetable;
+        this.cost = cost;
 
+        // sprite
+        this.sprite = sprite;
         BufferedImage tempSpriteSheet;
-        if (attackFrames != 0) {
+        if (sprite != Sprite.NULL && sprite.attackFrames != 0) {
             try {
-                tempSpriteSheet = ImageIO.read(new File(spritesFilePath + "/attack.png"));
-                attackSprites = new Image[attackFrames];
+                tempSpriteSheet = ImageIO.read(new File(sprite.filepath + "/attack.png"));
+                attackSprites = new Image[sprite.attackFrames];
                 int i = 0;
-                for (int yPos = 0; yPos < tempSpriteSheet.getWidth(); yPos += spriteTileSize) {
-                    for (int xPos = 0; xPos < tempSpriteSheet.getWidth(); xPos += spriteTileSize) {
-                        if (i < attackFrames) {
-                            attackSprites[i] = tempSpriteSheet.getSubimage(xPos, yPos, spriteTileSize, spriteTileSize);
+                for (int yPos = 0; yPos < tempSpriteSheet.getHeight(); yPos += sprite.height) {
+                    for (int xPos = 0; xPos < tempSpriteSheet.getWidth(); xPos += sprite.width) {
+                        if (i < sprite.attackFrames) {
+                            attackSprites[i] = tempSpriteSheet.getSubimage(xPos, yPos, sprite.width, sprite.height);
                             i++;
                         } else {
                             break;
@@ -152,16 +146,15 @@ public class Cow extends Entity implements Drawable, Updatable {
             }
         }
 
-        this.idleAnimationDuration = idleFrames * ticksPerFrame;
-        if (idleFrames != 0) {
+        if (sprite.idleFrames != 0) {
             try {
-                tempSpriteSheet = ImageIO.read(new File(spritesFilePath + "/idle.png"));
-                idleSprites = new Image[idleFrames];
+                tempSpriteSheet = ImageIO.read(new File(sprite.filepath + "/idle.png"));
+                idleSprites = new Image[sprite.idleFrames];
                 int i = 0;
-                for (int yPos = 0; yPos < tempSpriteSheet.getWidth(); yPos += spriteTileSize) {
-                    for (int xPos = 0; xPos < tempSpriteSheet.getWidth(); xPos += spriteTileSize) {
-                        if (i < idleFrames) {
-                            idleSprites[i] = tempSpriteSheet.getSubimage(xPos, yPos, spriteTileSize, spriteTileSize);
+                for (int yPos = 0; yPos < tempSpriteSheet.getHeight(); yPos += sprite.height) {
+                    for (int xPos = 0; xPos < tempSpriteSheet.getWidth(); xPos += sprite.width) {
+                        if (i < sprite.idleFrames) {
+                            idleSprites[i] = tempSpriteSheet.getSubimage(xPos, yPos, sprite.width, sprite.height);
                             i++;
                         } else {
                             break;
@@ -172,16 +165,12 @@ public class Cow extends Entity implements Drawable, Updatable {
                 this.attackSprites = null;
             }
         }
-
-        // this.sprite = null;
-        this.spriteFilePath = spritesFilePath;
 
         this.state = State.IDLE;
         this.projectile = projectile;
         this.ai = ai;
         this.target = null;
 
-        this.cost = cost;
     }
 
     /**
@@ -200,7 +189,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     public void draw(Graphics g) {
         if (this.state == State.ATTACK) {
             if (attackSprites != null) {
-                g.drawImage(attackSprites[(frame / ticksPerFrame) % attackSprites.length], this.getX(),
+                g.drawImage(attackSprites[(frame / sprite.ticksPerFrame) % attackSprites.length], this.getX(),
                         this.getY() - 15, this.getWidth(), this.getHeight(), null);
             } else {
                 g.setColor(new Color(150, 100, 100));
@@ -246,7 +235,7 @@ public class Cow extends Entity implements Drawable, Updatable {
             // launch projectile
             this.attack();
         }
-        if (this.attackTimer == this.attackSpeed + this.attackAnimationDuration) {
+        if (this.attackTimer == this.attackSpeed + sprite.getAttackTicks()) {
             // attack animation ends, go back to idle
             this.setState(State.IDLE);
             this.attackTimer = 0;
@@ -258,7 +247,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         Cow cow = new Cow(this.getWidth(), this.getHeight(), this.getHealth(),
                 this.getAttackSpeed(), this.getAttackTimer(), this.getAttackDelay(),
                 this.isTargetable(), this.getCost(),
-                this.getSpriteFilePath(), this.getAttackAnimationFrames(), this.getIdleAnimationFrames(),
+                this.getSprite(),
                 (Projectile) this.projectile.clone(), this.getAI());
         cow.setDuckManager(this.duckManager);
         return cow;
@@ -350,14 +339,6 @@ public class Cow extends Entity implements Drawable, Updatable {
         return attackDelay;
     }
 
-    public int getAttackAnimationFrames() {
-        return attackAnimationDuration / ticksPerFrame;
-    }
-
-    public int getIdleAnimationFrames() {
-        return idleAnimationDuration / ticksPerFrame;
-    }
-
     public int getHealth() {
         return health;
     }
@@ -374,8 +355,8 @@ public class Cow extends Entity implements Drawable, Updatable {
         return isTargetable;
     }
 
-    public String getSpriteFilePath() {
-        return spriteFilePath;
+    public Sprite getSprite() {
+        return sprite;
     }
 
     public State getState() {

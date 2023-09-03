@@ -34,7 +34,7 @@ public class WheatCrop extends Cow {
         super(health, 
             200, 200, 0,
             true, cost,
-            Sprites.WHEAT, 0, 0, null, AI.WHEAT_CROP_COW_AI);
+            Sprite.WHEAT, null, AI.WHEAT_CROP_COW_AI);
         this.wheat = 0;
         this.wheatSize = wheatSize;
         this.wheatSprite = null;
