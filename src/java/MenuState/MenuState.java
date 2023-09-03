@@ -4,6 +4,7 @@ import src.java.Consts;
 import src.java.State;
 import src.java.Components.Button;
 import src.java.GameState.GameState;
+import src.java.LoadingState.LoadingState;
 import src.java.Utilities.ResolutionManager;
 import src.java.Utilities.Score;
 import src.java.Utilities.ScoreManager;
@@ -22,7 +23,7 @@ public class MenuState extends State{
     private ScoreManager scoreManager = new ScoreManager(null);
     @Override
     public void start() {
-        startButton.setOnClickFunction(() -> {nextState = new GameState();});
+        startButton.setOnClickFunction(() -> {nextState = new LoadingState();});
         scoresButton.setOnClickFunction(() -> {showScores = !showScores;});
     }
 

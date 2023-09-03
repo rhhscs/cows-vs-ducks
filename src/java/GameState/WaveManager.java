@@ -9,6 +9,7 @@ import src.java.Updatable;
 public class WaveManager implements Drawable, Updatable{
 
     public static final int WAVE_DURATION = 2000;
+    private final int barWidth = 1000;
 
     /**
      * Each level, X, has ceil(X/1.5) waves
@@ -80,7 +81,7 @@ public class WaveManager implements Drawable, Updatable{
 
         // draws progress through the level
 
-        int blockWidth = (int)((double)400 / (this.waveCount+1));
+        int blockWidth = (int)((double)barWidth / (this.waveCount+1));
         for(int i=0; i<=this.waveCount; i++){
             if(i < this.currentWave){
                 g.setColor(Color.LIGHT_GRAY);
