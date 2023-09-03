@@ -292,13 +292,13 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @param cow The cow to place in this tile.
          */
         public void placeCow(Cow cow) {
-            if (cow instanceof StackableCow && this.cow instanceof StackableCow) {
-                // there is already a stacked cow so stack cow.
-                ((StackableCow) this.cow).stackCow();
-            } 
-            else {
+            if (this.cow == null) {
                 cow.move(this.getX(), this.getY());
                 this.cow = cow;
+            }
+            
+            if (cow instanceof StackableCow) {
+                ((StackableCow) this.cow).stackCow();
             }
         }
 

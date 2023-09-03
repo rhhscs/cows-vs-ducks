@@ -33,7 +33,7 @@ public class CheerioManager implements Drawable{
     }
     
     public void reset(){
-        value = 300;
+        value = 800;
     }
 
     @Override

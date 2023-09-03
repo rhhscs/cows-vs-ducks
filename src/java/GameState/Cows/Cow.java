@@ -200,7 +200,6 @@ public class Cow extends Entity implements Drawable, Updatable {
         peas[2].setPos(25, 0);
 
         ((StackableCow) PEA_POD).setCows(peas);
-        ((StackableCow) PEA_POD).stackCow();
     }
 
     @Override
