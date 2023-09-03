@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 import src.java.GameState.AI;
 import src.java.GameState.CheerioManager;
+import src.java.GameState.Projectile;
 import src.java.GameState.PlayingField.Tile;
 import src.java.Utilities.Input;
 
@@ -34,7 +35,7 @@ public class WheatCrop extends Cow {
         super(health, 
             200, 200, 0,
             true, cost,
-            Sprite.WHEAT, null, AI.WHEAT_CROP_COW_AI);
+            Sprite.WHEAT, Projectile.NULL, AI.WHEAT_CROP_COW_AI);
         this.wheat = 0;
         this.wheatSize = wheatSize;
         this.wheatSprite = null;

@@ -9,6 +9,7 @@ import java.awt.Color;
 import src.java.Drawable;
 import src.java.Updatable;
 import src.java.GameState.Cows.Cow;
+import src.java.GameState.Cows.StackableCow;
 
 /**
  * This class represents the lawn in the game. It manages the cows but not the
@@ -264,9 +265,11 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @return True if it can be placed, false otherwise.
          */
         public boolean isOccupied() {
-            if (cow == null)
+            if (this.cow == null)
                 return false;
-            // TODO support stacking cows
+            if (this.cow instanceof StackableCow)
+                return ((StackableCow) this.cow).isFull();
+
             return true;
         }
 
@@ -289,8 +292,14 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @param cow The cow to place in this tile.
          */
         public void placeCow(Cow cow) {
-            cow.setPos(this.getX(), this.getY());
-            this.cow = cow;
+            if (cow instanceof StackableCow && this.cow instanceof StackableCow) {
+                // there is already a stacked cow so stack cow.
+                ((StackableCow) this.cow).stackCow();
+            } 
+            else {
+                cow.move(this.getX(), this.getY());
+                this.cow = cow;
+            }
         }
 
         /**
@@ -313,6 +322,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         public void update() {
             if (this.cow != null) {
                 this.cow.update();
+                
                 if (!this.cow.isAlive()) {
                     this.cow = null;
                 }
