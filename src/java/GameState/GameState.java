@@ -18,7 +18,7 @@ public class GameState extends State {
     public void start() {
         this.lawn = new PlayingField();
         this.ducks = new DuckManager();
-        Cow.setStaticDuckManager(ducks);
+        Cow.init(ducks);
         ProjectileManager.projectileManager.setDuckManager(ducks);
 
         // GUI overlay initialization

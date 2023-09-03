@@ -68,6 +68,12 @@ public class Cow extends Entity implements Drawable, Updatable {
             new Projectile(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 0, 18, 0, false, 0, true, 20, null),
             AI.MELEE_COW_AI);
 
+    public static final Cow FROZEN_CATAPULT = new Cow(100,
+            70, 20, 12,
+            true, 300,
+            Sprite.CATAPULT,
+            new Projectile(20, 20, 30, 30, 14, 18, 40, true, -1, true, 100000, null), AI.SHOOTER_COW_AI);
+
     /**
      * This constructs a single-tile cow.
      * 
@@ -174,15 +180,16 @@ public class Cow extends Entity implements Drawable, Updatable {
     }
 
     /**
-     * This sets the duck manager of the constant static cows.
+     * This initializes the static cows.
      * 
      * @param duckManager The duck manager to use.
      */
-    public static void setStaticDuckManager(DuckManager duckManager) {
+    public static void init(DuckManager duckManager) {
         CHEERIO_CATAPULT.setDuckManager(duckManager);
         WHEAT_CROP.setDuckManager(duckManager);
         CEREAL_BOMB.setDuckManager(duckManager);
         CRUSHED_CEREAL.setDuckManager(duckManager);
+        FROZEN_CATAPULT.setDuckManager(duckManager);
     }
 
     @Override

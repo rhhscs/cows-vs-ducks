@@ -33,7 +33,7 @@ club fair project!
 [ ] cow-cereal mouse trap (chomper)
 [x] cereal bomb (cherry bomb)
 [ ] stacked cow (pea pod)
-[ ] frozen cereal (snow pea)
+[x] frozen cereal (snow pea)
 [x] crushed cereal (spike weed)
  
 ## ducks
