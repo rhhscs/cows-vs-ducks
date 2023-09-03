@@ -45,6 +45,9 @@ public class GameState extends State {
                     new Duck(1, 10, 10, 50, 100, null, lawn, lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, AI.MELEE_DUCK_AI));
             }
         }
+        if (Input.globalInput.keyIsTapped(KeyEvent.VK_EQUALS)){
+            CheerioManager.getGlobalCheerios().addCheerios(200);
+        }
     }
 
     @Override
