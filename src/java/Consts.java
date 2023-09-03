@@ -3,6 +3,10 @@ package src.java;
 public final class Consts {
     public static final long FPS = 50;
     public static final long FRAME_DURATION = 1000 / FPS;
+    public static final int SCORES_X = 1000;
+    public static final int SCORES_Y = 100;
+    public static final int SCORES_WIDTH = 600;
+    public static final int SCORES_HEIGHT = 800;
     
     /**
      * This gets the time a number of frames appears.
