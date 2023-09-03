@@ -9,6 +9,7 @@ import java.awt.Color;
 import src.java.Drawable;
 import src.java.Updatable;
 import src.java.GameState.Cows.Cow;
+import src.java.GameState.Cows.StackableCow;
 
 /**
  * This class represents the lawn in the game. It manages the cows but not the
@@ -114,7 +115,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         Tile tile = getTileAt(x, y);
         if (tile == null || !this.containsPoint(x, y))
             return true;
-        return tile.isOccupied();
+        return tile.isFull();
     }
 
     @Override
@@ -154,7 +155,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
         if (tile == null)
             return false;
-        if (tile.isOccupied())
+        if (tile.isFull())
             return false;
 
         tile.placeCow(cow);
@@ -174,7 +175,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
         if (tile == null)
             return false;
-        if (!tile.isOccupied())
+        if (!tile.isFull())
             return false;
 
         tile.removeCow();
@@ -191,8 +192,9 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         ArrayList<Entity> cows = new ArrayList<Entity>();
 
         for (int x = 0; x < this.getWidth(); x++) {
-            if (this.grid[x][laneIndex].isOccupied()) {
-                cows.add(this.grid[x][laneIndex].getCow());
+            Tile tile = this.grid[x][laneIndex];
+            if (tile.isOccupied()) {
+                cows.add(tile.getCow());
             }
         }
 
@@ -263,11 +265,21 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * 
          * @return True if it can be placed, false otherwise.
          */
-        public boolean isOccupied() {
-            if (cow == null)
+        public boolean isFull() {
+            if (this.cow == null)
                 return false;
-            // TODO support stacking cows
+            if (this.cow instanceof StackableCow)
+                return ((StackableCow) this.cow).isFull();
+
             return true;
+        }
+
+        /**
+         * This determines whether a cow is at this tile. This does not mean that it is full.
+         * @return True if there is a cow at the tile, false otherwise..
+         */
+        public boolean isOccupied() {
+            return this.cow != null;
         }
 
         /**
@@ -289,8 +301,14 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @param cow The cow to place in this tile.
          */
         public void placeCow(Cow cow) {
-            cow.setPos(this.getX(), this.getY());
-            this.cow = cow;
+            if (this.cow == null) {
+                cow.move(this.getX(), this.getY());
+                this.cow = cow;
+            }
+            
+            if (cow instanceof StackableCow) {
+                ((StackableCow) this.cow).stackCow();
+            }
         }
 
         /**
@@ -313,6 +331,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         public void update() {
             if (this.cow != null) {
                 this.cow.update();
+                
                 if (!this.cow.isAlive()) {
                     this.cow = null;
                 }

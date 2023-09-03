@@ -6,6 +6,7 @@ import src.java.Drawable;
 import src.java.Updatable;
 
 public class DuckManager implements Updatable, Drawable {
+    
     private ArrayList<Lane> lanes;
 
     /**

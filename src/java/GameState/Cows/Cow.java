@@ -60,7 +60,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow WHEAT_CROP = new WheatCrop(100, 100, 50);
 
-    public static final Cow CEREAL_BOMB = new CherryBomb(500, 
+    public static final Cow CEREAL_BOMB = new CherryBomb(500,
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
                     PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 2, null));
 
@@ -72,7 +72,12 @@ public class Cow extends Entity implements Drawable, Updatable {
             70, 20, 12,
             true, 300,
             Sprite.CATAPULT,
-            new Projectile(20, 20, 30, 30, 14, 18, 40, true, -1, true, 100000, null), AI.SHOOTER_COW_AI);
+            new Projectile(20, 20, 30, 30, 14, 18, 40, true, 1, true, 100000, null), AI.SHOOTER_COW_AI);
+
+    public static final Cow PEA_POD = new StackableCow(true, 25, Sprite.NULL);
+
+    public static final Cow CHEERIO_PITCHER = new Cow(100, 70, 20, 12, true, 400, Sprite.CATAPULT,
+            new Projectile(20, 20, PlayingField.WIDTH, 30, 0, 18, 0, false, 0, true, 5, null), AI.SHOOTER_COW_AI);
 
     /**
      * This constructs a single-tile cow.
@@ -84,9 +89,7 @@ public class Cow extends Entity implements Drawable, Updatable {
      *                             the attack animation.
      * @param isTargetable         Whether the cow can be hit by ducks.
      * @param cost                 The cost of this cow.
-     * @param spritesFilePath      The file path to the sprites for this cow.
-     * @param attackFrames         The number of frames the attack animation lasts.
-     * @param idleFrames           The number of frames the idle animation lasts.
+     * @param sprite               The cow sprite.
      * @param projectile           The projectile this cow attacks with.
      * @param ai                   The AI to use to determine ducks to attack.
      */
@@ -108,9 +111,7 @@ public class Cow extends Entity implements Drawable, Updatable {
      *                             the attack animation.
      * @param isTargetable         Whether the cow can be hit by ducks.
      * @param cost                 The cost of this cow.
-     * @param spritesFilePath      The file path to the sprites for this cow.
-     * @param attackFrames         The number of frames the attack animation lasts.
-     * @param idleFrames           The number of frames the idle animation lasts.
+     * @param sprite               The cow sprite.
      * @param projectile           The projectile this cow attacks with.
      * @param ai                   The AI to use to determine ducks to attack.
      */
@@ -190,6 +191,15 @@ public class Cow extends Entity implements Drawable, Updatable {
         CEREAL_BOMB.setDuckManager(duckManager);
         CRUSHED_CEREAL.setDuckManager(duckManager);
         FROZEN_CATAPULT.setDuckManager(duckManager);
+        CHEERIO_PITCHER.setDuckManager(duckManager);
+
+        PEA_POD.setDuckManager(duckManager);
+        Cow[] peas = { CHEERIO_CATAPULT.clone(), CHEERIO_CATAPULT.clone(), CHEERIO_CATAPULT.clone() };
+        peas[0].setPos(50, 25);
+        peas[1].setPos(0, 25);
+        peas[2].setPos(25, 0);
+
+        ((StackableCow) PEA_POD).setCows(peas);
     }
 
     @Override
@@ -255,8 +265,10 @@ public class Cow extends Entity implements Drawable, Updatable {
                 this.getAttackSpeed(), this.getAttackTimer(), this.getAttackDelay(),
                 this.isTargetable(), this.getCost(),
                 this.getSprite(),
-                (Projectile) this.projectile.clone(), this.getAI());
+                this.getProjectileClone(), this.getAI());
         cow.setDuckManager(this.duckManager);
+        cow.setPos(this.getX(), this.getY());
+
         return cow;
     }
 
@@ -355,7 +367,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     }
 
     public Projectile getProjectileClone() {
-        return (Projectile) this.projectile.clone();
+        return this.projectile.clone();
     }
 
     public boolean isTargetable() {

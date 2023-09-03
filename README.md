@@ -29,10 +29,10 @@ club fair project!
 [ ] cheerio cannon (cob cannon)
 [x] wheat crop (sunflower)
 [x] cereal box (walnut)
-[ ] cheerio baseball pitcher (laser beam)
+[x] cheerio baseball pitcher (laser beam)
 [ ] cow-cereal mouse trap (chomper)
 [x] cereal bomb (cherry bomb)
-[ ] stacked cow (pea pod)
+[x] stacked cow (pea pod)
 [x] frozen cereal (snow pea)
 [x] crushed cereal (spike weed)
  

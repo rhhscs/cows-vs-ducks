@@ -16,7 +16,7 @@ public class CerealBox extends Cow {
 
     public CerealBox(int health, int cost) {
         super(health, -1, -1, -1, 
-        true, cost, Sprite.BODYGUARD, null, AI.SHIELD_COW_AI);
+        true, cost, Sprite.BODYGUARD, Projectile.NULL, AI.SHIELD_COW_AI);
         this.healthPerOuch = this.getHealth()/stagesOfOuch;
         this.idleTicks = getSprite().getIdleTicks()/stagesOfOuch;
     }

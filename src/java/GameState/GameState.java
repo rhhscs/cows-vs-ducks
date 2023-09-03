@@ -13,13 +13,16 @@ public class GameState extends State {
     private PlayingField lawn;
     private UI gooey;
     private DuckManager ducks;
+    private WaveManager waveManager;
 
     @Override
     public void start() {
         this.lawn = new PlayingField();
         this.ducks = new DuckManager();
+        this.waveManager = new WaveManager();
         Cow.init(ducks);
         ProjectileManager.projectileManager.setDuckManager(ducks);
+        this.waveManager.init(ducks, lawn);
 
         // GUI overlay initialization
         this.gooey = new UI();
@@ -27,7 +30,6 @@ public class GameState extends State {
         // GUI button initialization
         this.gooey.pauseButton.setOnClickFunction(() -> {appendState = new PauseState();});
 
-        this.ducks.addDuck(0, new Duck(1, 10, 10, 50, 100, null, lawn, 0, AI.MELEE_DUCK_AI));
         // resets
         CheerioManager.getGlobalCheerios().reset();
     }
@@ -37,6 +39,7 @@ public class GameState extends State {
         this.lawn.update();
         this.gooey.update();
         this.ducks.update();
+        this.waveManager.update();
         ProjectileManager.projectileManager.update();
 
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_1)){
@@ -54,6 +57,7 @@ public class GameState extends State {
     public void draw(Graphics g) {
         this.lawn.draw(g);
         this.ducks.draw(g);
+        this.waveManager.draw(g);
         ProjectileManager.projectileManager.draw(g);
         this.gooey.draw(g);
     }

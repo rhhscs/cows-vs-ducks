@@ -12,7 +12,6 @@ import src.java.Updatable;
  * @see ProjectileManager
  */
 public class Projectile extends Entity implements Drawable, Updatable {
-
     private int speed;
     private int damage;
     private int slowTime;
@@ -22,18 +21,20 @@ public class Projectile extends Entity implements Drawable, Updatable {
     private int duration;
     private String filePath;
 
+    public static final Projectile NULL = new Projectile(0, 0, 0, 0, 0, 0, 0, true, 0, false, 0, null);
+    
     /**
      * This creates a new Projectile object
      * 
-     * @param x_           The top-left x coordinate.
-     * @param y_           The top-left y coordinate.
+     * @param x           The top-left x coordinate.
+     * @param y           The top-left y coordinate.
      * @param width        The number of tiles across horizontally.
      * @param height       The number of tiles across vertically.
      * @param speed        The speed of the projectile
      * @param damage       The amount of damage
      * @param slowTime     The slow duration
      * @param singleTarget If the projectile is single target
-     * @param slowEffect   The slow percentage
+     * @param slowEffect   The slow amount
      * @param active       If the projectile is active
      * @param duration     The duration of the projectile
      * @param filePath     File path to the sprite
