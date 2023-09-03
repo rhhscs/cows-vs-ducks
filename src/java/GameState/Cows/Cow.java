@@ -60,7 +60,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow WHEAT_CROP = new WheatCrop(100, 100, 50);
 
-    public static final Cow CEREAL_BOMB = new CherryBomb(500, 
+    public static final Cow CEREAL_BOMB = new CherryBomb(500,
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
                     PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 2, null));
 
@@ -75,6 +75,9 @@ public class Cow extends Entity implements Drawable, Updatable {
             new Projectile(20, 20, 30, 30, 14, 18, 40, true, -1, true, 100000, null), AI.SHOOTER_COW_AI);
 
     public static final Cow PEA_POD = new StackableCow(true, 25, Sprite.NULL);
+
+    public static final Cow CHEERIO_PITCHER = new Cow(100, 70, 20, 12, true, 400, Sprite.CATAPULT,
+            new Projectile(20, 20, PlayingField.WIDTH, 30, 0, 18, 0, false, 0, true, 5, null), AI.SHOOTER_COW_AI);
 
     /**
      * This constructs a single-tile cow.
@@ -188,6 +191,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         CEREAL_BOMB.setDuckManager(duckManager);
         CRUSHED_CEREAL.setDuckManager(duckManager);
         FROZEN_CATAPULT.setDuckManager(duckManager);
+        CHEERIO_PITCHER.setDuckManager(duckManager);
 
         PEA_POD.setDuckManager(duckManager);
         Cow[] peas = { CHEERIO_CATAPULT.clone(), CHEERIO_CATAPULT.clone(), CHEERIO_CATAPULT.clone() };
