@@ -108,10 +108,13 @@ public class Duck extends Entity implements Drawable, Updatable {
                 this.target = (Cow) this.ai.findTarget(this.lawn.getCowsInLane(this.laneIndex), this);
             }
 
-            // Start attack animation.
             if (this.target != null) {
+                // Start attack animation.
                 this.setState(State.ATTACK);
                 this.attack();
+            } else {
+                // No target, start walking since attack animation ended.
+                this.setState(State.WALK);
             }
         }
 
