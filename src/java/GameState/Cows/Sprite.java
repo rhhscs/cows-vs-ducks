@@ -5,12 +5,12 @@ public class Sprite {
     private final static int defaultSpriteTileSize = 256;
     public final static Sprite NULL = new Sprite(null, 0, 0, 0, 3);
     // cows
-    public final static Sprite CATAPULT =  new Sprite("cow_catapult",  9,  0, 0, 3);
-    public final static Sprite BODYGUARD = new Sprite("cereal_box"  ,  0, 12, 0, 4);
-    public final static Sprite WHEAT = NULL;
+    public final static Sprite CATAPULT =  new Sprite("cow/cow_catapult",  9,  0, 0, 3);
+    public final static Sprite BODYGUARD = new Sprite("cow/cereal_box"  ,  0, 12, 0, 4);
+    public final static Sprite WHEAT = new Sprite("cow/crop_wheat"  ,  0, 0, 0, 4);
     public final static Sprite SPIKES =    new Sprite(null          ,  5,  0, 0, 3);
-    public final static Sprite FRIDGE =    new Sprite("cold_fridge" , 16,  0, 0, 3);
-    public final static Sprite KABOOM =    new Sprite("cow_kaboom" , 724, 724, 20,  0, 0, 3);
+    public final static Sprite FRIDGE =    new Sprite("cow/cold_fridge" , 16,  0, 0, 3);
+    public final static Sprite KABOOM =    new Sprite("cow/cow_kaboom" , 724, 724, 20,  0, 0, 3);
 
 
     public String filepath;

@@ -29,9 +29,10 @@ public class StateMachine {
     }
 
     public void draw(Graphics g){
-        Iterator<State> stateIterator = active.iterator();
-        while (stateIterator.hasNext()){
-            stateIterator.next().draw(g);
+        State[] temp = new State[active.size()];
+        active.copyInto(temp);
+        for (State state: temp){
+            state.draw(g);
         }
     }
 

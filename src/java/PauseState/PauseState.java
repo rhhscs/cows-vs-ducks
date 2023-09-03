@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import src.java.State;
 import src.java.Components.Button;
 import src.java.GameState.GameState;
+import src.java.LoadingState.LoadingState;
 import src.java.Utilities.ResolutionManager;
 
 public class PauseState extends State{
@@ -15,7 +16,7 @@ public class PauseState extends State{
     @Override
     public void start() {
         resumeButton.setOnClickFunction(()->{popState = true;});
-        restartButton.setOnClickFunction(()->{resetStates = new GameState();});
+        restartButton.setOnClickFunction(()->{resetStates = new LoadingState();});
         endGameButton.setOnClickFunction(()->{nextState = null /* TODO: new game over state here */;});
     }
 
