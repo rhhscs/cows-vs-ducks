@@ -32,14 +32,14 @@ club fair project!
 - plants stored in grid
 
 ## cows
-1. cheerio catapult (cabbage pult)
+1. cowapult (cabbage pult)
 2. cereal launcher (cob cannon)
-3. wheat crops (sunflower)
+3. wheat crop (sunflower)
 4. cereal box shield (walnut)
 5. cheerio baseball pitcher (laser beam)
 6. cow-cereal mouse trap (chomper)
-7. exploding cereal box (cherry bomb)
-8. cow with cereal (pea pod)
+7. cereal bomb (cherry bomb)
+8. stacked cow (pea pod)
 9. frozen cereal (snow pea)
 10. crushed cereal (spike weed)
  
