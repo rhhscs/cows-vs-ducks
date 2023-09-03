@@ -37,6 +37,7 @@ public class DocumentManager implements Drawable{
         applicants.add(new Document(Cow.CEREAL_BOMB));
         applicants.add(new Document(Cow.CRUSHED_CEREAL));
         applicants.add(new Document(Cow.CEREAL_BOX));
+        applicants.add(new Document(Cow.FROZEN_CATAPULT));
     }
 
     public void addApplicant(Cow applicant){
