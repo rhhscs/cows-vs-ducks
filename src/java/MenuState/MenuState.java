@@ -5,10 +5,11 @@ import src.java.State;
 import src.java.Components.Button;
 import src.java.GameState.GameState;
 import src.java.Utilities.ResolutionManager;
+import src.java.Utilities.Score;
 import src.java.Utilities.ScoreManager;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MenuState extends State{
     // Buttons
@@ -38,9 +39,10 @@ public class MenuState extends State{
         bookButton.draw(g);
         if(showScores){
             g.fillRect(Consts.SCORES_X, Consts.SCORES_Y, Consts.SCORES_WIDTH, Consts.SCORES_HEIGHT);
-            for(int i = 0; i < scoreManager.getScores().size() || i < 5; i++){
+            List<Score> topScores = scoreManager.getTopScores(5);
+            for(int i = 0; i < topScores.size(); i++){
                 // Fix this part later. I dont like that i have to call getScores() a lot. If you guys are ok with importing Score.java into this file that would be nice.
-                g.drawString(scoreManager.getScores().get(i).getName() + ": " + scoreManager.getScores().get(i).getScore(), Consts.SCORES_X + 100, Consts.SCORES_Y + 100 + (75*i));
+                g.drawString(topScores.get(i).getName() + ": " + topScores.get(i).getScore(), Consts.SCORES_X + 100, Consts.SCORES_Y + 100 + (75*i));
             }
         }
     }
