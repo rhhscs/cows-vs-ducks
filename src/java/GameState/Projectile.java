@@ -55,8 +55,8 @@ public class Projectile extends Entity implements Drawable, Updatable {
     @Override
     public void draw(Graphics g) {
         if (this.filePath == null) {
-            g.setColor(Color.BLACK);
-            g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            g.setColor(Color.MAGENTA);
+            g.drawOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
     }
 

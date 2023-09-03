@@ -18,47 +18,39 @@ club fair project!
     - projectile
   - sprites
 
-## notes
-- 10 pre-unlocked cows
-- 5 by 7/8
-- conveyor belt
-- land deed for wheat crops
-- documents for hiring cows
+## todo
 - big waves with some in between
 - score for killing ducks
 - ducks fly away when dead
 - "file for bankruptcy" is how cows lose
-- zombies stored by coordinate
-- plants stored in grid
 
 ## cows
-1. cowapult (cabbage pult)
-2. cereal launcher (cob cannon)
-3. wheat crop (sunflower)
-4. cereal box shield (walnut)
-5. cheerio baseball pitcher (laser beam)
-6. cow-cereal mouse trap (chomper)
-7. cereal bomb (cherry bomb)
-8. stacked cow (pea pod)
-9. frozen cereal (snow pea)
-10. crushed cereal (spike weed)
+[x] cowapult (cabbage pult)
+[ ] cheerio cannon (cob cannon)
+[x] wheat crop (sunflower)
+[x] cereal box (walnut)
+[ ] cheerio baseball pitcher (laser beam)
+[ ] cow-cereal mouse trap (chomper)
+[x] cereal bomb (cherry bomb)
+[ ] stacked cow (pea pod)
+[ ] frozen cereal (snow pea)
+[x] crushed cereal (spike weed)
  
 ## ducks
-1. basic duck (basic zombie)
-2. duck with knife (more damage)
-3. mother duck (camel zombie/zombie with chickens)
-4. duck with bread (bucket head)
-5. buff duck (gargantuar)
-6. flying duck (balloon zombie)
-7. hip hop duck (buffs zombie speed/damage)
-8. basic duck w cereal
-9. rubber duck (can't be hit by catapult, cow with cereal)
-10. duck with suit (newspaper guy)
+[ ] basic duck (basic zombie)
+[ ] duck with knife (more damage)
+[ ] mother duck (camel zombie/zombie with chickens)
+[ ] duck with bread (bucket head)
+[ ] buff duck (gargantuar)
+[ ] flying duck (balloon zombie)
+[ ] hip hop duck (buffs zombie speed/damage)
+[ ] basic duck w cereal
+[ ] rubber duck (can't be hit by catapult, cow with cereal)
+[ ] duck with suit (newspaper guy)
 
 ## screens
-- main menu
-- pause
-- in game
-- encyclopedia
-- game over
-- scores
+[x] main menu
+[x] pause
+[x] in game
+[ ] game over
+[x] scores

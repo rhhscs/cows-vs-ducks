@@ -65,9 +65,14 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow WHEAT_CROP = new WheatCrop(100, 100, 50);
 
-    public static final Cow CHERRY_BOMB = new CherryBomb(200, 180,
+    public static final Cow CEREAL_BOMB = new CherryBomb(200, 180,
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
                     PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 30, null));
+
+    public static final Cow CRUSHED_CEREAL = new Cow(100, 40, 0, 5, false, 100, Sprites.CRUSHED_CEREAL,
+            Sprites.Frames.CRUSHED_CEREAL, 1,
+            new Projectile(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 0, 18, 0, false, 0, true, 20, null),
+            AI.MELEE_COW_AI);
 
     /**
      * This constructs a single-tile cow.
@@ -118,7 +123,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         super(0, 0, width, height);
 
         this.attackSpeed = attackSpeed;
-        this.attackTimer = 0;
+        this.attackTimer = attackSpeed - timeUntilFirstAttack;
         this.timeUntilFirstAttack = timeUntilFirstAttack;
         this.attackDelay = attackDelay;
         this.attackAnimationDuration = attackFrames * ticksPerFrame;
@@ -187,7 +192,8 @@ public class Cow extends Entity implements Drawable, Updatable {
     public static void setStaticDuckManager(DuckManager duckManager) {
         CHEERIO_CATAPULT.setDuckManager(duckManager);
         WHEAT_CROP.setDuckManager(duckManager);
-        CHERRY_BOMB.setDuckManager(duckManager);
+        CEREAL_BOMB.setDuckManager(duckManager);
+        CRUSHED_CEREAL.setDuckManager(duckManager);
     }
 
     @Override
