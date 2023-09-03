@@ -3,6 +3,7 @@ package src.java.Utilities;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class manages scores.
@@ -82,10 +83,10 @@ public class ScoreManager implements Iterable<Score> {
      * @param numScores The number of scores to get.
      * @return An arraylist of scores, capped at the number of scores in the file.
      */
-    public ArrayList<Score> getTopScores(int numScores) {
+    public List<Score> getTopScores(int numScores) {
         this.scores.sort(Score.SCORE_COMPARATOR);
         int toIndex = Math.min(numScores, this.scores.size());
-        return (ArrayList<Score>) this.scores.subList(0, toIndex);
+        return this.scores.subList(0, toIndex);
     }
 
     @Override

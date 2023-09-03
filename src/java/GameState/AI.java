@@ -3,7 +3,6 @@ package src.java.GameState;
 import java.util.ArrayList;
 
 import src.java.GameState.Cows.Cow;
-import src.java.GameState.PlayingField.Tile;
 
 /**
  * This represents an interface that determines what this entity should attack next.
@@ -96,7 +95,7 @@ public interface AI {
         public Entity findTarget(ArrayList<Entity> cows, Entity duck) {
             for (Entity entity: cows) {
                 Cow cow = (Cow) entity;
-                    if (duck.collides(cow)) {
+                    if (cow.isTargetable() && duck.collides(cow)) {
                         return cow;
                     }
             }
