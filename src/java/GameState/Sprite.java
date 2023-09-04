@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.awt.color.ColorSpace;
+import java.awt.image.ColorConvertOp;
+import java.awt.image.RescaleOp;
 
 import javax.imageio.ImageIO;
 
@@ -170,6 +173,15 @@ public class Sprite implements Updatable {
         this.curCycle.draw(g, x, y, width, height);
         this.update();
     }
+    
+    public void draw(Graphics g, int x, int y, int width, int height, boolean wasHit){
+        if(wasHit){
+            this.curCycle.draw(g, x, y, width, height, wasHit);
+            this.update();
+        }else{
+            draw(g, x, y, width, height);
+        }
+    }
 
     public final AnimationCycle NULL_CYCLE = new AnimationCycle();
 
@@ -240,8 +252,17 @@ public class Sprite implements Updatable {
             if (this.numFrames == 0)
                 return;
 
-            g.drawImage(this.frames[(curFrame / getTicksPerFrame()) % this.numFrames], x, y, width, height,
-                    null);
+            g.drawImage(this.frames[(curFrame / getTicksPerFrame()) % this.numFrames], x, y, width, height, null);
+        }
+
+        public void draw(Graphics g, int x, int y, int width, int height, boolean hit){
+            if(hit){
+                RescaleOp rescaleOp = new RescaleOp(1.5f, 30, null);
+                BufferedImage drw = rescaleOp.filter((BufferedImage)this.frames[(curFrame / getTicksPerFrame()) % this.numFrames], null);
+                g.drawImage(drw, x, y, width, height, null);
+            }else{
+                draw(g, x, y, width, height);
+            }
         }
     }
 

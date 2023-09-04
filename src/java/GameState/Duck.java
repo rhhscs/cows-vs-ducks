@@ -40,6 +40,7 @@ public class Duck extends Entity implements Drawable, Updatable {
 
     private int health;
     private State state;
+    private int wasHit;
 
     private PlayingField lawn;
     private int laneIndex;
@@ -103,7 +104,10 @@ public class Duck extends Entity implements Drawable, Updatable {
 
             g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         } else {
-            this.sprite.draw(g, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            this.sprite.draw(g, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.wasHit > 0);
+            if(this.wasHit > 0){
+                this.wasHit --;
+            }
         }
     }
 
@@ -218,6 +222,7 @@ public class Duck extends Entity implements Drawable, Updatable {
      */
     public void takeDamage(int damage) {
         this.health -= damage;
+        this.wasHit = 15;
     }
 
     /**
