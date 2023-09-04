@@ -189,7 +189,9 @@ public class DocumentManager implements Drawable{
             if (stage < applicantTypes-1) {
                 nextStageTimer--;
                 if (nextStageTimer <= 0){
+                    nextStageTimer = nextStageDelays[stage];
                     stage++;
+                      
                 }
             }
 
