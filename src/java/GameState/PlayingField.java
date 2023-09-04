@@ -24,11 +24,11 @@ import src.java.GameState.Cows.StackableCow;
  */
 public class PlayingField extends Entity implements Drawable, Updatable {
     private Image sprite;
-    public static final int X = 450;
+    public static final int X = 350; // 450 
     public static final int Y = 140;
 
     public static final int NUM_LANES = 5;
-    public static final int NUM_COLUMNS = 7;
+    public static final int NUM_COLUMNS = 8; / 7
 
     public static final int WIDTH = NUM_COLUMNS * Tile.SIZE;
     public static final int HEIGHT = NUM_LANES * Tile.SIZE;
