@@ -98,7 +98,6 @@ public class Duck extends Entity implements Drawable, Updatable {
         this.moveSpeed.update();
         this.damage.update();
         this.attackSpeed.update();
-        this.sprite.update();
 
         if (this.state == State.WALK) {
             this.move(-this.moveSpeed.getValue(), 0);

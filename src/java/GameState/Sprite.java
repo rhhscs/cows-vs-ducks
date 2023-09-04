@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import src.java.Updatable;
 import src.java.GameState.Cows.CerealBox;
+import src.java.GameState.Cows.WheatCrop;
 
 public class Sprite implements Updatable {
     protected final static String SOURCE = "src/img/sprite/";
@@ -21,8 +22,8 @@ public class Sprite implements Updatable {
     // cows
     public final static CowSprite CATAPULT = new CowSprite("cow/cow_catapult/", 9, 1, 3);
     public final static CowSprite BODYGUARD = new CowSprite(4);
-    public final static CowSprite WHEAT = new CowSprite("cow/crop_wheat/", 0, 3, 250);
-    public final static CowSprite SPIKES = new CowSprite("cow/crushed_chunks/", 1, 1, 3);
+    public final static CowSprite WHEAT = new CowSprite(250);
+    public final static CowSprite SPIKES = new CowSprite("cow/crushed_chunks/", 1, 1, 10);
     public final static CowSprite FRIDGE = new CowSprite("cow/cold_fridge/", 16, 1, 3);
     public final static CowSprite KABOOM = new CowSprite("cow/cow_kaboom/", 724, 724, 20, 1, 3);
     public final static CowSprite STACK_COW = new CowSprite(3);
@@ -31,21 +32,35 @@ public class Sprite implements Updatable {
     public final static DuckSprite BASIC_DUCK = new DuckSprite("duck/", 6, 1, 6, 3);
 
     public static void init() {
-        String bodyguardFolder = "cow/cereal_box/";
+        String folder = "cow/cereal_box/";
 
         try {
             BufferedImage idleCycleSheet = ImageIO
-                    .read(new File(SOURCE + bodyguardFolder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
+                    .read(new File(SOURCE + folder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
             for (int i = 0; i < CerealBox.stagesOfOuch; i++) {
                 BufferedImage tempSpriteSheet = idleCycleSheet.getSubimage(0, DEFAULT_SPRITE_TILE_SIZE * i, idleCycleSheet.getWidth(), DEFAULT_SPRITE_TILE_SIZE);
                 BODYGUARD.setCycle(CowSprite.IDLE_CYCLE + i, tempSpriteSheet, 4);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Sprite could not load: " + bodyguardFolder);
+            System.err.println("Sprite could not load: " + folder);
         }
-        
-        BODYGUARD.setThumbnail(CowSprite.FILE_THUMBNAIL, bodyguardFolder + CowSprite.FILE_THUMBNAIL + CowSprite.EXTENSION);
+        BODYGUARD.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + CowSprite.EXTENSION);
+
+
+        folder = "cow/crop_wheat/";
+        try {
+            BufferedImage idleCycleSheet = ImageIO
+                    .read(new File(SOURCE + folder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
+            for (int i = 0; i < WheatCrop.numWheatStages; i++) {
+                BufferedImage tempSpriteSheet = idleCycleSheet.getSubimage(DEFAULT_SPRITE_TILE_SIZE * i, 0, DEFAULT_SPRITE_TILE_SIZE, idleCycleSheet.getHeight());
+                WHEAT.setCycle(CowSprite.IDLE_CYCLE + i, tempSpriteSheet, 1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Sprite could not load: " + folder);
+        }
+        WHEAT.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + CowSprite.EXTENSION);
     }
     
     private int ticksPerFrame;
@@ -93,6 +108,8 @@ public class Sprite implements Updatable {
     }
 
     public int getCycleTicks(String name) {
+        if (!this.cycles.containsKey(name)) return 0;
+
         return this.getTicksPerFrame() * this.cycles.get(name).getNumFrames();
     }
 
@@ -128,11 +145,19 @@ public class Sprite implements Updatable {
         if (tempCycle == null) {
             tempCycle = NULL_CYCLE;
         }
+
+        if (tempCycle != this.curCycle) {
+            this.reset();
+        }
         this.curCycle = tempCycle;
     }
 
     public int getTicksPerFrame() {
         return this.ticksPerFrame;
+    }
+
+    public void reset() {
+        this.curFrame = 0;
     }
 
     @Override
@@ -142,6 +167,7 @@ public class Sprite implements Updatable {
 
     public void draw(Graphics g, int x, int y, int width, int height) {
         this.curCycle.draw(g, x, y, width, height);
+        this.update();
     }
 
     public final AnimationCycle NULL_CYCLE = new AnimationCycle();

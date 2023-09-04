@@ -4,16 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import src.java.GameState.AI;
 import src.java.GameState.CheerioManager;
+import src.java.GameState.CowSprite;
 import src.java.GameState.Projectile;
 import src.java.GameState.Sprite;
 import src.java.GameState.PlayingField.Tile;
 import src.java.Utilities.Input;
 
 public class WheatCrop extends Cow {
-    
     private int wheatStage = 0;
-    private int[] wheatPerStage = {0, 25, 100, 200};
-    private int wheatTimer = 0;
+    private static final int[] wheatPerStage = {0, 25, 100, 200};
+    public static final int numWheatStages = 3;
+        private int wheatTimer = 0;
 
     /**
      * This creates a new wheat crop object.
@@ -28,8 +29,6 @@ public class WheatCrop extends Cow {
             250, 250, 0,
             true, cost,
             Sprite.WHEAT.clone(), Projectile.NULL, AI.WHEAT_CROP_COW_AI);
-        //this.wheatSprite = null;
-        //this.wheatSpriteFilePath = wheatSpriteFilePath;
     }
 
     /**
@@ -51,7 +50,7 @@ public class WheatCrop extends Cow {
     
     
     public int collectWheat() {
-        int wheatCollected = this.wheatPerStage[wheatStage];
+        int wheatCollected = wheatPerStage[wheatStage];
         this.wheatStage = 0;
         return wheatCollected;
     }
@@ -79,17 +78,17 @@ public class WheatCrop extends Cow {
         if (input.mouseClicked() && this.containsPoint(input.mouseX(), input.mouseY())) {
             CheerioManager.getGlobalCheerios().addCheerios(collectWheat());
         }
+        this.getSprite().useCycle(CowSprite.IDLE_CYCLE + this.wheatStage);
+    }
+
+    @Override
+    public void onAttackEnd() {
+        this.setState(State.IDLE);
     }
 
     @Override
     public void draw(Graphics g) {
-        // if (this.wheatStage != 2) {
-        //     this.getSprite().update();
-        // }
-        // this.getSprite().draw(g, this.getX(), this.getY() - 15, this.getWidth(), this.getHeight());
         super.draw(g);
-        drawScuffed(g);
-        
     }
 
     @Override
