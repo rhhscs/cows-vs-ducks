@@ -21,10 +21,10 @@ public class Duck extends Entity implements Drawable, Updatable {
 
     public static final Duck NULL_DUCK = new Duck(0, 0, 0, 0, 0, null, 0, null, Sprite.BASIC_DUCK);
     public static final Duck BASIC_DUCK = new Duck(1, 10, 10, 50, 100, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
-    public static final Duck DUCK_WITH_BREAD = new Duck(1, 10, 10, 60, 150, null, 0, AI.MELEE_DUCK_AI, Sprite.BREAD_DUCK);
-    public static final Duck DUCK_WITH_KNIFE = new Duck(1, 20, 10, 40, 75, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
-    public static final Duck DUCK_WITH_CEREAL = new Duck(1, 10, 10, 60, 250, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
-    public static final Duck GARGANTUAR_DUCK = new Duck(1, 100, 20, 120, 500, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck DUCK_WITH_BREAD = new Duck(1, 10, 10, 60, 200, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck DUCK_WITH_KNIFE = new Duck(1, 20, 10, 40, 125, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck DUCK_WITH_CEREAL = new Duck(1, 10, 10, 60, 300, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck GARGANTUAR_DUCK = new Duck(1, 100, 20, 120, 600, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
 
 
     private Stat moveSpeed;
