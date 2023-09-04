@@ -33,7 +33,7 @@ public class WaveManager implements Drawable, Updatable{
     private final Duck[] ducks = {Duck.BASIC_DUCK, Duck.RIVER_DUCK, Duck.DUCK_WITH_BREAD, Duck.DUCK_WITH_KNIFE, Duck.RUBBER_DUCK, Duck.GARGANTUAR_DUCK};
     private final int[][] spawnWeights = {
         {100, 0, 0, 0, 0, 0},
-        {70, 30, 0, 0, 0, 0},
+        {20, 80, 0, 0, 0, 0},
         {30, 30, 20, 20, 0, 0},
         {25, 25, 25, 20, 5, 0},
         {20, 20, 25, 20, 5, 5}
@@ -55,6 +55,7 @@ public class WaveManager implements Drawable, Updatable{
 
     public Duck generateDuck(){
         int rng = (int)(Math.random() * 100) + 1;
+        System.out.println(rng);
         int startWeight = 0;
         for(int i=0; i<this.ducks.length; i++){
             int currentWeight = this.spawnWeights[Math.min(this.ducks.length-1, this.currentLevel-1)][i];
@@ -85,11 +86,6 @@ public class WaveManager implements Drawable, Updatable{
             this.duckCount = 0;
             if(this.currentWave <= this.waveCount){
                 this.waveAnnouncement = 100;
-            }
-
-            // preset duck spawns
-            if (currentWave == 1){
-                this.duckManager.addDuck((int) (Math.random() * 5), ducks[1]);
             }
         }
 
