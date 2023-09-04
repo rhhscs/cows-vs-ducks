@@ -6,7 +6,6 @@ club fair project!
   - test overlayed menu
 - game
   - cow
-  - lawnmowers
   - duck manager
     - 10 ducks
   - UI
@@ -30,7 +29,7 @@ club fair project!
 [x] basic duck (basic zombie)
 [x] duck with knife (more damage)
 [x] duck with bread (cone head)
-[ ] river duck (bucket head)
+[x] river duck (bucket head)
 [ ] mother duck (camel zombie OR zombie with chickens)
 [x] buff duck (gargantuar)
 [ ] flying duck (balloon zombie)

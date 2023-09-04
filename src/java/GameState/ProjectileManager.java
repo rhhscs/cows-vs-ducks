@@ -21,7 +21,8 @@ public class ProjectileManager implements Drawable, Updatable {
     }
 
     public void addProjectile(Projectile projectile) {
-        this.projectiles.add(projectile);
+        if (projectile != null && projectile != Projectile.NULL) 
+            this.projectiles.add(projectile);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ProjectileManager implements Drawable, Updatable {
                     }
                 }
             }
-            if (used) {
+            if (used && !(projectile instanceof LawnmowerProjectile)) {
                 projectile.setActive(false);
             }
         }

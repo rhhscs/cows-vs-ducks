@@ -6,14 +6,18 @@ import src.java.Drawable;
 import src.java.Updatable;
 
 public class DuckManager implements Updatable, Drawable {
-    
+    private boolean reachedEnd;
     private ArrayList<Lane> lanes;
+    private Entity endZone;
 
     /**
      * This constructs a new duck manager object.
      */
     public DuckManager() {
         this.lanes = new ArrayList<Lane>();
+        this.reachedEnd = false;
+
+        this.endZone = new Entity(PlayingField.X - 60, PlayingField.Y, 30, PlayingField.HEIGHT);
 
         for (int i = 0; i < PlayingField.NUM_LANES; i++) {
             this.lanes.add(new Lane(i));
@@ -56,6 +60,16 @@ public class DuckManager implements Updatable, Drawable {
         for (Lane lane : this.lanes) {
             lane.update();
         }
+
+        for (Lane lane: this.lanes) {
+            for (Duck duck: lane) {
+                if (this.endZone.collides(duck)) {
+                    this.reachedEnd = true;
+                    break;
+                }
+            }
+            if (this.reachedEnd) break;
+        }
     }
 
     @Override
@@ -63,5 +77,9 @@ public class DuckManager implements Updatable, Drawable {
         for (Lane lane : this.lanes) {
             lane.draw(g);
         }
+    }
+
+    public boolean isGameOver() {
+        return this.reachedEnd;
     }
 }
