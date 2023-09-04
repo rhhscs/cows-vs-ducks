@@ -86,11 +86,6 @@ public class WaveManager implements Drawable, Updatable{
             if(this.currentWave <= this.waveCount){
                 this.waveAnnouncement = 100;
             }
-
-            // preset duck spawns
-            if (currentWave == 1){
-                this.duckManager.addDuck((int) (Math.random() * 5), ducks[1]);
-            }
         }
 
         // spawn the ducks from the wave
