@@ -1,9 +1,14 @@
 package src.java.GameState;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
 import java.awt.Color;
 
 import src.java.Drawable;
@@ -18,6 +23,7 @@ import src.java.GameState.Cows.StackableCow;
  * @see DuckManager
  */
 public class PlayingField extends Entity implements Drawable, Updatable {
+    private Image sprite;
     public static final int X = 450;
     public static final int Y = 140;
 
@@ -41,9 +47,13 @@ public class PlayingField extends Entity implements Drawable, Updatable {
                 int tileX = this.getX() + Tile.SIZE * cellX;
                 int tileY = this.getY() + Tile.SIZE * cellY;
 
-                this.grid[cellX][cellY] = new Tile(tileX, tileY);
+                this.grid[cellX][cellY] = new Tile(tileX, tileY, (cellY+cellX)%2 == 0);
             }
         }
+
+        try {
+            sprite = ImageIO.read(new File("src/img/sprite/border_tile.png"));
+        } catch (Exception e) {}
     }
 
     /**
@@ -139,6 +149,9 @@ public class PlayingField extends Entity implements Drawable, Updatable {
                 this.grid[x][y].drawCow(g);
             }
         }
+        if (sprite != null){
+            g.drawImage(sprite, X-13, Y-13, this.getWidth()*Tile.SIZE+26, this.getHeight()*Tile.SIZE+26, null);
+        }
     }
 
     /**
@@ -231,7 +244,8 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
         private Cow cow;
         private boolean hovered;
-        private BufferedImage sprite;
+        private boolean dark;
+        private Image sprite;
 
         /**
          * This creates a new Tile object without a sprite.
@@ -253,11 +267,19 @@ public class PlayingField extends Entity implements Drawable, Updatable {
          * @param y              The top-right y coordinate.
          * @param spriteFilePath The file path of the sprite.
          */
-        public Tile(int x, int y, String spriteFilePath) {
+        public Tile(int x, int y, boolean dark) {
             super(x, y, Tile.SIZE, Tile.SIZE);
             this.cow = null;
             this.hovered = false;
-            this.sprite = null; // TODO create sprites
+            this.dark = dark;
+            try {
+                if (dark) {
+                    sprite = ImageIO.read(new File("src/img/sprite/dark_tile.png"));
+                } else {
+                    sprite = ImageIO.read(new File("src/img/sprite/light_tile.png"));
+                }
+            } catch (Exception e){this.sprite = null; }
+            // TODO create sprites
         }
 
         /**
@@ -345,6 +367,8 @@ public class PlayingField extends Entity implements Drawable, Updatable {
                 g.fillRect(this.getX(), this.getY(), Tile.SIZE, Tile.SIZE);
                 g.setColor(new Color(80, 145, 70));
                 g.fillRect(this.getX() + 5, this.getY() + 5, Tile.SIZE - 10, Tile.SIZE - 10);
+            } else {
+                g.drawImage(this.sprite, this.getX(), this.getY()-7, Tile.SIZE, Tile.SIZE + 7, null);
             }
         }
         public void drawCow(Graphics g){

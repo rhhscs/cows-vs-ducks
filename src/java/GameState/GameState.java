@@ -4,7 +4,9 @@ import src.java.State;
 import src.java.GameState.Cows.Cow;
 import src.java.PauseState.PauseState;
 import src.java.Utilities.Input;
+import src.java.Utilities.ResolutionManager;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import java.awt.event.KeyEvent;
@@ -53,8 +55,11 @@ public class GameState extends State {
         }
     }
 
+    private Color bgColor = new Color(178, 243, 190);
     @Override
     public void draw(Graphics g) {
+        g.setColor(bgColor);
+        g.fillRect(0, 0, ResolutionManager.WIDTH, ResolutionManager.HEIGHT);
         this.lawn.draw(g);
         this.ducks.draw(g);
         this.waveManager.draw(g);
