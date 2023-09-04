@@ -52,6 +52,7 @@ public class WheatCrop extends Cow {
     public int collectWheat() {
         int wheatCollected = wheatPerStage[wheatStage];
         this.wheatStage = 0;
+        if (wheatCollected != 0) wheatTimer = 0;
         return wheatCollected;
     }
 
