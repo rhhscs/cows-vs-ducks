@@ -14,14 +14,11 @@ public class CsvScoreFile implements ScoreFile {
         File scoreFile = new File(manager.getFilePath());
         Scanner reader = new Scanner(scoreFile);
 
-        reader.nextLine();
-
         while (reader.hasNextLine()) {
             String line = reader.nextLine();
             String[] parts = line.split(",");
             String name = parts[0];
             int score = Integer.parseInt(parts[1]);
-            
             manager.add(name, score);
         }
 

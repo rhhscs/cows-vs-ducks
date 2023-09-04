@@ -1,4 +1,6 @@
 package src.java;
+import java.awt.Color;
+import java.awt.Font;
 
 public final class Consts {
     public static final long FPS = 50;
@@ -7,6 +9,9 @@ public final class Consts {
     public static final int SCORES_Y = 100;
     public static final int SCORES_WIDTH = 600;
     public static final int SCORES_HEIGHT = 800;
+    public static final Color SCORES_COLOR = new Color(127, 127, 127);
+    public static final Font TITLE_FONT = Font.decode(Font.SANS_SERIF).deriveFont(40, 50);
+    public static final Font SCORES_FONT = Font.decode(Font.SANS_SERIF).deriveFont(40, 30);
     
     /**
      * This gets the time a number of frames appears.
