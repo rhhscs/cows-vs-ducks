@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import src.java.Drawable;
 import src.java.GameState.Cows.Cow;
+import src.java.GameState.Cows.StackableCow;
 import src.java.Utilities.Input;
 import src.java.Utilities.ResolutionManager;
 
@@ -65,10 +66,13 @@ public class DocumentManager implements Drawable{
                         focusedIndex = -1;
                     } else {
                         if (applicant.getSalary() <= cheerioManager.getCheerios()){
-                            field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
-                            removeIndex = i;
-                            focusedIndex = -1;
-                            cheerioManager.spendCheerios(applicant.getSalary());
+                            if(!(field.getTileAt(input.mouseX(), input.mouseY()).getCow() instanceof StackableCow &&
+                            !(applicant.hire() instanceof StackableCow))){
+                                field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
+                                removeIndex = i;
+                                focusedIndex = -1;
+                                cheerioManager.spendCheerios(applicant.getSalary());
+                            }
                         }
                     }
                 }
@@ -85,10 +89,13 @@ public class DocumentManager implements Drawable{
                     dragged = false;
                     if (!field.isOccupied(input.mouseX(), input.mouseY())) {
                         if (applicant.getSalary() <= cheerioManager.getCheerios()){
-                            field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
-                            removeIndex = i;
-                            focusedIndex = -1;
-                            cheerioManager.spendCheerios(applicant.getSalary());
+                            if(!(field.getTileAt(input.mouseX(), input.mouseY()).getCow() instanceof StackableCow &&
+                            !(applicant.hire() instanceof StackableCow))){
+                                field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
+                                removeIndex = i;
+                                focusedIndex = -1;
+                                cheerioManager.spendCheerios(applicant.getSalary());
+                            }
                         }
                     } else if (trashCan.containsPoint(input.mouseX(), input.mouseY())){
                         removeIndex = i;
