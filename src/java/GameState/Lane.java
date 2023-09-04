@@ -46,7 +46,8 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
 
     @Override
     public void draw(Graphics g) {
-        this.mower.draw(g);
+        if (!this.mower.isTriggered()) 
+            this.mower.draw(g);
         
         for (Duck duck : this.ducks) {
             duck.draw(g);

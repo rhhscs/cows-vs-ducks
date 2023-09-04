@@ -16,7 +16,7 @@ public class Lawnmower extends Entity implements Drawable {
         this.laneIndex = laneIndex;
         this.triggered = false;
         this.sprite = Sprite.NULL;
-        this.projectile = new LawnmowerProjectile(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        this.projectile = new PiercingProjectile(this.getX(), this.getY(), this.getWidth(), this.getHeight(), 5, 10000, 1000, Sprite.NULL);
     }
 
     @Override
@@ -34,6 +34,10 @@ public class Lawnmower extends Entity implements Drawable {
         }
 
         return Projectile.NULL;
+    }
+
+    public boolean isTriggered() {
+        return this.triggered;
     }
 
     public int getLaneIndex() {

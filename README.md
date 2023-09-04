@@ -10,7 +10,6 @@ club fair project!
     - 10 ducks
   - UI
 - score for killing ducks
-- ducks fly away when dead (or just disappear that's fine)
 - "file for bankruptcy" is how cows lose
 
 ## cows
@@ -30,7 +29,7 @@ club fair project!
 [x] duck with knife (more damage)
 [x] duck with bread (cone head)
 [x] river duck (bucket head)
-[ ] mother duck (camel zombie OR zombie with chickens)
+[ ] mother duck (mother duck slightly stronger)
 [x] buff duck (gargantuar)
 [ ] flying duck (balloon zombie)
 [ ] hip hop duck (buffs zombie speed/damage)

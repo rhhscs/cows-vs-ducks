@@ -55,7 +55,7 @@ public class ProjectileManager implements Drawable, Updatable {
                     }
                 }
             }
-            if (used && !(projectile instanceof LawnmowerProjectile)) {
+            if (used && !(projectile instanceof PiercingProjectile)) {
                 projectile.setActive(false);
             }
         }

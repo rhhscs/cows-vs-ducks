@@ -18,9 +18,9 @@ public class Projectile extends Entity implements Drawable, Updatable {
     private int slowEffect;
     private boolean active;
     private int duration;
-    private String filePath;
+    private Sprite sprite;
 
-    public static final Projectile NULL = new Projectile(0, 0, 0, 0, 0, 0, 0, true, 0, false, 0, null);
+    public static final Projectile NULL = new Projectile(0, 0, 0, 0, 0, 0, 0, true, 0, false, 0, Sprite.NULL);
     
     /**
      * This creates a new Projectile object
@@ -36,10 +36,10 @@ public class Projectile extends Entity implements Drawable, Updatable {
      * @param slowEffect   The slow amount
      * @param active       If the projectile is active
      * @param duration     The duration of the projectile
-     * @param filePath     File path to the sprite
+     * @param sprite The sprite.
      */
     public Projectile(int x, int y, int width, int height, int speed, int damage, int slowTime, boolean singleTarget,
-            int slowEffect, boolean active, int duration, String filePath) {
+            int slowEffect, boolean active, int duration, Sprite sprite) {
         super(x, y, width, height);
 
         this.speed = speed;
@@ -49,14 +49,17 @@ public class Projectile extends Entity implements Drawable, Updatable {
         this.slowEffect = slowEffect;
         this.active = active;
         this.duration = duration;
-        this.filePath = filePath;
+        this.sprite = sprite.clone();
+        this.sprite.useCycle("projectile");
     }
 
     @Override
     public void draw(Graphics g) {
-        if (this.filePath == null) {
+        if (this.sprite == null || this.sprite instanceof NullSprite) {
             g.setColor(Color.MAGENTA);
             g.drawOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        } else {
+            this.sprite.draw(g, this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
     }
 
@@ -90,6 +93,14 @@ public class Projectile extends Entity implements Drawable, Updatable {
         return this.duration;
     }
 
+    public int getSpeed() {
+        return this.speed;
+    }
+
+    public Sprite getSprite() {
+        return this.sprite;
+    }
+
     public void setDuration(int duration) {
         this.duration = duration;
     }
@@ -101,7 +112,7 @@ public class Projectile extends Entity implements Drawable, Updatable {
     @Override
     public Projectile clone() {
         return new Projectile(this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.speed, this.damage,
-                this.slowTime, this.singleTarget, this.slowEffect, this.active, this.duration, this.filePath);
+                this.slowTime, this.singleTarget, this.slowEffect, this.active, this.duration, this.sprite);
     }
 
 }

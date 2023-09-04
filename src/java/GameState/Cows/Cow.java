@@ -7,6 +7,7 @@ import src.java.GameState.CowSprite;
 import src.java.GameState.Duck;
 import src.java.GameState.DuckManager;
 import src.java.GameState.Entity;
+import src.java.GameState.PiercingProjectile;
 import src.java.GameState.PlayingField;
 import src.java.GameState.ProjectileManager;
 import src.java.GameState.Sprite;
@@ -46,7 +47,7 @@ public class Cow extends Entity implements Drawable, Updatable {
             70, 20, 12,
             true, 200,
             Sprite.CATAPULT,
-            new Projectile(20, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
+            new Projectile(20, 20, 50, 50, 14, 18, 0, true, 0, true, 10000, Sprite.CHEERIO), AI.SHOOTER_COW_AI);
 
     public static final Cow CEREAL_BOX = new CerealBox(450, 200); // make sure HP is divisible by 3
 
@@ -54,22 +55,22 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow CEREAL_BOMB = new CherryBomb(500,
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
-                    PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 2, null));
+                    PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 2, Sprite.NULL));
 
     public static final Cow CRUSHED_CEREAL = new Cow(10, 40, 40, 1, false, 250, Sprite.SPIKES,
-            new Projectile(5, PlayingField.Tile.SIZE / 2, PlayingField.Tile.SIZE - 10, PlayingField.Tile.SIZE / 2, 0, 18, 0, false, 0, true, 2, null),
+            new Projectile(5, PlayingField.Tile.SIZE / 2, PlayingField.Tile.SIZE - 10, PlayingField.Tile.SIZE / 2, 0, 18, 0, false, 0, true, 2, Sprite.NULL),
             AI.MELEE_COW_AI);
 
     public static final Cow COLD_FRIDGE = new Cow(100,
             70, 20, 12,
             true, 300,
             Sprite.FRIDGE,
-            new Projectile(20, 20, 30, 30, 14, 18, 40, true, 1, true, 100000, null), AI.SHOOTER_COW_AI);
+            new Projectile(20, 20, 50, 50, 14, 18, 40, true, 1, true, 10000, Sprite.FROZEN_CHEERIO), AI.SHOOTER_COW_AI);
 
     public static final Cow PEA_POD = new StackableCow(true, 25, Sprite.STACK_COW);
 
-    public static final Cow CHEERIO_PITCHER = new Cow(100, 70, 20, 12, true, 400, Sprite.CATAPULT,
-            new Projectile(20, 20, PlayingField.WIDTH, 30, 0, 18, 0, false, 0, true, 5, null), AI.SHOOTER_COW_AI);
+    public static final Cow CHEERIO_PITCHER = new Cow(100, 70, 20, 12, true, 400, Sprite.LASER,
+            new PiercingProjectile(40, 65, 50, 50, 30, 2, 1000, Sprite.RAINBOW), AI.SHOOTER_COW_AI);
 
     /**
      * This constructs a single-tile cow.

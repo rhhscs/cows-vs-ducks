@@ -8,8 +8,7 @@ public class CowSprite extends Sprite {
     public static final String ATTACK_CYCLE = "attack";
     public static final String IDLE_CYCLE = "idle";
     public static final String FILE_THUMBNAIL = "file";
-    public static final String EXTENSION = ".png";
-
+    
     public CowSprite(int ticksPerFrame) {
         this(DEFAULT_SPRITE_TILE_SIZE, DEFAULT_SPRITE_TILE_SIZE, ticksPerFrame);
     }
@@ -24,10 +23,10 @@ public class CowSprite extends Sprite {
 
     public CowSprite(String folder, int width, int height, int attackFrames, int idleFrames, int ticksPerFrame) {
         super(width, height, ticksPerFrame);
-        this.setCycle(ATTACK_CYCLE, folder + ATTACK_CYCLE + EXTENSION, attackFrames);
-        this.setCycle(IDLE_CYCLE, folder + IDLE_CYCLE + EXTENSION, idleFrames);
+        this.setCycle(ATTACK_CYCLE, folder + ATTACK_CYCLE + Sprite.EXTENSION, attackFrames);
+        this.setCycle(IDLE_CYCLE, folder + IDLE_CYCLE + Sprite.EXTENSION, idleFrames);
 
-        this.setThumbnail(FILE_THUMBNAIL, folder + FILE_THUMBNAIL + EXTENSION);
+        this.setThumbnail(FILE_THUMBNAIL, folder + FILE_THUMBNAIL + Sprite.EXTENSION);
 
         this.useIdleCycle();
     }

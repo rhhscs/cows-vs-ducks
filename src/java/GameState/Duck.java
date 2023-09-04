@@ -106,7 +106,7 @@ public class Duck extends Entity implements Drawable, Updatable {
 
             g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         } else {
-            this.sprite.draw(g, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.wasHit > 0);
+            this.sprite.draw(g, this.getX() - 50, this.getY(), this.getWidth(), this.getHeight(), this.wasHit > 0);
             if(this.wasHit > 0){
                 this.wasHit --;
             }

@@ -20,4 +20,9 @@ public class NullSprite extends Sprite {
         ((Graphics2D) g).setStroke(new BasicStroke(4));
         g.drawRect(x, y, width, height);
     }
+
+    @Override
+    public Sprite clone() {
+        return new NullSprite();
+    }
 }

@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorConvertOp;
 import java.awt.image.RescaleOp;
 
 import javax.imageio.ImageIO;
@@ -18,8 +16,11 @@ import src.java.GameState.Cows.WheatCrop;
 
 public class Sprite implements Updatable {
     protected final static String SOURCE = "src/img/sprite/";
+    protected static final String EXTENSION = ".png";
     protected final static int DEFAULT_SPRITE_TILE_SIZE = 256;
+    protected final static int PROJECTILE_SPRITE_TILE_SIZE = 128;
 
+    
     public final static Sprite NULL = new NullSprite();
 
     // cows
@@ -30,6 +31,7 @@ public class Sprite implements Updatable {
     public final static CowSprite FRIDGE = new CowSprite("cow/cold_fridge/", 16, 1, 3);
     public final static CowSprite KABOOM = new CowSprite("cow/cow_kaboom/", 724, 724, 20, 1, 3);
     public final static CowSprite STACK_COW = new CowSprite(3);
+    public final static CowSprite LASER = new CowSprite("cow/cool_lazer/", 6, 1, 3);
 
     // ducks
     public final static DuckSprite BASIC_DUCK = new DuckSprite("duck/duck/", 6, 1, 6, 3);
@@ -37,13 +39,18 @@ public class Sprite implements Updatable {
     public final static DuckSprite RUBBER_DUCK = new DuckSprite("duck/rubber/", 1, 1, 1, 3);
     public final static DuckSprite KNIFE_DUCK = new DuckSprite("duck/knife/", 6, 1, 6, 3);
     public final static DuckSprite RIVER_DUCK = new DuckSprite("duck/river/", 6, 1, 6, 3);
+    
+    // projectiles
+    public final static Sprite CHEERIO = new Sprite(PROJECTILE_SPRITE_TILE_SIZE, PROJECTILE_SPRITE_TILE_SIZE, 1);
+    public final static Sprite FROZEN_CHEERIO = new Sprite(PROJECTILE_SPRITE_TILE_SIZE, PROJECTILE_SPRITE_TILE_SIZE, 1);
+    public final static Sprite RAINBOW = new Sprite(PROJECTILE_SPRITE_TILE_SIZE, PROJECTILE_SPRITE_TILE_SIZE, 1);
 
     public static void init() {
         String folder = "cow/cereal_box/";
 
         try {
             BufferedImage idleCycleSheet = ImageIO
-                    .read(new File(SOURCE + folder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
+                    .read(new File(SOURCE + folder + CowSprite.IDLE_CYCLE + EXTENSION));
             for (int i = 0; i < CerealBox.stagesOfOuch; i++) {
                 BufferedImage tempSpriteSheet = idleCycleSheet.getSubimage(0, DEFAULT_SPRITE_TILE_SIZE * i, idleCycleSheet.getWidth(), DEFAULT_SPRITE_TILE_SIZE);
                 BODYGUARD.setCycle(CowSprite.IDLE_CYCLE + i, tempSpriteSheet, 4);
@@ -52,13 +59,12 @@ public class Sprite implements Updatable {
             e.printStackTrace();
             System.err.println("Sprite could not load: " + folder);
         }
-        BODYGUARD.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + CowSprite.EXTENSION);
-
+        BODYGUARD.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + EXTENSION);
 
         folder = "cow/crop_wheat/";
         try {
             BufferedImage idleCycleSheet = ImageIO
-                    .read(new File(SOURCE + folder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
+                    .read(new File(SOURCE + folder + CowSprite.IDLE_CYCLE + EXTENSION));
             for (int i = 0; i < WheatCrop.numWheatStages; i++) {
                 BufferedImage tempSpriteSheet = idleCycleSheet.getSubimage(DEFAULT_SPRITE_TILE_SIZE * i, 0, DEFAULT_SPRITE_TILE_SIZE, idleCycleSheet.getHeight());
                 WHEAT.setCycle(CowSprite.IDLE_CYCLE + i, tempSpriteSheet, 1);
@@ -67,7 +73,12 @@ public class Sprite implements Updatable {
             e.printStackTrace();
             System.err.println("Sprite could not load: " + folder);
         }
-        WHEAT.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + CowSprite.EXTENSION);
+        WHEAT.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + EXTENSION);
+    
+        folder = "cheerio/";
+        CHEERIO.setCycle("projectile", folder + "default" + EXTENSION, 1);
+        FROZEN_CHEERIO.setCycle("projectile", folder + "frozen" + EXTENSION, 1);
+        RAINBOW.setCycle("projectile", folder + "rainbow" + EXTENSION, 1);
     }
     
     private int ticksPerFrame;
