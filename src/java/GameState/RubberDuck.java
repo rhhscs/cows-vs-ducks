@@ -3,7 +3,7 @@ package src.java.GameState;
 import java.awt.Graphics;
 
 public class RubberDuck extends Duck{
-    private float movementVariableA = 5;
+    private float movementVariableA = 8;
     private int movementVariableB = 0;
 
     public RubberDuck(PlayingField lawn, int laneIndex, AI ai) {
@@ -27,7 +27,7 @@ public class RubberDuck extends Duck{
                 movementVariableA-=0.2;
                 if (movementVariableA < 0){
                     movementVariableB = 50;
-                    movementVariableA = 5;
+                    movementVariableA = 5.2f;
                 }
             } else {
                 movementVariableB--;
@@ -36,10 +36,13 @@ public class RubberDuck extends Duck{
 
         if (this.target != null) {
             if (this.target.getAI() == AI.MELEE_COW_AI){
-                this.target.takeDamage(10);
-                this.takeDamage(600);
+                if (this.containsPoint(target.getX() + (int)(target.getWidth()*(0.6)), getY()+10)){
+                    this.target.takeDamage(10);
+                    this.takeDamage(600);
+                }
+            } else if (this.target.isTargetable()){
+                this.setState(State.IDLE);
             }
-            this.setState(State.IDLE);
         } else {
             this.updateTarget();
             this.setState(State.WALK);

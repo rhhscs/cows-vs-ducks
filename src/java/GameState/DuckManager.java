@@ -44,6 +44,7 @@ public class DuckManager implements Updatable, Drawable {
      */
     public void addDuck(int laneIndex, Duck duck) {
         this.lanes.get(laneIndex).add(duck);
+        duck.setLaneIndex(laneIndex);
     }
 
     public int getNumLanes() {

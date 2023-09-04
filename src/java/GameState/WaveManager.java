@@ -53,13 +53,12 @@ public class WaveManager implements Drawable, Updatable{
         this.lawn = lawn;
     }
 
-    public Duck generateDuck(int laneIndex){
+    public Duck generateDuck(){
         int rng = (int)(Math.random() * 100) + 1;
         int startWeight = 0;
         for(int i=0; i<this.ducks.length; i++){
             int currentWeight = this.spawnWeights[Math.min(4, this.currentLevel-1)][i];
             if(startWeight <= rng && rng <= startWeight + currentWeight){
-                this.ducks[i].setLaneIndex(laneIndex);
                 return this.ducks[i].clone();
             }
             startWeight += currentWeight;
@@ -92,7 +91,7 @@ public class WaveManager implements Drawable, Updatable{
         // spawn the ducks from the wave
         if(this.duckCount < this.waveSize && this.delay == 0){
             int laneIndex = (int) (Math.random() * 5);
-            this.duckManager.addDuck(laneIndex, generateDuck(laneIndex));
+            this.duckManager.addDuck(laneIndex, generateDuck());
             this.delay = (int)(Math.random() * 75);
             this.duckCount ++;
         }else if(this.delay > 0){
@@ -102,7 +101,7 @@ public class WaveManager implements Drawable, Updatable{
         // spawn the passively spawning ducks
         if(this.counter % Math.max(1, WaveManager.WAVE_DURATION / 5 / this.currentLevel) == 0){
             int laneIndex = (int) (Math.random() * 5);
-            this.duckManager.addDuck(laneIndex, generateDuck(laneIndex));
+            this.duckManager.addDuck(laneIndex, generateDuck());
         }
 
         this.counter ++;

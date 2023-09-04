@@ -103,4 +103,18 @@ public interface AI {
             return null;
         }
     };
+
+    public static final AI RUBBER_DUCK_AI = new AI() {
+        @Override
+        public Entity findTarget(ArrayList<Entity> cows, Entity duck) {
+            for (Entity entity: cows) {
+                Cow cow = (Cow) entity;
+                if (duck.collides(cow)) {
+                    return cow;
+                }
+            }
+
+            return null;
+        }
+    };
 }
