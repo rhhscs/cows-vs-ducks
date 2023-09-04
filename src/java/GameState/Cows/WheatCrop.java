@@ -3,9 +3,11 @@ package src.java.GameState.Cows;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 
-
+import java.awt.Image;
 import src.java.GameState.AI;
 import src.java.GameState.CheerioManager;
 import src.java.GameState.Projectile;
@@ -14,14 +16,9 @@ import src.java.GameState.PlayingField.Tile;
 import src.java.Utilities.Input;
 
 public class WheatCrop extends Cow {
-    private int wheat;
-    private int wheatSize;
-
-    /**
-     * The max amount of wheat the wheat crop can hold
-     */
-    private int maxWheat = 200;
-    private BufferedImage wheatSprite;
+    
+    private int wheatStage = 0;
+    private int[] wheatPerStage = {25, 100, 200};
 
     /**
      * This creates a new wheat crop object.
@@ -31,15 +28,13 @@ public class WheatCrop extends Cow {
      * @param wheatSize            The size/amount of wheat given when it gets
      *                             produced.
      */
-    public WheatCrop(int health, int cost, int wheatSize) {
+    public WheatCrop(int health, int cost) {
         super(health, 
-            200, 200, 0,
+            250, 100, 0,
             true, cost,
             Sprite.WHEAT, Projectile.NULL, AI.WHEAT_CROP_COW_AI);
-        this.wheat = 0;
-        this.wheatSize = wheatSize;
-        this.wheatSprite = null;
-
+        //this.wheatSprite = null;
+        //this.wheatSpriteFilePath = wheatSpriteFilePath;
     }
 
     /**
@@ -48,9 +43,8 @@ public class WheatCrop extends Cow {
     @Override
     public void attack() {
         // drop wheat
-        if (wheat < maxWheat) {
-            this.wheat += this.wheatSize;
-            //System.out.println("Wheat produced");
+        if (wheatStage < 2) {
+            wheatStage++;
         }
     }
 
@@ -62,8 +56,8 @@ public class WheatCrop extends Cow {
     
     
     public int collectWheat() {
-        int wheatCollected = this.wheat;
-        this.wheat = 0;
+        int wheatCollected = this.wheatPerStage[wheatStage];
+        this.wheatStage = 0;
         return wheatCollected;
     }
 
@@ -83,21 +77,16 @@ public class WheatCrop extends Cow {
     public void draw(Graphics g) {
         super.draw(g);
 
-        g.setColor(new Color(50, 50, 50));
-        g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-
-        if (this.wheat > 0) {
-            if (this.wheatSprite == null) {
+        if (this.wheatStage != 0) {
+            //if (this.sprite == null) {
                 g.setColor(new Color(200, 200, 100));
-                switch (wheat / wheatSize) {
-                    case 0:
-                        break;
-                    case 4:
+                switch (wheatStage) {
+                    /*case 4:
                         g.fillOval(this.getX() + Tile.SIZE / 2 + 5, this.getY() + Tile.SIZE / 2 + 5, Tile.SIZE / 2 - 10,
                                 Tile.SIZE / 2 - 10);
                     case 3:
                         g.fillOval(this.getX() + 5, this.getY() + Tile.SIZE / 2 + 5, Tile.SIZE / 2 - 10,
-                                Tile.SIZE / 2 - 10);
+                                Tile.SIZE / 2 - 10);*/
                     case 2:
                         g.fillOval(this.getX() + Tile.SIZE / 2 + 5, this.getY() + 5, Tile.SIZE / 2 - 10,
                                 Tile.SIZE / 2 - 10);
@@ -106,19 +95,16 @@ public class WheatCrop extends Cow {
 
                         break;
 
-                }
-            }
+                //}
+            } 
         }
     }
 
     @Override
     public WheatCrop clone() {
-        WheatCrop wheatCrop = new WheatCrop(this.getHealth(), this.getCost(), this.getWheatSize());
+        WheatCrop wheatCrop = new WheatCrop(this.getHealth(), this.getCost());
         wheatCrop.setDuckManager(getDuckManager());
         return wheatCrop;
     }
 
-    public int getWheatSize() {
-        return wheatSize;
-    }
 }

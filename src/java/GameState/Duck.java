@@ -71,16 +71,18 @@ public class Duck extends Entity implements Drawable, Updatable {
         this.target = null;
     }
 
+    Color color = new Color(80, 80, 80, 180);
+    Color color2 = new Color(255, 10, 10, 180);
     @Override
     public void draw(Graphics g) {
         if (this.sprite == null) {
             if (this.state == State.WALK || this.state == State.IDLE) {
-                g.setColor(Color.GRAY);
+                g.setColor(color);
             } else if (this.state == State.ATTACK) {
-                g.setColor(Color.RED);
+                g.setColor(color2);
             }
 
-            g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
     }
 

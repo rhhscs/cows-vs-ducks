@@ -50,7 +50,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow CEREAL_BOX = new CerealBox(300, 200); // make sure HP is divisible by 3
 
-    public static final Cow WHEAT_CROP = new WheatCrop(100, 100, 50);
+    public static final Cow WHEAT_CROP = new WheatCrop(50, 100);
 
     public static final Cow CEREAL_BOMB = new CherryBomb(500,
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
