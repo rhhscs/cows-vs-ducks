@@ -56,8 +56,8 @@ public class Cow extends Entity implements Drawable, Updatable {
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
                     PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 2, null));
 
-    public static final Cow CRUSHED_CEREAL = new Cow(100, 40, 0, 5, false, 100, Sprite.SPIKES,
-            new Projectile(0, 0, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE, 0, 18, 0, false, 0, true, 20, null),
+    public static final Cow CRUSHED_CEREAL = new Cow(100, 40, 0, 2, false, 100, Sprite.SPIKES,
+            new Projectile(0, PlayingField.Tile.SIZE / 2, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE / 2, 0, 18, 0, false, 0, true, 20, null),
             AI.MELEE_COW_AI);
 
     public static final Cow COLD_FRIDGE = new Cow(100,
@@ -123,7 +123,8 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.cost = cost;
 
         // sprite
-        this.sprite = sprite;
+        this.sprite = sprite.clone();
+        this.sprite.useIdleCycle();
 
         this.setState(State.IDLE);
         this.projectile = projectile;
@@ -156,12 +157,13 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void draw(Graphics g) {
-        this.sprite.update();
-        this.sprite.draw(g, getX(), getY(), getWidth(), getHeight());
+        this.sprite.draw(g, getX(), getY() - 15, getWidth(), getHeight());
     }
 
     @Override
     public void update() {
+        this.sprite.update();
+
         if (this.state == State.ATTACK || this.attackTimer < this.attackSpeed) {
             this.attackTimer++;
         }
@@ -182,7 +184,6 @@ public class Cow extends Entity implements Drawable, Updatable {
 
         if (this.attackTimer == this.attackSpeed + sprite.getCycleTicks(CowSprite.ATTACK_CYCLE)) {
             onAttackEnd();
-            
             this.attackTimer = 0;
         }
     }

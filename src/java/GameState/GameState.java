@@ -19,6 +19,8 @@ public class GameState extends State {
 
     @Override
     public void start() {
+        Sprite.init();
+
         this.lawn = new PlayingField();
         this.ducks = new DuckManager();
         this.waveManager = new WaveManager();
@@ -47,7 +49,7 @@ public class GameState extends State {
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_1)){
             if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
                 ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
-                    new Duck(1, 10, 10, 50, 100, null, lawn, lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, AI.MELEE_DUCK_AI));
+                    new Duck(1, 10, 10, 50, 100, lawn, lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK));
             }
         }
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_EQUALS)){

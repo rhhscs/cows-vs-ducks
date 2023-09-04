@@ -10,6 +10,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import src.java.Updatable;
+import src.java.GameState.Cows.CerealBox;
 
 public class Sprite implements Updatable {
     protected final static String SOURCE = "src/img/sprite/";
@@ -20,35 +21,43 @@ public class Sprite implements Updatable {
     // cows
     public final static CowSprite CATAPULT = new CowSprite("cow/cow_catapult/", 9, 1, 3);
     public final static CowSprite BODYGUARD = new CowSprite(4);
-    public final static CowSprite WHEAT = new CowSprite("cow/crop_wheat/", 0, 0, 4);
-    public final static CowSprite SPIKES = new CowSprite("cow/cow_spikes/", 9, 1, 3);
+    public final static CowSprite WHEAT = new CowSprite("cow/crop_wheat/", 0, 3, 250);
+    public final static CowSprite SPIKES = new CowSprite("cow/crushed_chunks/", 1, 1, 3);
     public final static CowSprite FRIDGE = new CowSprite("cow/cold_fridge/", 16, 1, 3);
     public final static CowSprite KABOOM = new CowSprite("cow/cow_kaboom/", 724, 724, 20, 1, 3);
     public final static CowSprite STACK_COW = new CowSprite(3);
+
+    // ducks
+    public final static DuckSprite BASIC_DUCK = new DuckSprite("duck/", 6, 1, 6, 3);
 
     public static void init() {
         String bodyguardFolder = "cow/cereal_box/";
 
         try {
-            for (int i = 0; i < 3; i++) {
-                BufferedImage idleCycle = ImageIO
-                        .read(new File(SOURCE + bodyguardFolder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
-                BODYGUARD.setCycle(CowSprite.IDLE_CYCLE + i, idleCycle, 4);
+            BufferedImage idleCycleSheet = ImageIO
+                    .read(new File(SOURCE + bodyguardFolder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
+            for (int i = 0; i < CerealBox.stagesOfOuch; i++) {
+                BufferedImage tempSpriteSheet = idleCycleSheet.getSubimage(0, DEFAULT_SPRITE_TILE_SIZE * i, idleCycleSheet.getWidth(), DEFAULT_SPRITE_TILE_SIZE);
+                BODYGUARD.setCycle(CowSprite.IDLE_CYCLE + i, tempSpriteSheet, 4);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("Sprite could not load: " + bodyguardFolder);
         }
+        
+        BODYGUARD.setThumbnail(CowSprite.FILE_THUMBNAIL, bodyguardFolder + CowSprite.FILE_THUMBNAIL + CowSprite.EXTENSION);
     }
-
+    
     private int ticksPerFrame;
     private int width;
     private int height;
-
+    
     private HashMap<String, AnimationCycle> cycles;
     private HashMap<String, BufferedImage> thumbnails;
-
+    
     private AnimationCycle curCycle;
-
+    private int curFrame;
+    
     public Sprite(int frameWidth, int frameHeight, int ticksPerFrame) {
         this.width = frameWidth;
         this.height = frameHeight;
@@ -67,6 +76,22 @@ public class Sprite implements Updatable {
         this.cycles.put(name, new AnimationCycle(spriteSheet, numFrames));
     }
 
+    public void setCycle(String name, AnimationCycle cycle) {
+        this.cycles.put(name, cycle);
+    }
+
+    public void setCycle(String name, Image[] frames) {
+        this.cycles.put(name, new AnimationCycle(frames));
+    }
+
+    public void setCycles(HashMap<String, AnimationCycle> cycles) {
+        this.cycles = cycles;
+    }
+
+    public HashMap<String, AnimationCycle> getCycles() {
+        return this.cycles;
+    }
+
     public int getCycleTicks(String name) {
         return this.getTicksPerFrame() * this.cycles.get(name).getNumFrames();
     }
@@ -82,8 +107,20 @@ public class Sprite implements Updatable {
         this.thumbnails.put(name, thumbnail);
     }
 
+    public void setThumbnail(String name, BufferedImage thumbnail) {
+        this.thumbnails.put(name, thumbnail);
+    }
+
+    public void setThumbnails(HashMap<String, BufferedImage> thumbnails) {
+        this.thumbnails = thumbnails;
+    }
+
     public BufferedImage getThumbnail(String name) {
         return this.thumbnails.get(name);
+    }
+
+    public HashMap<String, BufferedImage> getThumbnails() {
+        return this.thumbnails;
     }
 
     public void useCycle(String name) {
@@ -91,7 +128,6 @@ public class Sprite implements Updatable {
         if (tempCycle == null) {
             tempCycle = NULL_CYCLE;
         }
-        this.curCycle.reset();
         this.curCycle = tempCycle;
     }
 
@@ -101,7 +137,7 @@ public class Sprite implements Updatable {
 
     @Override
     public void update() {
-        this.curCycle.update();
+        this.curFrame++;
     }
 
     public void draw(Graphics g, int x, int y, int width, int height) {
@@ -110,21 +146,18 @@ public class Sprite implements Updatable {
 
     public final AnimationCycle NULL_CYCLE = new AnimationCycle();
 
-    private class AnimationCycle implements Updatable {
+    public class AnimationCycle {
         private Image[] frames;
         private int numFrames;
-        private int curFrame;
 
         /**
          * Creates a null animation cycle.
          */
         public AnimationCycle() {
-            this.curFrame = 0;
             this.numFrames = 0;
         }
 
         public AnimationCycle(String filePath, int numFrames) {
-            this.curFrame = 0;
             this.numFrames = numFrames;
 
             if (this.numFrames == 0)
@@ -141,7 +174,6 @@ public class Sprite implements Updatable {
         }
 
         public AnimationCycle(BufferedImage spriteSheet, int numFrames) {
-            this.curFrame = 0;
             this.numFrames = numFrames;
 
             if (this.numFrames == 0)
@@ -149,8 +181,13 @@ public class Sprite implements Updatable {
             this.createCycle(spriteSheet);
         }
 
-        public void reset() {
-            this.curFrame = 0;
+        public AnimationCycle(Image[] frames) {
+            if (frames != null) {
+                this.numFrames = frames.length;
+            } else {
+                this.numFrames = 0;
+            }
+            this.frames = frames;
         }
 
         private void createCycle(BufferedImage spriteSheet) {
@@ -168,19 +205,15 @@ public class Sprite implements Updatable {
             return this.numFrames;
         }
 
-        @Override
-        public void update() {
-            if (this.numFrames == 0)
-                return;
-
-            this.curFrame = (this.curFrame + 1) % (this.numFrames * getTicksPerFrame());
+        public Image[] getFrames() {
+            return this.frames;
         }
 
         public void draw(Graphics g, int x, int y, int width, int height) {
             if (this.numFrames == 0)
                 return;
 
-            g.drawImage(this.frames[this.curFrame / getTicksPerFrame()], x, y - 15, width, height,
+            g.drawImage(this.frames[(curFrame / getTicksPerFrame()) % this.numFrames], x, y, width, height,
                     null);
         }
     }
@@ -191,5 +224,20 @@ public class Sprite implements Updatable {
 
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public Sprite clone() {
+        Sprite sprite = new Sprite(this.getWidth(), this.getHeight(), this.getTicksPerFrame());
+        
+        for (String name: this.thumbnails.keySet()) {
+            sprite.setThumbnail(name, this.thumbnails.get(name));
+        }
+        
+        for (String name: this.cycles.keySet()) {
+            sprite.setCycle(name, this.cycles.get(name).getFrames());
+        }
+
+        return sprite;
     }
 }

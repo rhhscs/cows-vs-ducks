@@ -25,14 +25,13 @@ public class CherryBomb extends Cow {
 
     @Override
     public void onAttackEnd() {
-        super.onAttackEnd();
         this.takeDamage(this.getHealth());
     }
 
     @Override
     public void draw(Graphics g) {
-        this.getSprite().update();
         this.getSprite().draw(g, getX() - spriteSize/3 - 10, getY() - spriteSize/3 - 30, spriteSize, spriteSize);
+        this.getSprite().update();
     }
 
     @Override
