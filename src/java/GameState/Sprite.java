@@ -10,6 +10,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import src.java.Updatable;
+import src.java.GameState.Cows.CerealBox;
 
 public class Sprite implements Updatable {
     protected final static String SOURCE = "src/img/sprite/";
@@ -21,7 +22,7 @@ public class Sprite implements Updatable {
     public final static CowSprite CATAPULT = new CowSprite("cow/cow_catapult/", 9, 1, 3);
     public final static CowSprite BODYGUARD = new CowSprite(4);
     public final static CowSprite WHEAT = new CowSprite("cow/crop_wheat/", 0, 0, 4);
-    public final static CowSprite SPIKES = new CowSprite("cow/cow_spikes/", 9, 1, 3);
+    public final static CowSprite SPIKES = new CowSprite("cow/crushed_chunks/", 1, 1, 3);
     public final static CowSprite FRIDGE = new CowSprite("cow/cold_fridge/", 16, 1, 3);
     public final static CowSprite KABOOM = new CowSprite("cow/cow_kaboom/", 724, 724, 20, 1, 3);
     public final static CowSprite STACK_COW = new CowSprite(3);
@@ -30,14 +31,18 @@ public class Sprite implements Updatable {
         String bodyguardFolder = "cow/cereal_box/";
 
         try {
-            for (int i = 0; i < 3; i++) {
-                BufferedImage idleCycle = ImageIO
-                        .read(new File(SOURCE + bodyguardFolder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
-                BODYGUARD.setCycle(CowSprite.IDLE_CYCLE + i, idleCycle, 4);
+            BufferedImage idleCycle = ImageIO
+                    .read(new File(SOURCE + bodyguardFolder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
+            for (int i = 0; i < CerealBox.stagesOfOuch; i++) {
+                BufferedImage tempSpriteSheet = idleCycle.getSubimage(0, idleCycle.getHeight() / CerealBox.stagesOfOuch * i, idleCycle.getWidth(), idleCycle.getHeight() / CerealBox.stagesOfOuch);
+                BODYGUARD.setCycle(CowSprite.IDLE_CYCLE + i, tempSpriteSheet, 4);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("Sprite could not load: " + bodyguardFolder);
         }
+
+        BODYGUARD.setThumbnail(CowSprite.FILE_THUMBNAIL, bodyguardFolder + CowSprite.FILE_THUMBNAIL + CowSprite.EXTENSION);
     }
 
     private int ticksPerFrame;

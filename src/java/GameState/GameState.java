@@ -19,6 +19,8 @@ public class GameState extends State {
 
     @Override
     public void start() {
+        Sprite.init();
+
         this.lawn = new PlayingField();
         this.ducks = new DuckManager();
         this.waveManager = new WaveManager();
