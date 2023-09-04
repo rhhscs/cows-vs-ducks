@@ -2,46 +2,37 @@ package src.java.GameState.Cows;
 
 import java.awt.Graphics;
 
+import src.java.GameState.Duck;
 import src.java.GameState.PlayingField;
 import src.java.GameState.Projectile;
+import src.java.GameState.Sprite;
 
 /**
  * A cherry bomb is untargetable, attacking/exploding as soon as it's placed.
  */
 public class CherryBomb extends Cow {
-    boolean startAttack = false;
-    private int spriteSize = (int) (PlayingField.Tile.SIZE*3.5);
+    private final int spriteSize = (int) (PlayingField.Tile.SIZE * 3.5);
 
     public CherryBomb(int cost, Projectile projectile) {
-        super(1, 0, 30, 14*Sprite.KABOOM.ticksPerFrame, false, cost, 
+        super(1, 0, 30, 14*Sprite.KABOOM.getTicksPerFrame(), false, cost, 
         Sprite.KABOOM, projectile, null);
-        this.setState(State.ATTACK);
-        frame = 0;
-    }
-
-
-    @Override
-    public void update() {
-        this.setAttackTimer(this.getAttackTimer() + 1);
-
-        if (this.getAttackTimer() == this.getTimeUntilFirstAttack()) {
-            startAttack = true;
-        } else if (this.getAttackTimer() == this.getTimeUntilFirstAttack() + this.getAttackDelay()){
-            this.attack();
-        } else if (this.getAttackTimer() == this.getTimeUntilFirstAttack() + this.getSprite().getAttackTicks()){
-            this.takeDamage(this.getHealth());
-        }
-
-        if (startAttack) {
-            frame++;
-        }
     }
 
     @Override
-    public void draw(Graphics g){
-        if (attackSprites != null){
-            g.drawImage(attackSprites[Math.min(frame/this.getSprite().ticksPerFrame, 19)], getX()- spriteSize/3 - 10, getY()- spriteSize/3 - 30, spriteSize, spriteSize, null);
-        }
+    public void updateTarget() {
+        this.setTarget(Duck.NULL_DUCK);
+    }
+
+    @Override
+    public void onAttackEnd() {
+        super.onAttackEnd();
+        this.takeDamage(this.getHealth());
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        this.getSprite().update();
+        this.getSprite().draw(g, getX() - spriteSize/3 - 10, getY() - spriteSize/3 - 30, spriteSize, spriteSize);
     }
 
     @Override

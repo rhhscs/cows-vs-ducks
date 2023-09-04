@@ -11,6 +11,7 @@ import java.awt.Image;
 import src.java.GameState.AI;
 import src.java.GameState.CheerioManager;
 import src.java.GameState.Projectile;
+import src.java.GameState.Sprite;
 import src.java.GameState.PlayingField.Tile;
 import src.java.Utilities.Input;
 
@@ -74,9 +75,10 @@ public class WheatCrop extends Cow {
 
     @Override
     public void draw(Graphics g) {
-        if (this.idleSprites == null) {
-            super.draw(g);
-            if (this.wheatStage != 0) {
+        super.draw(g);
+
+        if (this.wheatStage != 0) {
+            //if (this.sprite == null) {
                 g.setColor(new Color(200, 200, 100));
                 switch (wheatStage) {
                     /*case 4:
@@ -93,10 +95,8 @@ public class WheatCrop extends Cow {
 
                         break;
 
-                }
+                //}
             } 
-        }else {
-            g.drawImage(idleSprites[wheatStage], this.getX(), this.getY()-20, Tile.SIZE, Tile.SIZE, null);
         }
     }
 

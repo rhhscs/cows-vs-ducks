@@ -1,8 +1,8 @@
 package src.java.GameState.Cows;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
+import src.java.GameState.CowSprite;
 import src.java.GameState.Projectile;
 
 /**
@@ -20,7 +20,7 @@ public class StackableCow extends Cow {
      * @param cost         The cost of this cow.
      * @param sprite       The cow sprite.
      */
-    public StackableCow(boolean isTargetable, int cost, Sprite sprite) {
+    public StackableCow(boolean isTargetable, int cost, CowSprite sprite) {
         super(100, 0, 0, 0, isTargetable, cost, sprite, Projectile.NULL, null);
         this.cows = new Cow[0];
         this.curSize = 0;

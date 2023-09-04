@@ -2,10 +2,6 @@ package src.java.GameState;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import java.awt.Color;
 import src.java.Drawable;
@@ -28,13 +24,8 @@ public class Document extends Entity implements Drawable, Updatable{
         xDest = getX();
         yDest = getY();
         applicant = cow.clone();
-        if (applicant.getSprite().filepath != null){
-            try {
-                fileSprite = ImageIO.read(new File(applicant.getSprite().filepath + "/file.png"));
-            } catch (IOException e) {
-                System.out.println("Image not found: " + applicant.getSprite().filepath + "/file.png");
-            }
-
+        if (applicant.getSprite() instanceof CowSprite) { // or sprite not instanceof NullSprite
+            fileSprite = ((CowSprite) applicant.getSprite()).getFileThumbnail();
         }
     }
 
