@@ -19,7 +19,6 @@ public class CerealBox extends Cow {
     public void update() {
         int stageOfOuch = stagesOfOuch - (int) Math.ceil((double) this.getHealth() / (double) this.healthPerOuch);
         this.getSprite().useCycle(CowSprite.IDLE_CYCLE + stageOfOuch);
-        this.getSprite().update();
     }
 
     @Override

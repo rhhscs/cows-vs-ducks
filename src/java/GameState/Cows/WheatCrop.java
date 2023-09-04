@@ -27,8 +27,6 @@ public class WheatCrop extends Cow {
             250, 250, 0,
             true, cost,
             Sprite.WHEAT.clone(), Projectile.NULL, AI.WHEAT_CROP_COW_AI);
-        //this.wheatSprite = null;
-        //this.wheatSpriteFilePath = wheatSpriteFilePath;
     }
 
     /**
