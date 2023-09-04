@@ -21,7 +21,7 @@ public class Sprite implements Updatable {
     // cows
     public final static CowSprite CATAPULT = new CowSprite("cow/cow_catapult/", 9, 1, 3);
     public final static CowSprite BODYGUARD = new CowSprite(4);
-    public final static CowSprite WHEAT = new CowSprite("cow/crop_wheat/", 0, 3, 250 / 3 + 5);
+    public final static CowSprite WHEAT = new CowSprite("cow/crop_wheat/", 0, 3, 250);
     public final static CowSprite SPIKES = new CowSprite("cow/crushed_chunks/", 1, 1, 3);
     public final static CowSprite FRIDGE = new CowSprite("cow/cold_fridge/", 16, 1, 3);
     public final static CowSprite KABOOM = new CowSprite("cow/cow_kaboom/", 724, 724, 20, 1, 3);
@@ -125,7 +125,6 @@ public class Sprite implements Updatable {
         if (tempCycle == null) {
             tempCycle = NULL_CYCLE;
         }
-        this.curFrame = 0;
         this.curCycle = tempCycle;
     }
 
