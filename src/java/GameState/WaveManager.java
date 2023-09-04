@@ -33,7 +33,7 @@ public class WaveManager implements Drawable, Updatable{
     private final Duck[] ducks = {Duck.BASIC_DUCK, Duck.RIVER_DUCK, Duck.DUCK_WITH_BREAD, Duck.DUCK_WITH_KNIFE, Duck.RUBBER_DUCK, Duck.GARGANTUAR_DUCK};
     private final int[][] spawnWeights = {
         {100, 0, 0, 0, 0, 0},
-        {70, 30, 0, 0, 0, 0},
+        {75, 25, 0, 0, 0, 0},
         {30, 30, 20, 20, 0, 0},
         {25, 25, 25, 20, 5, 0},
         {20, 20, 25, 20, 5, 5}
@@ -57,7 +57,7 @@ public class WaveManager implements Drawable, Updatable{
         int rng = (int)(Math.random() * 100) + 1;
         int startWeight = 0;
         for(int i=0; i<this.ducks.length; i++){
-            int currentWeight = this.spawnWeights[Math.min(this.ducks.length-1, this.currentLevel-1)][i];
+            int currentWeight = this.spawnWeights[Math.min(this.spawnWeights.length-1, this.currentLevel-1)][i];
             if(startWeight <= rng && rng <= startWeight + currentWeight){
                 return this.ducks[i].clone();
             }
@@ -81,7 +81,7 @@ public class WaveManager implements Drawable, Updatable{
         if(this.counter == WaveManager.WAVE_DURATION){
             this.counter = 0;
             this.currentWave ++;
-            this.waveSize = this.currentLevel * 5 + this.currentWave * 3 - 3;
+            this.waveSize = this.currentLevel * 4 + this.currentWave * 3 - 3;
             this.duckCount = 0;
             if(this.currentWave <= this.waveCount){
                 this.waveAnnouncement = 100;
