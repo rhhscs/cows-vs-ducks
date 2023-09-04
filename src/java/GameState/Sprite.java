@@ -31,10 +31,10 @@ public class Sprite implements Updatable {
         String bodyguardFolder = "cow/cereal_box/";
 
         try {
-            BufferedImage idleCycle = ImageIO
+            BufferedImage idleCycleSheet = ImageIO
                     .read(new File(SOURCE + bodyguardFolder + CowSprite.IDLE_CYCLE + CowSprite.EXTENSION));
             for (int i = 0; i < CerealBox.stagesOfOuch; i++) {
-                BufferedImage tempSpriteSheet = idleCycle.getSubimage(0, DEFAULT_SPRITE_TILE_SIZE * i, idleCycle.getWidth(), DEFAULT_SPRITE_TILE_SIZE);
+                BufferedImage tempSpriteSheet = idleCycleSheet.getSubimage(0, DEFAULT_SPRITE_TILE_SIZE * i, idleCycleSheet.getWidth(), DEFAULT_SPRITE_TILE_SIZE);
                 BODYGUARD.setCycle(CowSprite.IDLE_CYCLE + i, tempSpriteSheet, 4);
             }
         } catch (Exception e) {

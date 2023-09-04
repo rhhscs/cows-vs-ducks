@@ -157,12 +157,13 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void draw(Graphics g) {
-        this.sprite.update();
         this.sprite.draw(g, getX(), getY() - 15, getWidth(), getHeight());
     }
 
     @Override
     public void update() {
+        this.sprite.update();
+
         if (this.state == State.ATTACK || this.attackTimer < this.attackSpeed) {
             this.attackTimer++;
         }
