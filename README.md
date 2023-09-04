@@ -3,25 +3,17 @@ club fair project!
 
 ## todo list
 - menus
-  - main menu
-  - button: in progress
   - test overlayed menu
 - game
-  - lawn (playing field)
-    - cow
-    - lawnmowers
+  - cow
+  - lawnmowers
   - duck manager
     - abstract duck
     - 10 ducks
   - UI
-  - projectile manager
-    - projectile
   - sprites
-
-## todo
-- big waves with some in between
 - score for killing ducks
-- ducks fly away when dead
+- ducks fly away when dead (or just disappear that's fine)
 - "file for bankruptcy" is how cows lose
 
 ## cows

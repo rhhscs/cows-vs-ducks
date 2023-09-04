@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import src.java.GameState.AI;
 import src.java.GameState.CheerioManager;
 import src.java.GameState.Projectile;
+import src.java.GameState.Sprite;
 import src.java.GameState.PlayingField.Tile;
 import src.java.Utilities.Input;
 
@@ -21,7 +22,6 @@ public class WheatCrop extends Cow {
      */
     private int maxWheat = 200;
     private BufferedImage wheatSprite;
-    private String wheatSpriteFilePath;
 
     /**
      * This creates a new wheat crop object.
@@ -39,7 +39,6 @@ public class WheatCrop extends Cow {
         this.wheat = 0;
         this.wheatSize = wheatSize;
         this.wheatSprite = null;
-        this.wheatSpriteFilePath = wheatSpriteFilePath;
 
     }
 
@@ -84,6 +83,9 @@ public class WheatCrop extends Cow {
     public void draw(Graphics g) {
         super.draw(g);
 
+        g.setColor(new Color(50, 50, 50));
+        g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
         if (this.wheat > 0) {
             if (this.wheatSprite == null) {
                 g.setColor(new Color(200, 200, 100));
@@ -118,9 +120,5 @@ public class WheatCrop extends Cow {
 
     public int getWheatSize() {
         return wheatSize;
-    }
-
-    public String getWheatSpriteFilePath() {
-        return wheatSpriteFilePath;
     }
 }
