@@ -10,7 +10,7 @@ public class Sprite {
     public final static Sprite WHEAT = new Sprite("cow/crop_wheat"  ,  0, 0, 0, 4);
     public final static Sprite SPIKES =    new Sprite(null          ,  5,  0, 0, 3);
     public final static Sprite FRIDGE =    new Sprite("cow/cold_fridge" , 16,  0, 0, 3);
-    public final static Sprite KABOOM =    new Sprite("cow/cow_kaboom" , 724, 724, 20,  0, 0, 3);
+    public final static Sprite KABOOM =    new Sprite("cow/cow_kaboom" , 724, 724, 20,  0, 0, 2);
 
 
     public String filepath;
