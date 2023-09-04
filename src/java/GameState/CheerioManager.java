@@ -12,7 +12,7 @@ public class CheerioManager implements Drawable{
         return globalCheerioManager;
     }
 
-    private int value = 300;
+    private int value = 400;
     private Font font = new Font(Font.MONOSPACED, Font.PLAIN, 60);
     
     private CheerioManager(){}
@@ -33,7 +33,7 @@ public class CheerioManager implements Drawable{
     }
     
     public void reset(){
-        value = 800;
+        value = 400;
     }
 
     @Override

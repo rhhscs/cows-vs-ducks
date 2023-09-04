@@ -46,7 +46,7 @@ public class WaveManager implements Drawable, Updatable{
         if(this.currentWave > this.waveCount){
             this.currentLevel ++;
             this.currentWave = 0;
-            this.waveCount = (int)Math.ceil((double)this.currentLevel / 1.5);
+            this.waveCount = Math.min((int)Math.ceil((double)this.currentLevel / 1.5), 4);
         }
         
         // if it is time for a new wave

@@ -12,7 +12,8 @@ import src.java.Utilities.Input;
 public class WheatCrop extends Cow {
     
     private int wheatStage = 0;
-    private int[] wheatPerStage = {0, 100, 200};
+    private int[] wheatPerStage = {0, 25, 100, 200};
+    private int wheatTimer = 0;
 
     /**
      * This creates a new wheat crop object.
@@ -60,7 +61,20 @@ public class WheatCrop extends Cow {
      */
     @Override
     public void update() {
-        super.update();
+        getSprite().update();
+        wheatTimer++;
+        if (wheatStage == 0){
+            if (wheatTimer >= getAttackSpeed()/2){
+                attack();
+                wheatTimer = 0;
+            }
+        } else {
+            if (wheatTimer >= getAttackSpeed()){
+                attack();
+                wheatTimer = 0;
+            }
+        }
+
         Input input = Input.globalInput;
         if (input.mouseClicked() && this.containsPoint(input.mouseX(), input.mouseY())) {
             CheerioManager.getGlobalCheerios().addCheerios(collectWheat());
@@ -74,28 +88,8 @@ public class WheatCrop extends Cow {
         // }
         // this.getSprite().draw(g, this.getX(), this.getY() - 15, this.getWidth(), this.getHeight());
         super.draw(g);
-
-        if (this.wheatStage != 0) {
-            //if (this.sprite == null) {
-                g.setColor(new Color(200, 200, 100));
-                switch (wheatStage) {
-                    /*case 4:
-                        g.fillOval(this.getX() + Tile.SIZE / 2 + 5, this.getY() + Tile.SIZE / 2 + 5, Tile.SIZE / 2 - 10,
-                                Tile.SIZE / 2 - 10);
-                    case 3:
-                        g.fillOval(this.getX() + 5, this.getY() + Tile.SIZE / 2 + 5, Tile.SIZE / 2 - 10,
-                                Tile.SIZE / 2 - 10);*/
-                    case 2:
-                        g.fillOval(this.getX() + Tile.SIZE / 2 + 5, this.getY() + 5, Tile.SIZE / 2 - 10,
-                                Tile.SIZE / 2 - 10);
-                    case 1:
-                        g.fillOval(this.getX() + 5, this.getY() + 5, Tile.SIZE / 2 - 10, Tile.SIZE / 2 - 10);
-
-                        break;
-
-                //}
-            } 
-        }
+        drawScuffed(g);
+        
     }
 
     @Override
@@ -103,6 +97,28 @@ public class WheatCrop extends Cow {
         WheatCrop wheatCrop = new WheatCrop(this.getHealth(), this.getCost());
         wheatCrop.setDuckManager(getDuckManager());
         return wheatCrop;
+    }
+
+    private void drawScuffed(Graphics g){
+        if (this.wheatStage != 0) {
+            g.setColor(new Color(200, 200, 100));
+            switch (wheatStage) {
+                /*case 4:
+                    g.fillOval(this.getX() + Tile.SIZE / 2 + 5, this.getY() + Tile.SIZE / 2 + 5, Tile.SIZE / 2 - 10,
+                            Tile.SIZE / 2 - 10);
+                case 3:
+                    g.fillOval(this.getX() + 5, this.getY() + Tile.SIZE / 2 + 5, Tile.SIZE / 2 - 10,
+                            Tile.SIZE / 2 - 10);*/
+                case 2:
+                    g.fillOval(this.getX() + Tile.SIZE / 2 + 5, this.getY() + 5, Tile.SIZE / 2 - 10,
+                            Tile.SIZE / 2 - 10);
+                case 1:
+                    g.fillOval(this.getX() + 5, this.getY() + 5, Tile.SIZE / 2 - 10, Tile.SIZE / 2 - 10);
+
+                    break;
+
+            } 
+        }
     }
 
 }
