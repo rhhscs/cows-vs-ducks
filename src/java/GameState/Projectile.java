@@ -1,6 +1,5 @@
 package src.java.GameState;
 
-import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Graphics;
 import src.java.Drawable;

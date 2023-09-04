@@ -9,6 +9,7 @@ import src.java.Updatable;
 public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> {
     private ArrayList<Duck> ducks;
     private Duck farthestDuck;
+    private Lawnmower mower;
 
     /**
      * This constructs a new lane object.
@@ -19,6 +20,7 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
         super(PlayingField.X, PlayingField.Y + PlayingField.Tile.SIZE * laneIndex, PlayingField.WIDTH, PlayingField.Tile.SIZE);
         this.ducks = new ArrayList<Duck>();
         this.farthestDuck = null;
+        this.mower = new Lawnmower(laneIndex);
     }
 
     /**
@@ -44,6 +46,8 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
 
     @Override
     public void draw(Graphics g) {
+        this.mower.draw(g);
+        
         for (Duck duck : this.ducks) {
             duck.draw(g);
         }
@@ -65,6 +69,14 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
                 iterator.remove();
             } else {
                 this.updateFarthestDuck(duck);
+            }
+        }
+
+        // Check if they triggered the lawnmower
+        for (Duck duck: this.ducks) {
+            if (this.mower.collides(duck)) {
+                Projectile projectile = this.mower.trigger();
+                ProjectileManager.projectileManager.addProjectile(projectile);
             }
         }
 
