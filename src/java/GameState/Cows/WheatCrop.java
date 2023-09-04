@@ -68,11 +68,12 @@ public class WheatCrop extends Cow {
     }
 
     @Override
+    public void onAttackEnd() {
+        this.setState(State.IDLE);
+    }
+
+    @Override
     public void draw(Graphics g) {
-        // if (this.wheatStage != 2) {
-        //     this.getSprite().update();
-        // }
-        // this.getSprite().draw(g, this.getX(), this.getY() - 15, this.getWidth(), this.getHeight());
         super.draw(g);
 
         if (this.wheatStage != 0) {

@@ -31,7 +31,6 @@ public class CherryBomb extends Cow {
     @Override
     public void draw(Graphics g) {
         this.getSprite().draw(g, getX() - spriteSize/3 - 10, getY() - spriteSize/3 - 30, spriteSize, spriteSize);
-        this.getSprite().update();
     }
 
     @Override

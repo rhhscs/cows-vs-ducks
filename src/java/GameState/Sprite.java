@@ -128,11 +128,16 @@ public class Sprite implements Updatable {
         if (tempCycle == null) {
             tempCycle = NULL_CYCLE;
         }
+        this.reset();
         this.curCycle = tempCycle;
     }
 
     public int getTicksPerFrame() {
         return this.ticksPerFrame;
+    }
+
+    public void reset() {
+        this.curFrame = 0;
     }
 
     @Override
@@ -142,6 +147,7 @@ public class Sprite implements Updatable {
 
     public void draw(Graphics g, int x, int y, int width, int height) {
         this.curCycle.draw(g, x, y, width, height);
+        this.update();
     }
 
     public final AnimationCycle NULL_CYCLE = new AnimationCycle();
