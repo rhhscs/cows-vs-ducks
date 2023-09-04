@@ -50,7 +50,12 @@ public class GameState extends State {
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_1)){
             if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
                 ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
-                    new Duck(1, 10, 10, 50, 100, lawn, lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK));
+                Duck.BASIC_DUCK.clone());
+            }
+        } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_2)){
+            if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                Duck.DUCK_WITH_BREAD.clone());
             }
         }
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_EQUALS)){
