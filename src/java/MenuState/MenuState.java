@@ -15,8 +15,7 @@ import java.util.List;
 public class MenuState extends State {
     // Buttons
     private Button startButton = new Button(100, ResolutionManager.HEIGHT / 2 - 100, 700, 80);
-    private Button scoresButton = new Button(100, ResolutionManager.HEIGHT / 2, 600, 80);
-    private Button bookButton = new Button(100 + 620, ResolutionManager.HEIGHT / 2, 80, 80);
+    private Button scoresButton = new Button(100, ResolutionManager.HEIGHT / 2, 700, 80);
 
     // Scores Banner
     private boolean showScores = true;
@@ -47,7 +46,6 @@ public class MenuState extends State {
     public void draw(Graphics g) {
         startButton.draw(g);
         scoresButton.draw(g);
-        bookButton.draw(g);
         if (showScores) {
             g.fillRect(Consts.SCORES_X, Consts.SCORES_Y, Consts.SCORES_WIDTH, Consts.SCORES_HEIGHT);
             g.setColor(Consts.SCORES_COLOR);
