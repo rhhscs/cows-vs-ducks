@@ -48,7 +48,7 @@ public class Cow extends Entity implements Drawable, Updatable {
             Sprite.CATAPULT,
             new Projectile(20, 20, 30, 30, 14, 18, 0, true, 0, true, 100000, null), AI.SHOOTER_COW_AI);
 
-    public static final Cow CEREAL_BOX = new CerealBox(300, 200); // make sure HP is divisible by 3
+    public static final Cow CEREAL_BOX = new CerealBox(450, 200); // make sure HP is divisible by 3
 
     public static final Cow WHEAT_CROP = new WheatCrop(50, 100);
 

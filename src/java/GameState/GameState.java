@@ -25,6 +25,7 @@ public class GameState extends State {
         this.ducks = new DuckManager();
         this.waveManager = new WaveManager();
         Cow.init(ducks);
+        Duck.init(lawn);
         ProjectileManager.projectileManager.setDuckManager(ducks);
         this.waveManager.init(ducks, lawn);
 

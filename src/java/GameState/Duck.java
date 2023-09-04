@@ -20,6 +20,12 @@ public class Duck extends Entity implements Drawable, Updatable {
     public static final int X = PlayingField.X + PlayingField.WIDTH;
 
     public static final Duck NULL_DUCK = new Duck(0, 0, 0, 0, 0, null, 0, null, Sprite.BASIC_DUCK);
+    public static final Duck BASIC_DUCK = new Duck(1, 10, 10, 50, 100, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck DUCK_WITH_BREAD = new Duck(1, 10, 10, 60, 150, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck DUCK_WITH_KNIFE = new Duck(1, 20, 10, 40, 75, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck DUCK_WITH_CEREAL = new Duck(1, 10, 10, 60, 250, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck GARGANTUAR_DUCK = new Duck(1, 100, 20, 120, 500, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+
 
     private Stat moveSpeed;
     private Stat damage;
@@ -73,6 +79,14 @@ public class Duck extends Entity implements Drawable, Updatable {
         this.laneIndex = laneIndex;
         this.ai = ai;
         this.target = null;
+    }
+
+    public static void init(PlayingField lawn){
+        BASIC_DUCK.setPlayingField(lawn);
+        DUCK_WITH_BREAD.setPlayingField(lawn);
+        DUCK_WITH_CEREAL.setPlayingField(lawn);
+        DUCK_WITH_KNIFE.setPlayingField(lawn);
+        GARGANTUAR_DUCK.setPlayingField(lawn);
     }
 
     Color color = new Color(80, 80, 80, 180);
@@ -155,6 +169,14 @@ public class Duck extends Entity implements Drawable, Updatable {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public void setLaneIndex(int index){
+        this.laneIndex = index;
+    }
+
+    public void setPlayingField(PlayingField playingField){
+        this.lawn = playingField;
     }
 
     public int getDamage() {
