@@ -2,10 +2,12 @@ package src.java.GameState;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 import src.java.Drawable;
+import src.java.Updatable;
 import src.java.GameState.Cows.Cow;
 import src.java.GameState.Cows.StackableCow;
 import src.java.Utilities.Input;
@@ -17,6 +19,7 @@ public class DocumentManager implements Drawable{
     CheerioManager cheerioManager = CheerioManager.getGlobalCheerios();
     LinkedList<Document> applicants = new LinkedList<Document>();
     DocumentTimer documentTimer = new DocumentTimer();
+    FireButton fire = new FireButton(300, 20);
     Trash trashCan = new Trash();
     PlayingField field;
     private int focusedIndex = -1;
@@ -55,8 +58,32 @@ public class DocumentManager implements Drawable{
     public void update(){
         trashCan.update();
         documentTimer.update();
+        fire.update();
 
         int removeIndex = -1;
+
+        
+        if (input.mouseClicked()){
+            if (fire.containsPoint(input.mouseX(), input.mouseY())) {
+                focusedIndex = -2;
+                dragged = true;
+            } else if (focusedIndex == -2 && !dragged){
+                if (!field.isOccupied(input.mouseX(), input.mouseY())) {
+                    focusedIndex = -1;
+                } else {
+                    field.removeCow(input.mouseX(), input.mouseY());
+                    focusedIndex = -1;
+                }
+            }
+        }
+        if (focusedIndex == -2 && input.mouseReleased() && dragged){
+            dragged = false;
+            focusedIndex = -1;
+            if (field.containsPoint(input.mouseX(), input.mouseY()) && field.isOccupied(input.mouseX(), input.mouseY())) {
+                field.removeCow(input.mouseX(), input.mouseY());
+            }
+        }
+
         for (int i = 0; i < applicants.size(); i++){
             Document applicant = applicants.get(i);
             applicant.update();
@@ -119,12 +146,23 @@ public class DocumentManager implements Drawable{
                     applicant.moveTo(marginLeft+selectTab, i*folderGap + marginTop);
                 }
             } else {
-                if (i < focusedIndex || focusedIndex == -1){
+                if (i < focusedIndex || focusedIndex < 0){
                     applicant.moveTo(marginLeft, i*folderGap + marginTop);
                 } else {
                     applicant.moveTo(marginLeft, i*folderGap + marginTop + selectGap);
                 }
             }
+        }
+        if (focusedIndex == -2) {
+            if (dragged && !fire.containsPoint(input.mouseX(), input.mouseY())){
+                fire.setPosition(input.mouseX(), input.mouseY());
+            } else {
+                fire.moveToDock();
+            }
+            fire.color = Color.RED;
+        } else { 
+            fire.moveToDock();
+            fire.color = Color.PINK;
         }
 
         if (removeIndex != -1){
@@ -139,7 +177,7 @@ public class DocumentManager implements Drawable{
         for (Document applicant: applicants){
             applicant.draw(g);
         }
-
+        fire.draw(g);
         trashCan.draw(g);
     }
     
@@ -234,5 +272,60 @@ public class DocumentManager implements Drawable{
             return null;
         }
         
+    }
+    
+    private class FireButton extends Entity implements Updatable, Drawable{
+        Image sprite;
+        private final float animationTime = 4.0f;
+        Color color = Color.PINK;
+        int xDest, yDest;
+        int xPos, yPos;
+
+        public FireButton(int x, int y) {
+            super(x, y, 80, 80);
+            xDest = x;
+            yDest = y;
+            xPos = x;
+            yPos = y;
+        }
+
+
+        @Override
+        public void draw(Graphics g) {
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(getX(), getY(), getWidth(), getWidth());
+            g.setColor(color);
+            g.fillOval(xPos, yPos, getWidth(), getWidth());
+        }
+
+        @Override
+        public void update() {
+            if (xPos < xDest){
+                xPos = xPos + Math.max(1, (int)((xDest-xPos)/animationTime));
+            }
+            if (xPos > xDest){
+                xPos = xPos - Math.max(1, (int)((xPos-xDest)/animationTime));
+            }
+            if (yPos < yDest){
+                yPos = yPos + Math.max(1, (int)((yDest-yPos)/animationTime));
+            }
+            if (yPos > yDest){
+                yPos = yPos - Math.max(1, (int)((yPos-yDest)/animationTime));
+            }
+        }
+
+        public void moveTo(int x, int y){
+            xDest = x;
+            yDest = y;
+        }
+
+        public void setPosition(int x, int y){
+            xPos = x;
+            yPos = y;
+        }
+
+        public void moveToDock(){
+            moveTo(getX(), getY());
+        }
     }
 }
