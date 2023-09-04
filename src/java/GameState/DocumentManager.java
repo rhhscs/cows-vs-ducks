@@ -190,7 +190,10 @@ public class DocumentManager implements Drawable{
                 nextStageTimer--;
                 if (nextStageTimer <= 0){
                     stage++;
-                    nextStageTimer = nextStageDelays[stage];
+                    
+                    if (stage < applicantTypes-1) {
+                        nextStageTimer = nextStageDelays[stage];
+                    }
                     //System.out.println(stage + " -" + nextStageDelays[stage] + "-> " + (stage+1));
                       
                 }
