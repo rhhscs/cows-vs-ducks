@@ -35,6 +35,8 @@ public class Sprite implements Updatable {
     public final static DuckSprite BASIC_DUCK = new DuckSprite("duck/duck/", 6, 1, 6, 3);
     public final static DuckSprite BREAD_DUCK = new DuckSprite("duck/bread/", 6, 1, 6, 3);
     public final static DuckSprite RUBBER_DUCK = new DuckSprite("duck/rubber/", 1, 1, 1, 3);
+    public final static DuckSprite KNIFE_DUCK = new DuckSprite("duck/knife/", 6, 1, 6, 3);
+    public final static DuckSprite RIVER_DUCK = new DuckSprite("duck/river/", 6, 1, 6, 3);
 
     public static void init() {
         String folder = "cow/cereal_box/";
