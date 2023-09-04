@@ -1,10 +1,16 @@
 package src.java;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
+import java.awt.FontFormatException;
 
 public final class Consts {
     public static final long FPS = 50;
     public static final long FRAME_DURATION = 1000 / FPS;
+
+    // Fonts
+    private static final String MONDAY_FEELINGS_FONT_FILE = "src/saves/TheOctopus-VPry.ttf";
 
     // Score screen constants
     public static final int SCORES_X = 1000;
@@ -12,8 +18,8 @@ public final class Consts {
     public static final int SCORES_WIDTH = 600;
     public static final int SCORES_HEIGHT = 800;
     public static final Color SCORES_COLOR = new Color(127, 127, 127);
-    public static final Font TITLE_FONT = Font.decode(Font.SANS_SERIF).deriveFont(40, 50);
-    public static final Font SCORES_FONT = Font.decode(Font.SANS_SERIF).deriveFont(40, 30);
+    public static final Font TITLE_FONT = loadFont(MONDAY_FEELINGS_FONT_FILE, Font.TRUETYPE_FONT, Font.PLAIN, 50);
+    public static final Font SCORES_FONT = loadFont(MONDAY_FEELINGS_FONT_FILE, Font.TRUETYPE_FONT, Font.PLAIN, 30);
     
 
     // Point value constants
@@ -51,6 +57,22 @@ public final class Consts {
      */
     public static int msToFrames(double ms) {
         return (int) (ms / FRAME_DURATION);
+    }
+
+    private static Font loadFont(String fontFileName, int fontType, int fontStyle, int fontSize){
+        Font errorFont = new Font("Bree Serif", fontStyle, fontSize);
+        Font font;
+        try{
+            Font actualFont = Font.createFont(fontType, new File(fontFileName));
+            font = actualFont.deriveFont((float)fontSize);
+        } catch (IOException ex) {
+            System.out.println("Font Files could not be read");
+            font = errorFont;
+        } catch (FontFormatException ex){
+            System.out.println("Font Files are invalid");  
+            font = errorFont;
+        }
+        return font;
     }
 
     private Consts() {}

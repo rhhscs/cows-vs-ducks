@@ -52,9 +52,9 @@ public class MenuState extends State {
             g.fillRect(Consts.SCORES_X, Consts.SCORES_Y, Consts.SCORES_WIDTH, Consts.SCORES_HEIGHT);
             g.setColor(Consts.SCORES_COLOR);
             scoresTitle.draw(g);
-            List<Score> topScores = ScoreManager.scoreManager.getTopScores(5);
+            List<Score> topScores = ScoreManager.scoreManager.getTopScores(10);
             for (int i = 0; i < topScores.size(); i++) {
-                score.setText(topScores.get(i).getName() + ": " + topScores.get(i).getScore());
+                score.setText((i + 1) + ". " + topScores.get(i).getName() + ": " + topScores.get(i).getScore());
                 score.draw(g, Consts.SCORES_X + 125, Consts.SCORES_Y + 100 + (75 * i));
             }
         }
