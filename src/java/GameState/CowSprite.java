@@ -2,6 +2,8 @@ package src.java.GameState;
 
 import java.awt.image.BufferedImage;
 
+import java.awt.Image;
+
 public class CowSprite extends Sprite {
     public static final String ATTACK_CYCLE = "attack";
     public static final String IDLE_CYCLE = "idle";
@@ -30,7 +32,7 @@ public class CowSprite extends Sprite {
         this.useIdleCycle();
     }
 
-    public BufferedImage getFileThumbnail() {
+    public Image getFileThumbnail() {
         return this.getThumbnail(FILE_THUMBNAIL);
     }
 
