@@ -8,6 +8,7 @@ import src.java.LoadingState.LoadingState;
 import src.java.Utilities.ResolutionManager;
 import src.java.Utilities.Score;
 import src.java.Utilities.ScoreManager;
+import src.java.Utilities.Text;
 
 import java.awt.Graphics;
 import java.util.List;
@@ -20,9 +21,12 @@ public class MenuState extends State{
 
     // Scores Banner
     private boolean showScores = true;
-    private ScoreManager scoreManager = new ScoreManager(null);
+    private ScoreManager scoreManager = new ScoreManager("src/saves/scores.txt");
+    private Text scoresTitle = new Text("HIGH SCORES", Consts.TITLE_FONT, Consts.SCORES_COLOR, Consts.SCORES_X + (Consts.SCORES_WIDTH / 2), Consts.SCORES_Y + 25);
+    private Text score = new Text("", Consts.SCORES_FONT, Consts.SCORES_COLOR, Consts.SCORES_X + (Consts.SCORES_WIDTH / 2), Consts.SCORES_Y + 25);
     @Override
     public void start() {
+        scoreManager.load();
         startButton.setOnClickFunction(() -> {nextState = new LoadingState();});
         scoresButton.setOnClickFunction(() -> {showScores = !showScores;});
     }
@@ -38,15 +42,17 @@ public class MenuState extends State{
         startButton.draw(g);
         scoresButton.draw(g);
         bookButton.draw(g);
-
-        /*if(showScores){
+        if(showScores){
             g.fillRect(Consts.SCORES_X, Consts.SCORES_Y, Consts.SCORES_WIDTH, Consts.SCORES_HEIGHT);
+            g.setColor(Consts.SCORES_COLOR);
+            scoresTitle.draw(g);
             List<Score> topScores = scoreManager.getTopScores(5);
             for(int i = 0; i < topScores.size(); i++){
+                score.setText(topScores.get(i).getName() + ": " + topScores.get(i).getScore());
+                score.draw(g,  Consts.SCORES_X + 125, Consts.SCORES_Y + 100 + (75*i));
                 // Fix this part later. I dont like that i have to call getScores() a lot. If you guys are ok with importing Score.java into this file that would be nice.
-                g.drawString(topScores.get(i).getName() + ": " + topScores.get(i).getScore(), Consts.SCORES_X + 100, Consts.SCORES_Y + 100 + (75*i));
             }
-        }*/
+        }
     }
     
     @Override
