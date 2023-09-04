@@ -28,14 +28,14 @@ club fair project!
  
 ## ducks
 [x] basic duck (basic zombie)
-[ ] duck with knife (more damage)
-[ ] duck with bread (bucket head)
-[ ] duck with cereal (conehead)
+[x] duck with knife (more damage)
+[x] duck with bread (cone head)
+[ ] river duck (bucket head)
 [ ] mother duck (camel zombie OR zombie with chickens)
-[ ] buff duck (gargantuar)
+[x] buff duck (gargantuar)
 [ ] flying duck (balloon zombie)
 [ ] hip hop duck (buffs zombie speed/damage)
-[ ] rubber duck (can't be hit by catapult, cow with cereal)
+[x] rubber duck (pops spikes)
 [ ] duck with suit (newspaper guy)
 
 ## screens
