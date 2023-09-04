@@ -58,7 +58,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow CEREAL_BOX = new CerealBox(300, 200); // make sure HP is divisible by 3
 
-    public static final Cow WHEAT_CROP = new WheatCrop(100, 100, 50);
+    public static final Cow WHEAT_CROP = new WheatCrop(50, 100);
 
     public static final Cow CEREAL_BOMB = new CherryBomb(500,
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
@@ -169,7 +169,7 @@ public class Cow extends Entity implements Drawable, Updatable {
                     }
                 }
             } catch (Exception e) {
-                this.attackSprites = null;
+                this.idleSprites = null;
             }
         }
 
@@ -204,10 +204,14 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     @Override
     public void draw(Graphics g) {
+        int a = 15;
+        if (sprite == Sprite.SPIKES){
+            a = 0;
+        }
         if (this.state == State.ATTACK) {
             if (attackSprites != null) {
                 g.drawImage(attackSprites[(frame / sprite.ticksPerFrame) % attackSprites.length], this.getX(),
-                        this.getY() - 15, this.getWidth(), this.getHeight(), null);
+                        this.getY() - a, this.getWidth(), this.getHeight(), null);
             } else {
                 g.setColor(new Color(150, 100, 100));
                 g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
@@ -215,9 +219,9 @@ public class Cow extends Entity implements Drawable, Updatable {
             frame++;
         } else if (this.state == State.IDLE) {
             if (idleSprites != null) {
-                // TODO
+                g.drawImage(idleSprites[0], this.getX() - a, this.getY(), this.getWidth(), this.getHeight(), null);
             } else if (attackSprites != null) {
-                g.drawImage(attackSprites[0], this.getX(), this.getY() - 15, this.getWidth(), this.getHeight(), null);
+                g.drawImage(attackSprites[0], this.getX(), this.getY() - a, this.getWidth(), this.getHeight(), null);
             } else {
                 g.setColor(new Color(50, 50, 50));
                 g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());

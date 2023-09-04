@@ -7,8 +7,8 @@ public class Sprite {
     // cows
     public final static Sprite CATAPULT =  new Sprite("cow/cow_catapult",  9,  0, 0, 3);
     public final static Sprite BODYGUARD = new Sprite("cow/cereal_box"  ,  0, 12, 0, 4);
-    public final static Sprite WHEAT = new Sprite("cow/crop_wheat"  ,  0, 0, 0, 4);
-    public final static Sprite SPIKES =    new Sprite(null          ,  5,  0, 0, 3);
+    public final static Sprite WHEAT =     new Sprite("cow/crop_wheat"  ,  0, 3, 0, 4);
+    public final static Sprite SPIKES =    new Sprite("cow/crushed_chunks",  1,  1, 0, 3);
     public final static Sprite FRIDGE =    new Sprite("cow/cold_fridge" , 16,  0, 0, 3);
     public final static Sprite KABOOM =    new Sprite("cow/cow_kaboom" , 724, 724, 20,  0, 0, 2);
 
