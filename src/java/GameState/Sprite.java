@@ -170,17 +170,14 @@ public class Sprite implements Updatable {
 
         @Override
         public void update() {
-            if (this.numFrames == 0)
-                return;
-
-            this.curFrame = (this.curFrame + 1) % (this.numFrames * getTicksPerFrame());
+            this.curFrame++;
         }
 
         public void draw(Graphics g, int x, int y, int width, int height) {
             if (this.numFrames == 0)
                 return;
 
-            g.drawImage(this.frames[this.curFrame / getTicksPerFrame()], x, y - 15, width, height,
+            g.drawImage(this.frames[(this.curFrame / getTicksPerFrame()) % this.numFrames], x, y, width, height,
                     null);
         }
     }
