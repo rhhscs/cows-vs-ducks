@@ -57,6 +57,11 @@ public class GameState extends State {
                 ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
                 Duck.DUCK_WITH_BREAD.clone());
             }
+        } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_4)){
+            if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                Duck.RUBBER_DUCK.clone());
+            }
         }
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_EQUALS)){
             CheerioManager.getGlobalCheerios().addCheerios(200);

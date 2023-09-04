@@ -19,7 +19,7 @@ public class DocumentManager implements Drawable{
     CheerioManager cheerioManager = CheerioManager.getGlobalCheerios();
     LinkedList<Document> applicants = new LinkedList<Document>();
     DocumentTimer documentTimer = new DocumentTimer();
-    FireButton fire = new FireButton(300, 20);
+    FireButton fire = new FireButton(290, 20);
     Trash trashCan = new Trash();
     PlayingField field;
     private int focusedIndex = -1;
@@ -296,6 +296,7 @@ public class DocumentManager implements Drawable{
             g.fillRect(getX(), getY(), getWidth(), getWidth());
             g.setColor(color);
             g.fillOval(xPos, yPos, getWidth(), getWidth());
+            
         }
 
         @Override

@@ -24,12 +24,13 @@ public class Duck extends Entity implements Drawable, Updatable {
     public static final Duck DUCK_WITH_BREAD = new Duck(1, 10, 10, 60, 200, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
     public static final Duck DUCK_WITH_KNIFE = new Duck(1, 20, 10, 40, 125, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
     public static final Duck DUCK_WITH_CEREAL = new Duck(1, 10, 10, 60, 300, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
+    public static final Duck RUBBER_DUCK = new RubberDuck(null, 0, AI.MELEE_DUCK_AI);
     public static final Duck GARGANTUAR_DUCK = new Duck(1, 100, 20, 120, 600, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
 
 
-    private Stat moveSpeed;
-    private Stat damage;
-    private Stat attackSpeed;
+    protected Stat moveSpeed;
+    protected Stat damage;
+    protected Stat attackSpeed;
 
     // important: runs backwards compared to cow's attack timer
     // this helps make attack speed modifiers work
@@ -43,7 +44,7 @@ public class Duck extends Entity implements Drawable, Updatable {
 
     private PlayingField lawn;
     private int laneIndex;
-    private Cow target;
+    protected Cow target;
     private AI ai;
 
     /**
@@ -87,6 +88,7 @@ public class Duck extends Entity implements Drawable, Updatable {
         DUCK_WITH_CEREAL.setPlayingField(lawn);
         DUCK_WITH_KNIFE.setPlayingField(lawn);
         GARGANTUAR_DUCK.setPlayingField(lawn);
+        RUBBER_DUCK.setPlayingField(lawn);
     }
 
     Color color = new Color(80, 80, 80, 180);
@@ -103,7 +105,7 @@ public class Duck extends Entity implements Drawable, Updatable {
 
             g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         } else {
-            this.sprite.draw(g, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            this.sprite.draw(g, this.getX(), this.getY()-20, this.getWidth(), this.getHeight());
         }
     }
 
@@ -185,6 +187,22 @@ public class Duck extends Entity implements Drawable, Updatable {
 
     public State getState() {
         return state;
+    }
+
+    public Sprite getSprite(){
+        return sprite;
+    }
+
+    public PlayingField getPlayingField(){
+        return lawn;
+    }
+    
+    public AI getAI(){
+        return ai;
+    }
+
+    public int getLane(){
+        return laneIndex;
     }
 
     public void setState(State newState) {

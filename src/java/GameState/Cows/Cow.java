@@ -56,8 +56,8 @@ public class Cow extends Entity implements Drawable, Updatable {
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
                     PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 2, null));
 
-    public static final Cow CRUSHED_CEREAL = new Cow(100, 40, 40, 1, false, 100, Sprite.SPIKES,
-            new Projectile(0, PlayingField.Tile.SIZE / 2, PlayingField.Tile.SIZE, PlayingField.Tile.SIZE / 2, 0, 18, 0, false, 0, true, 5, null),
+    public static final Cow CRUSHED_CEREAL = new Cow(10, 40, 40, 1, false, 100, Sprite.SPIKES,
+            new Projectile(5, PlayingField.Tile.SIZE / 2, PlayingField.Tile.SIZE - 10, PlayingField.Tile.SIZE / 2, 0, 18, 0, false, 0, true, 2, null),
             AI.MELEE_COW_AI);
 
     public static final Cow COLD_FRIDGE = new Cow(100,

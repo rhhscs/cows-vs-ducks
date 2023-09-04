@@ -31,6 +31,7 @@ public class Sprite implements Updatable {
     // ducks
     public final static DuckSprite BASIC_DUCK = new DuckSprite("duck/duck/", 6, 1, 6, 3);
     public final static DuckSprite BREAD_DUCK = new DuckSprite("duck/bread/", 6, 1, 6, 3);
+    public final static DuckSprite RUBBER_DUCK = new DuckSprite("duck/rubber/", 1, 1, 1, 3);
 
     public static void init() {
         String folder = "cow/cereal_box/";
@@ -239,7 +240,7 @@ public class Sprite implements Updatable {
         public void draw(Graphics g, int x, int y, int width, int height) {
             if (this.numFrames == 0)
                 return;
-
+            
             g.drawImage(this.frames[(curFrame / getTicksPerFrame()) % this.numFrames], x, y, width, height,
                     null);
         }
