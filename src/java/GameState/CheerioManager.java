@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import src.java.Drawable;
+import src.java.Utilities.ScoreManager;
 
 public class CheerioManager implements Drawable{
     private static CheerioManager globalCheerioManager = new CheerioManager();
@@ -14,7 +15,8 @@ public class CheerioManager implements Drawable{
 
     private int value = 400;
     private Font font = new Font(Font.MONOSPACED, Font.PLAIN, 60);
-    
+    private int cheerioPointCounter = 0;
+
     private CheerioManager(){}
 
     public void addCheerios(int num) {
@@ -26,6 +28,12 @@ public class CheerioManager implements Drawable{
 
     public void spendCheerios(int num) {
         value -= num;
+        cheerioPointCounter += num;
+        
+        while (cheerioPointCounter > 100) {
+            cheerioPointCounter -= 100;
+            ScoreManager.scoreManager.addCurPoints(10);
+        }
     }
 
     public int getCheerios(){

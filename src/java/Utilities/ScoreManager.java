@@ -6,12 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class manages scores.
+ * This class manages scores. It also maintains the current score.
  */
 public class ScoreManager implements Iterable<Score> {
     private ScoreFile scoreFile;
     private ArrayList<Score> scores;
     private String filePath;
+
+    private Score curScore;
+
+    public static final ScoreManager scoreManager = new ScoreManager("src/saves/scores.txt");
 
     /**
      * Creates a new Score Manager object.
@@ -21,6 +25,7 @@ public class ScoreManager implements Iterable<Score> {
         this.scoreFile = new CsvScoreFile(); // can be changed to other format later
         this.scores = new ArrayList<Score>();
         this.filePath = filePath;
+        this.curScore = new Score("Player", 0);
     }
 
     /**
@@ -43,6 +48,14 @@ public class ScoreManager implements Iterable<Score> {
         } catch(IOException ex) {
             System.err.println("Error: could not save score file " + this.getFilePath());
         } 
+    }
+
+    /**
+     * This emtpies the score manager.
+     */
+    public void reset() {
+        this.scores.clear();
+        this.curScore = new Score("Player", 0);
     }
 
     /**
@@ -69,6 +82,25 @@ public class ScoreManager implements Iterable<Score> {
         }
 
         this.scores.add(newScore);
+    }
+
+    public void add(Score score) {
+        this.add(score.getName(), score.getScore());
+    }
+
+    /**
+     * Adds the current score to the file.
+     */
+    public void addCurScore() {
+        this.add(this.curScore);
+    }
+
+    public void setCurName(String name) {
+        this.curScore.setName(name);
+    }
+
+    public void addCurPoints(int points) {
+        this.curScore.addPoints(points);
     }
 
     /**

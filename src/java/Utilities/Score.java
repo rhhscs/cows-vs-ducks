@@ -27,12 +27,24 @@ public class Score implements Comparable<Score> {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Gets the score.
      * @return The score.
      */
     public int getScore() {
         return this.score;
+    }
+
+    public void addPoints(int points) {
+        this.score += points;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     @Override

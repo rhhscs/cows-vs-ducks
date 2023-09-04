@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;
 
+import src.java.Consts;
 import src.java.Drawable;
 import src.java.Updatable;
+import src.java.Utilities.ScoreManager;
 
 public class WaveManager implements Drawable, Updatable{
 
@@ -75,6 +77,7 @@ public class WaveManager implements Drawable, Updatable{
             this.currentWave = 0;
             this.waveCount = Math.min((int)Math.ceil((double)this.currentLevel / 1.5), 4);
             this.stageAnnouncement = 100;
+            ScoreManager.scoreManager.addCurPoints(Consts.LEVEL);
         }
         
         // if it is time for a new wave
@@ -86,6 +89,7 @@ public class WaveManager implements Drawable, Updatable{
             if(this.currentWave <= this.waveCount){
                 this.waveAnnouncement = 100;
             }
+            ScoreManager.scoreManager.addCurPoints(Consts.WAVE[this.currentWave]);
         }
 
         // spawn the ducks from the wave

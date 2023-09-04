@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.awt.Graphics;
 import src.java.Drawable;
 import src.java.Updatable;
+import src.java.Utilities.ScoreManager;
 
 public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> {
     private ArrayList<Duck> ducks;
@@ -67,6 +68,7 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
             Duck duck = iterator.next();
 
             if (!duck.isAlive()) {
+                ScoreManager.scoreManager.addCurPoints(duck.getPoints());
                 iterator.remove();
             } else {
                 this.updateFarthestDuck(duck);
@@ -76,8 +78,11 @@ public class Lane extends Entity implements Updatable, Drawable, Iterable<Duck> 
         // Check if they triggered the lawnmower
         for (Duck duck: this.ducks) {
             if (this.mower.collides(duck)) {
-                Projectile projectile = this.mower.trigger();
-                ProjectileManager.projectileManager.addProjectile(projectile);
+                if (!this.mower.isTriggered()) {
+                    ScoreManager.scoreManager.addCurPoints(-100);
+                    Projectile projectile = this.mower.trigger();
+                    ProjectileManager.projectileManager.addProjectile(projectile);
+                }
             }
         }
 
