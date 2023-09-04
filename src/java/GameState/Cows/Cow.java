@@ -123,7 +123,7 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.cost = cost;
 
         // sprite
-        this.sprite = sprite;
+        this.sprite = sprite.clone();
         this.sprite.useIdleCycle();
 
         this.setState(State.IDLE);

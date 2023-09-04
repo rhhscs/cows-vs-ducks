@@ -41,4 +41,19 @@ public class CowSprite extends Sprite {
     public void useIdleCycle() {
         this.useCycle(IDLE_CYCLE);
     }
+
+    @Override
+    public CowSprite clone() {
+        CowSprite sprite = new CowSprite(this.getWidth(), this.getHeight(), this.getTicksPerFrame());
+        
+        for (String name: this.getThumbnails().keySet()) {
+            sprite.setThumbnail(name, this.getThumbnails().get(name));
+        }
+        
+        for (String name: this.getCycles().keySet()) {
+            sprite.setCycle(name, this.getCycles().get(name).getFrames());
+        }
+
+        return sprite;
+    }
 }
