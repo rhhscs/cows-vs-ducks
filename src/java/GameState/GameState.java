@@ -70,8 +70,8 @@ public class GameState extends State {
         g.fillRect(0, 0, ResolutionManager.WIDTH, ResolutionManager.HEIGHT);
         this.lawn.draw(g);
         this.ducks.draw(g);
-        this.waveManager.draw(g);
         ProjectileManager.projectileManager.draw(g);
+        this.waveManager.draw(g);
         this.gooey.draw(g);
     }
 
