@@ -19,7 +19,7 @@ public class Duck extends Entity implements Drawable, Updatable {
     public static final int HEIGHT = PlayingField.Tile.SIZE;
     public static final int X = PlayingField.X + PlayingField.WIDTH;
 
-    public static final Duck NULL_DUCK = new Duck(0, 0, 0, 0, 0, null, null, 0, null);
+    public static final Duck NULL_DUCK = new Duck(0, 0, 0, 0, 0, null, 0, null, Sprite.BASIC_DUCK);
 
     private Stat moveSpeed;
     private Stat damage;
@@ -30,8 +30,9 @@ public class Duck extends Entity implements Drawable, Updatable {
     private int attackTimer;
     private int attackDuration;
 
+    private DuckSprite sprite;
+
     private int health;
-    private String sprite;
     private State state;
 
     private PlayingField lawn;
@@ -45,26 +46,29 @@ public class Duck extends Entity implements Drawable, Updatable {
      * @param moveSpeed      The move speed of this duck.
      * @param damage         The damage per attack.
      * @param attackDuration The number of frames the attack lasts for.
-     * @param attackSpeed The number of frames between attacks.
+     * @param attackSpeed    The number of frames between attacks.
      * @param health         The health points.
      * @param sprite         The sprite of this duck.
      * @param lawn           The lawn that this duck should interact with.
      * @param laneIndex      The index of the lane this duck is in.
+     * @param sprite         The duck sprite.
      */
     public Duck(int moveSpeed, int damage, int attackDuration, int attackSpeed, int health,
-            String sprite,
-            PlayingField lawn, int laneIndex, AI ai) {
+            PlayingField lawn, int laneIndex, AI ai, DuckSprite sprite) {
         super(X, PlayingField.Y + PlayingField.Tile.SIZE * laneIndex, WIDTH, HEIGHT);
         this.moveSpeed = new Stat(moveSpeed);
         this.damage = new Stat(damage);
         this.attackSpeed = new Stat(attackSpeed);
-        
+
         this.attackDuration = attackDuration;
         this.attackTimer = attackSpeed + attackDuration;
 
         this.health = health;
-        this.sprite = sprite;
-        this.state = State.WALK;
+
+        this.sprite = sprite.clone();
+        this.sprite.useWalkCycle();
+
+        this.setState(State.WALK);
         this.lawn = lawn;
         this.laneIndex = laneIndex;
         this.ai = ai;
@@ -73,6 +77,7 @@ public class Duck extends Entity implements Drawable, Updatable {
 
     Color color = new Color(80, 80, 80, 180);
     Color color2 = new Color(255, 10, 10, 180);
+
     @Override
     public void draw(Graphics g) {
         if (this.sprite == null) {
@@ -83,6 +88,8 @@ public class Duck extends Entity implements Drawable, Updatable {
             }
 
             g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        } else {
+            this.sprite.draw(g, this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
     }
 
@@ -91,6 +98,7 @@ public class Duck extends Entity implements Drawable, Updatable {
         this.moveSpeed.update();
         this.damage.update();
         this.attackSpeed.update();
+        this.sprite.update();
 
         if (this.state == State.WALK) {
             this.move(-this.moveSpeed.getValue(), 0);
@@ -100,20 +108,11 @@ public class Duck extends Entity implements Drawable, Updatable {
         }
 
         if (this.attackTimer == this.attackDuration) {
-            // Update the target if the target dies.
-            if (this.target != null && !this.target.isAlive()) {
-                this.target = null;
-            }
-            
-            // Find a new target if necessary.
-            if (this.target == null) {
-                this.target = (Cow) this.ai.findTarget(this.lawn.getCowsInLane(this.laneIndex), this);
-            }
-            
+            this.updateTarget();
+
             if (this.target != null) {
                 // Start attack animation.
-                this.setState(State.ATTACK);
-                this.attack();
+                this.onAttackStart();
             } else {
                 // No target, start walking since attack animation ended.
                 this.setState(State.WALK);
@@ -121,13 +120,33 @@ public class Duck extends Entity implements Drawable, Updatable {
         }
 
         if (this.attackTimer == 0) {
-            // Attack animation ends
-            if (this.target == null || !this.target.isAlive()) {
-                this.setState(State.WALK);
-            } else {
-                this.setState(State.IDLE);
-            }
+            this.onAttackEnd();
             this.attackTimer = this.attackSpeed.getValue() + this.attackDuration;
+        }
+    }
+
+    public void updateTarget() {
+        // Update the target if the target dies.
+        if (this.target != null && !this.target.isAlive()) {
+            this.target = null;
+        }
+
+        // Find a new target if necessary.
+        if (this.target == null) {
+            this.target = (Cow) this.ai.findTarget(this.lawn.getCowsInLane(this.laneIndex), this);
+        }
+    }
+
+    public void onAttackStart() {
+        this.setState(State.ATTACK);
+        this.attack();
+    }
+
+    public void onAttackEnd() {
+        if (this.target == null || !this.target.isAlive()) {
+            this.setState(State.WALK);
+        } else {
+            this.setState(State.IDLE);
         }
     }
 
@@ -147,8 +166,18 @@ public class Duck extends Entity implements Drawable, Updatable {
         return state;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setState(State newState) {
+        if (newState == this.state)
+            return;
+
+        if (newState == State.ATTACK) {
+            this.sprite.useAttackCycle();
+        } else if (newState == State.IDLE) {
+            this.sprite.useIdleCycle();
+        } else {
+            this.sprite.useWalkCycle();
+        }
+        this.state = newState;
     }
 
     public boolean isAlive() {
@@ -173,7 +202,7 @@ public class Duck extends Entity implements Drawable, Updatable {
     /**
      * This changes the move speed of this duck.
      * 
-     * @param value The amount to decrease the move speed by.
+     * @param value    The amount to decrease the move speed by.
      * @param duration The duration to apply the effect.
      */
     public void applyMoveSpeedEffect(int value, int duration) {
@@ -183,7 +212,7 @@ public class Duck extends Entity implements Drawable, Updatable {
     /**
      * This changes the attack speed of this duck.
      * 
-     * @param value The amount to change the attack speed by.
+     * @param value    The amount to change the attack speed by.
      * @param duration The duration to apply the effect.
      */
     public void applyAttackSpeedEffect(int value, int duration) {
@@ -193,7 +222,7 @@ public class Duck extends Entity implements Drawable, Updatable {
     /**
      * This changes the attack damage of this duck.
      * 
-     * @param value The amount to change the attack damage by.
+     * @param value    The amount to change the attack damage by.
      * @param duration The duration to apply the effect.
      */
     public void applyDamageEffect(int value, int duration) {
@@ -203,6 +232,7 @@ public class Duck extends Entity implements Drawable, Updatable {
     @Override
     protected Duck clone() {
         return new Duck(this.moveSpeed.getBaseValue(), this.damage.getBaseValue(),
-                this.attackDuration, this.attackSpeed.getBaseValue(), this.getHealth(), this.sprite, this.lawn, this.laneIndex, this.ai);
+                this.attackDuration, this.attackSpeed.getBaseValue(), this.getHealth(), this.lawn, this.laneIndex,
+                this.ai, this.sprite);
     }
 }
