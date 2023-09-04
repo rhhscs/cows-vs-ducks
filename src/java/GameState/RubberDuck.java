@@ -14,6 +14,7 @@ public class RubberDuck extends Duck{
 
     @Override
     public void draw(Graphics g){
+        getSprite().update();
         getSprite().draw(g, this.getX(), this.getY()-20, this.getWidth(), this.getHeight());
     }
     

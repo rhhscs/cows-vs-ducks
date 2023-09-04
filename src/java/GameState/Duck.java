@@ -122,6 +122,7 @@ public class Duck extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
+        this.sprite.update();
         this.moveSpeed.update();
         this.damage.update();
         this.attackSpeed.update();
@@ -288,6 +289,6 @@ public class Duck extends Entity implements Drawable, Updatable {
     protected Duck clone() {
         return new Duck(this.moveSpeed.getBaseValue(), this.damage.getBaseValue(),
                 this.attackDuration, this.attackSpeed.getBaseValue(), this.getHealth(), this.lawn, this.laneIndex,
-                this.ai, this.sprite);
+                this.ai, this.sprite, this.points);
     }
 }
