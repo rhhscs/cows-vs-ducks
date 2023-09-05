@@ -41,7 +41,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     private Projectile projectile;
     private DuckManager duckManager;
     private AI ai;
-    private Duck target;
+    protected Duck target;
 
     public static final Cow CHEERIO_CATAPULT = new Cow(100,
             70, 20, 12,
@@ -55,7 +55,7 @@ public class Cow extends Entity implements Drawable, Updatable {
 
     public static final Cow CEREAL_BOMB = new CherryBomb(500,
             new Projectile(-PlayingField.Tile.SIZE, -PlayingField.Tile.SIZE, PlayingField.Tile.SIZE * 3,
-                    PlayingField.Tile.SIZE * 3, 0, 200, 0, false, 0, true, 2, Sprite.NULL));
+                    PlayingField.Tile.SIZE * 3, 0, 400, 0, false, 0, true, 2, Sprite.NULL));
 
     public static final Cow CRUSHED_CEREAL = new Cow(10, 40, 40, 1, false, 250, Sprite.SPIKES,
             new Projectile(5, PlayingField.Tile.SIZE / 2, PlayingField.Tile.SIZE - 10, PlayingField.Tile.SIZE / 2, 0, 18, 0, false, 0, true, 2, Sprite.NULL),
@@ -67,10 +67,10 @@ public class Cow extends Entity implements Drawable, Updatable {
             Sprite.FRIDGE,
             new Projectile(20, 20, 50, 50, 14, 18, 40, true, 1, true, 10000, Sprite.FROZEN_CHEERIO), AI.SHOOTER_COW_AI);
 
-    public static final Cow PEA_POD = new StackableCow(true, 25, Sprite.STACK_COW);
+    public static final Cow PEA_POD = new StackableCow(175, Sprite.STACK_COW);
 
-    public static final Cow CHEERIO_PITCHER = new Cow(100, 70, 20, 12, true, 400, Sprite.LASER,
-            new PiercingProjectile(40, 65, 50, 50, 30, 2, 1000, Sprite.RAINBOW), AI.SHOOTER_COW_AI);
+    public static final Cow CEREAL_LASER = new Cow(100, 70, 20, 3, true, 400, Sprite.LASER,
+            new PiercingProjectile(40, 65, 50, 50, 45, 3, 1000, Sprite.RAINBOW), AI.SHOOTER_COW_AI);
 
     /**
      * This constructs a single-tile cow.
@@ -145,15 +145,8 @@ public class Cow extends Entity implements Drawable, Updatable {
         CEREAL_BOMB.setDuckManager(duckManager);
         CRUSHED_CEREAL.setDuckManager(duckManager);
         COLD_FRIDGE.setDuckManager(duckManager);
-        CHEERIO_PITCHER.setDuckManager(duckManager);
-
+        CEREAL_LASER.setDuckManager(duckManager);
         PEA_POD.setDuckManager(duckManager);
-        Cow[] peas = { CHEERIO_CATAPULT.clone(), CHEERIO_CATAPULT.clone(), CHEERIO_CATAPULT.clone() };
-        peas[0].setPos(50, 25);
-        peas[1].setPos(0, 25);
-        peas[2].setPos(25, 0);
-
-        ((StackableCow) PEA_POD).setCows(peas);
     }
 
     @Override
@@ -291,8 +284,16 @@ public class Cow extends Entity implements Drawable, Updatable {
         this.state = newState;
     }
 
+    public void setRawState(State newState){
+        this.state = newState;
+    }
+
     public void attack() {
         ProjectileManager.projectileManager.addProjectile(this.projectile.clone());
+    }
+
+    protected void attackWith(Projectile proj){
+        ProjectileManager.projectileManager.addProjectile(proj.clone());
     }
 
     /**

@@ -12,12 +12,15 @@ import javax.imageio.ImageIO;
 
 import src.java.Updatable;
 import src.java.GameState.Cows.CerealBox;
+import src.java.GameState.Cows.Cow;
+import src.java.GameState.Cows.StackableCow;
 import src.java.GameState.Cows.WheatCrop;
 
 public class Sprite implements Updatable {
     protected final static String SOURCE = "src/img/sprite/";
     protected static final String EXTENSION = ".png";
     protected final static int DEFAULT_SPRITE_TILE_SIZE = 256;
+    protected final static int STACKABLE_SPRITE_TILE_HEIGHT = 372;
     protected final static int PROJECTILE_SPRITE_TILE_SIZE = 128;
 
     
@@ -29,8 +32,8 @@ public class Sprite implements Updatable {
     public final static CowSprite WHEAT = new CowSprite(250);
     public final static CowSprite SPIKES = new CowSprite("cow/crushed_chunks/", 1, 1, 10);
     public final static CowSprite FRIDGE = new CowSprite("cow/cold_fridge/", 16, 1, 3);
-    public final static CowSprite KABOOM = new CowSprite("cow/cow_kaboom/", 724, 724, 20, 1, 3);
-    public final static CowSprite STACK_COW = new CowSprite(3);
+    public final static CowSprite KABOOM = new CowSprite("cow/cow_kaboom/", 724, 724, 20, 1, 2);
+    public final static CowSprite STACK_COW = new CowSprite(256, 372, 3);
     public final static CowSprite LASER = new CowSprite("cow/cool_lazer/", 6, 1, 3);
 
     // ducks
@@ -74,6 +77,26 @@ public class Sprite implements Updatable {
             System.err.println("Sprite could not load: " + folder);
         }
         WHEAT.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + EXTENSION);
+
+        folder = "cow/cow_stacked/";
+        try {
+            BufferedImage idleCycleSheet = ImageIO
+                    .read(new File(SOURCE + folder + CowSprite.IDLE_CYCLE + EXTENSION));
+            for (int i = 0; i < StackableCow.MAX; i++) {
+                BufferedImage tempSpriteSheet = idleCycleSheet.getSubimage(0, STACKABLE_SPRITE_TILE_HEIGHT * i, idleCycleSheet.getWidth(), STACKABLE_SPRITE_TILE_HEIGHT);
+                STACK_COW.setCycle(CowSprite.IDLE_CYCLE + (i+1), tempSpriteSheet, 1);
+            }
+            BufferedImage attackCycleSheet = ImageIO
+                    .read(new File(SOURCE + folder + CowSprite.ATTACK_CYCLE + EXTENSION));
+            for (int i = 0; i < StackableCow.MAX; i++) {
+                BufferedImage tempSpriteSheet = attackCycleSheet.getSubimage(0, STACKABLE_SPRITE_TILE_HEIGHT * i, attackCycleSheet.getWidth(), STACKABLE_SPRITE_TILE_HEIGHT);
+                STACK_COW.setCycle(CowSprite.ATTACK_CYCLE + (i+1), tempSpriteSheet, 17);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Sprite could not load: " + folder);
+        }
+        STACK_COW.setThumbnail(CowSprite.FILE_THUMBNAIL, folder + CowSprite.FILE_THUMBNAIL + EXTENSION);
     
         folder = "cheerio/";
         CHEERIO.setCycle("projectile", folder + "default" + EXTENSION, 1);
@@ -166,6 +189,14 @@ public class Sprite implements Updatable {
 
         if (tempCycle != this.curCycle) {
             this.reset();
+        }
+        this.curCycle = tempCycle;
+    }
+
+    public void useCycleSilent(String name) {
+        AnimationCycle tempCycle = this.cycles.get(name);
+        if (tempCycle == null) {
+            tempCycle = NULL_CYCLE;
         }
         this.curCycle = tempCycle;
     }

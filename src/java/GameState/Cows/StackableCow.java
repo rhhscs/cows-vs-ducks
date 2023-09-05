@@ -2,16 +2,23 @@ package src.java.GameState.Cows;
 
 import java.awt.Graphics;
 
+import src.java.GameState.AI;
 import src.java.GameState.CowSprite;
+import src.java.GameState.PlayingField;
 import src.java.GameState.Projectile;
+import src.java.GameState.Sprite;
 
 /**
- * A stackable cow is a cow that combines multiple cows into a single tile. It
- * stores all its possible cows ahead of time.
+ * A stackable cow is a cow that fires multiple projectiles at once.
  */
 public class StackableCow extends Cow {
-    private Cow[] cows;
     private int curSize;
+    private final int attackDelays = 12;
+    public static final int MAX = 3;
+    
+    private Projectile firstShot = new Projectile(50, 90, 40, 40, 16, 12, 0, true, 0, true, 10000, Sprite.CHEERIO);
+    private Projectile secondShot = new Projectile(50, 10, 40, 40, 16, 15, 0, true, 0, true, 10000, Sprite.CHEERIO);
+    private Projectile thirdShot = new Projectile(50, 50, 40, 40, 16, 18, 0, true, 0, true, 10000, Sprite.CHEERIO);
 
     /**
      * This creates a new stackable cow object.
@@ -20,121 +27,93 @@ public class StackableCow extends Cow {
      * @param cost         The cost of this cow.
      * @param sprite       The cow sprite.
      */
-    public StackableCow(boolean isTargetable, int cost, CowSprite sprite) {
-        super(100, 0, 0, 0, isTargetable, cost, sprite, Projectile.NULL, null);
-        this.cows = new Cow[0];
+    public StackableCow(int cost, CowSprite sprite) {
+        super(100, 70, 20, 8*3, true, cost, sprite, Projectile.NULL, AI.SHOOTER_COW_AI);
+        getSprite().useCycle(CowSprite.IDLE_CYCLE + 1);
         this.curSize = 0;
     }
 
-    /**
-     * This sets where and what cows appear when this cow gets stacked.
-     * 
-     * @param cows An array of the cows that will appear when stacked.
-     */
-    public void setCows(Cow[] cows) {
-        this.cows = cows;
-    }
 
-    /**
-     * This increases the cows stacked at this tile.
-     */
     public void stackCow() {
         this.curSize++; // Math.max(cows.length, curSize + 1) ?
+        
+        if (getState() == State.IDLE){
+            getSprite().useCycle(CowSprite.IDLE_CYCLE + this.curSize);
+        }  else if (getState() == State.ATTACK){
+            getSprite().useCycleSilent(CowSprite.ATTACK_CYCLE + this.curSize);
+        }
     }
-
-    /**
-     * This decreases the cows stacked at this tile.
-     */
     public void removeCow() {
         this.curSize--; // Math.min(0, cuSize - 1) ?
     }
 
     @Override
     public void update() {
-        for (int i = 0; i < this.curSize; i++) {
-            this.cows[i].update();
+        
+        if (this.getState() == State.ATTACK || this.getAttackTimer() < this.getAttackSpeed()) {
+            setAttackTimer(getAttackTimer()+1);
+        }
+
+        if (this.getAttackTimer() == this.getAttackSpeed()) {
+            this.updateTarget();
+
+            // Start attack animation.
+            if (this.target != null) {
+                if (getState() != State.ATTACK){
+                    this.setRawState(State.ATTACK);
+                    getSprite().useCycle(CowSprite.ATTACK_CYCLE + this.curSize);
+                }
+            }
+        }
+
+        if (this.getAttackTimer() == this.getAttackSpeed() + this.getAttackDelay()) {
+            this.attackWith(firstShot);
+        }
+        if (this.curSize >= 2 && this.getAttackTimer() == this.getAttackSpeed() + this.getAttackDelay() + attackDelays) {
+            this.attackWith(secondShot);
+        }
+        if (this.curSize >= 3 && this.getAttackTimer() == this.getAttackSpeed() + this.getAttackDelay() + attackDelays*2) {
+            this.attackWith(thirdShot);
+        }
+
+        if (this.getAttackTimer() == this.getAttackSpeed() + getSprite().getCycleTicks(CowSprite.ATTACK_CYCLE + this.curSize)) {
+            if (getState() != State.IDLE){
+                this.setRawState(State.IDLE);
+                getSprite().useCycle(CowSprite.IDLE_CYCLE + this.curSize);
+            }
+            setAttackTimer(0);
         }
     }
+
 
     @Override
     public void draw(Graphics g) {
-        for (int i = 0; i < this.curSize; i++) {
-            this.cows[i].draw(g);
-        }
+        getSprite().draw(g, getX() + 10, getY() - (PlayingField.Tile.SIZE/2) + 14, getWidth() - 10, (int)(getHeight()*1.4) - 14);
     }
 
     public boolean isFull() {
-        return this.getCurSize() >= this.getMaxSize();
+        System.out.println(curSize + " " + MAX);
+        return this.getCurSize() >= MAX;
     }
 
-    @Override
-    public void move(int dx, int dy) {
-        for (Cow cow : this.cows) {
-            cow.move(dx, dy);
-        }
-
-        super.move(dx, dy);
-    }
-
-    @Override
-    public void setPos(int x, int y) {
-        int dx = x - this.getX();
-        int dy = y - this.getY();
-
-        for (Cow cow : this.cows) {
-            cow.move(dx, dy);
-        }
-
-        super.setPos(x, y);
-    }
-
-    @Override
-    public void setX(int x) {
-        int dx = x - this.getX();
-
-        for (Cow cow : this.cows) {
-            cow.move(dx, 0);
-        }
-        super.setX(x);
-    }
-
-    @Override
-    public void setY(int y) {
-        int dy = y - this.getY();
-
-        for (Cow cow : this.cows) {
-            cow.move(0, dy);
-        }
-        super.setY(y);
-    }
 
     public int getCurSize() {
         return this.curSize;
     }
 
-    public void setCurSize(int size) {
-        this.curSize = size;
-    }
-
-    public int getMaxSize() {
-        return this.cows.length;
+    @Override
+    public void move(int dx, int dy){
+        super.move(dx, dy);
+        firstShot.move(dx, dy);
+        secondShot.move(dx, dy);
+        thirdShot.move(dx, dy);
     }
 
     @Override
     public StackableCow clone() {
-        StackableCow cow = new StackableCow(this.isTargetable(), this.getCost(), this.getSprite());
-
-        // Copy the peas.
-        Cow[] newPeas = new Cow[this.cows.length];
-        for (int i = 0; i < newPeas.length; i++) {
-            newPeas[i] = this.cows[i].clone();
-        }
-        cow.setCows(newPeas);
-
-        // Stack the same amount.
-        cow.setCurSize(this.getCurSize());
-
-        return cow;
+        StackableCow clone = new StackableCow(this.getCost(), this.getSprite());
+        clone.setDuckManager(getDuckManager());
+        return clone;
     }
 
     @Override

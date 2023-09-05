@@ -96,8 +96,7 @@ public class DocumentManager implements Drawable{
                         focusedIndex = -1;
                     } else {
                         if (applicant.getSalary() <= cheerioManager.getCheerios()){
-                            if(!(field.getTileAt(input.mouseX(), input.mouseY()).getCow() instanceof StackableCow &&
-                            !(applicant.hire() instanceof StackableCow))){
+                            if ((applicant.hire() instanceof StackableCow && !field.getTileAt(input.mouseX(), input.mouseY()).isFull()) || !field.isOccupied(input.mouseX(), input.mouseY())){
                                 field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
                                 removeIndex = i;
                                 focusedIndex = -1;
@@ -119,8 +118,7 @@ public class DocumentManager implements Drawable{
                     dragged = false;
                     if (!field.isOccupied(input.mouseX(), input.mouseY())) {
                         if (applicant.getSalary() <= cheerioManager.getCheerios()){
-                            if(!(field.getTileAt(input.mouseX(), input.mouseY()).getCow() instanceof StackableCow &&
-                            !(applicant.hire() instanceof StackableCow))){
+                            if ((applicant.hire() instanceof StackableCow && !field.getTileAt(input.mouseX(), input.mouseY()).isFull()) || !field.isOccupied(input.mouseX(), input.mouseY())){
                                 field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
                                 removeIndex = i;
                                 focusedIndex = -1;
@@ -245,6 +243,9 @@ public class DocumentManager implements Drawable{
                 if (newDocTimer <= 0){
                     Document applicant;
                     if (isFirst){
+                        applicants.add(new Document(Cow.PEA_POD));
+                        applicants.add(new Document(Cow.PEA_POD));
+                        applicants.add(new Document(Cow.PEA_POD));
                         applicant = new Document(Cow.CHEERIO_CATAPULT);
                         isFirst = false;
                     } else {

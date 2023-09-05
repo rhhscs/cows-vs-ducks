@@ -125,7 +125,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
         Tile tile = getTileAt(x, y);
         if (tile == null || !this.containsPoint(x, y))
             return true;
-        return tile.isFull();
+        return false;
     }
 
     @Override
@@ -144,13 +144,13 @@ public class PlayingField extends Entity implements Drawable, Updatable {
                 this.grid[x][y].draw(g);
             }
         }
+        if (sprite != null){
+            g.drawImage(sprite, X-13, Y-13, this.getWidth()*Tile.SIZE+26, this.getHeight()*Tile.SIZE+26, null);
+        }
         for (int y = 0; y < this.getHeight(); y++) {
             for (int x = 0; x < this.getWidth(); x++) {
                 this.grid[x][y].drawCow(g);
             }
-        }
-        if (sprite != null){
-            g.drawImage(sprite, X-13, Y-13, this.getWidth()*Tile.SIZE+26, this.getHeight()*Tile.SIZE+26, null);
         }
     }
 
