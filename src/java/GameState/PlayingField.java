@@ -114,8 +114,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
 
     /**
      * This gets whether the tile at the given coordinate is occupied by a cow or
-     * not. For stackable cows (pea pod), it only is occupied if no more cows can be
-     * stacked.
+     * not.
      * 
      * @param x The x coordinate.
      * @param y The y coordinate.
@@ -123,7 +122,7 @@ public class PlayingField extends Entity implements Drawable, Updatable {
      */
     public boolean isOccupied(int x, int y) {
         Tile tile = getTileAt(x, y);
-        if (tile == null || !this.containsPoint(x, y))
+        if (tile == null || tile.getCow() != null || !this.containsPoint(x, y))
             return true;
         return false;
     }

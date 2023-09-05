@@ -49,7 +49,7 @@ public class StackableCow extends Cow {
 
     @Override
     public void update() {
-        
+        getSprite().update();
         if (this.getState() == State.ATTACK || this.getAttackTimer() < this.getAttackSpeed()) {
             setAttackTimer(getAttackTimer()+1);
         }
@@ -92,7 +92,6 @@ public class StackableCow extends Cow {
     }
 
     public boolean isFull() {
-        System.out.println(curSize + " " + MAX);
         return this.getCurSize() >= MAX;
     }
 
