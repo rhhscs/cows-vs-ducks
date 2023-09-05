@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import src.java.State;
 import src.java.GameState.GameState;
 import src.java.Utilities.ResolutionManager;
+import src.java.Utilities.ScoreManager;
 
 public class LoadingState extends State{
 

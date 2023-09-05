@@ -52,8 +52,9 @@ public class MenuState extends State {
             scoresTitle.draw(g);
             List<Score> topScores = ScoreManager.scoreManager.getTopScores(10);
             for (int i = 0; i < topScores.size(); i++) {
-                score.setText((i + 1) + ". " + topScores.get(i).getName() + ": " + topScores.get(i).getScore());
-                score.draw(g, Consts.SCORES_X + 125, Consts.SCORES_Y + 100 + (75 * i));
+                score.setText((i + 1) + ". " + topScores.get(i).getName() + ": " + topScores.get(i).getPoints() 
+                    + " level " + topScores.get(i).getLevel() + "." + topScores.get(i).getWave());
+                score.draw(g, Consts.SCORES_X + (Consts.SCORES_WIDTH) / 2, Consts.SCORES_Y + 100 + (75 * i));
             }
         }
     }

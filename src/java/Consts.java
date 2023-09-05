@@ -17,7 +17,7 @@ public final class Consts {
     public static final int SCORES_Y = 100;
     public static final int SCORES_WIDTH = 600;
     public static final int SCORES_HEIGHT = 800;
-    public static final Color SCORES_COLOR = new Color(127, 127, 127);
+    public static final Color SCORES_COLOR = new Color(50, 50, 50);
     public static final Font TITLE_FONT = loadFont(MONDAY_FEELINGS_FONT_FILE, Font.TRUETYPE_FONT, Font.PLAIN, 50);
     public static final Font SCORES_FONT = loadFont(MONDAY_FEELINGS_FONT_FILE, Font.TRUETYPE_FONT, Font.PLAIN, 30);
     

@@ -48,6 +48,9 @@ public class WaveManager implements Drawable, Updatable{
         this.currentLevel = 1;
         this.waveCount = 1;
         this.currentWave = 0;
+        
+        ScoreManager.scoreManager.setCurLevel(this.currentLevel);
+        ScoreManager.scoreManager.setCurWave(this.currentWave);
     }
 
     public void init(DuckManager _duckManager, PlayingField lawn) {
@@ -77,7 +80,10 @@ public class WaveManager implements Drawable, Updatable{
             this.currentWave = 0;
             this.waveCount = Math.min((int)Math.ceil((double)this.currentLevel / 1.5), 4);
             this.stageAnnouncement = 100;
+
             ScoreManager.scoreManager.addCurPoints(Consts.LEVEL);
+            ScoreManager.scoreManager.setCurLevel(this.currentLevel);
+            ScoreManager.scoreManager.setCurWave(this.currentWave);
         }
         
         // if it is time for a new wave
@@ -90,6 +96,7 @@ public class WaveManager implements Drawable, Updatable{
                 this.waveAnnouncement = 100;
             }
             ScoreManager.scoreManager.addCurPoints(Consts.WAVE[this.currentWave]);
+            ScoreManager.scoreManager.setCurWave(this.currentWave);
         }
 
         // spawn the ducks from the wave
@@ -151,7 +158,5 @@ public class WaveManager implements Drawable, Updatable{
             this.waveAnnouncement--;
             g.drawString("Wave " + this.currentWave + " is coming", 500, 500);
         }
-
     }
-
 }
