@@ -36,9 +36,9 @@ public class WaveManager implements Drawable, Updatable{
     private final int[][] spawnWeights = {
         {100, 0, 0, 0, 0, 0},
         {75, 25, 0, 0, 0, 0},
-        {30, 30, 20, 20, 0, 0},
-        {25, 25, 25, 20, 5, 0},
-        {20, 20, 25, 20, 5, 5}
+        {25, 30, 20, 20, 5, 0},
+        {23, 25, 25, 20, 7, 0},
+        {15, 20, 25, 20, 10, 5}
     };
     
     private DuckManager duckManager;

@@ -184,7 +184,8 @@ public class DocumentManager implements Drawable{
          * 3 | freezer  -  low-mid chance   | 2000
          * 4 | pea pod  -  mid chance       | 2500
          * 5 | spikes   -  mid chance
-         * 6 | kaboom   -  low chance
+         * 6 | laser   -  low chance
+         * 7 | kaboom   -  low chance
          * 
          * 10, 12, 14, 16, 18
          */
@@ -195,9 +196,9 @@ public class DocumentManager implements Drawable{
         private final int HI_CHANCE = 15;
 
         private final int applicantTypes;
-        private final Cow[] cows =     { Cow.WHEAT_CROP, Cow.CHEERIO_CATAPULT, Cow.CEREAL_BOX, Cow.COLD_FRIDGE, Cow.PEA_POD, Cow.CRUSHED_CEREAL, Cow.CEREAL_BOMB};
-        private int[] newDocWeight =   { LOWMED_CHANCE , HI_CHANCE           , MED_CHANCE    , LOWMED_CHANCE  , MED_CHANCE,  MED_CHANCE,         LOW_CHANCE}; // chance of document appearing
-        private final int[] nextStageDelays =  {40, 760, 1200, 500, 500, 1000};
+        private final Cow[] cows =     { Cow.WHEAT_CROP, Cow.CHEERIO_CATAPULT, Cow.CEREAL_BOX, Cow.COLD_FRIDGE, Cow.PEA_POD, Cow.CRUSHED_CEREAL, Cow.CEREAL_LASER, Cow.CEREAL_BOMB};
+        private int[] newDocWeight =   { LOWMED_CHANCE , HI_CHANCE           , MED_CHANCE    , LOWMED_CHANCE  , MED_CHANCE , MED_CHANCE        , LOWMED_CHANCE   , LOW_CHANCE}; // chance of document appearing
+        private final int[] nextStageDelays =  {40, 760, 1200, 700, 800, 750, 1250};
         private int nextStageTimer = nextStageDelays[0];
 
         
