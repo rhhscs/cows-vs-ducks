@@ -20,4 +20,8 @@ public class GargantuanDuck extends Duck{
         return new GargantuanDuck(getPlayingField(), getLane(), getAI());
     }
 
+    @Override
+    protected void move(){
+        this.move(Math.min(-this.moveSpeed.getValue(), 0), 0);
+    }
 }

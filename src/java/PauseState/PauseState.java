@@ -11,9 +11,9 @@ import src.java.Utilities.ResolutionManager;
 import src.java.LoseState.LoseState;
 
 public class PauseState extends State{
-    Button resumeButton = new Button(ResolutionManager.WIDTH/2 - 200, ResolutionManager.HEIGHT/2 - 150, 400, 80);
-    Button restartButton = new Button(ResolutionManager.WIDTH/2 - 200, ResolutionManager.HEIGHT/2 - 50, 400, 80, Color.ORANGE);
-    Button endGameButton = new Button(ResolutionManager.WIDTH/2 - 200, ResolutionManager.HEIGHT/2 + 50, 400, 80, Color.RED);
+    Button resumeButton = new Button(ResolutionManager.WIDTH/2 - 200, ResolutionManager.HEIGHT/2 - 200, 400, 120, "src/img/button/resume.png");
+    Button restartButton = new Button(ResolutionManager.WIDTH/2 - 200, ResolutionManager.HEIGHT/2 - 60, 400, 120, "src/img/button/restart.png");
+    Button endGameButton = new Button(ResolutionManager.WIDTH/2 - 200, ResolutionManager.HEIGHT/2 + 80, 400, 120, "src/img/button/end_game.png");
     @Override
     public void start() {
         resumeButton.setOnClickFunction(()->{popState = true;});

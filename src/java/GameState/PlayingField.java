@@ -126,6 +126,20 @@ public class PlayingField extends Entity implements Drawable, Updatable {
             return true;
         return false;
     }
+    /**
+     * This gets whether the tile at the given coordinate is filled by a cow or
+     * not. 
+     * 
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if it is occupied, false otherwise.
+     */
+    public boolean isFull(int x, int y) {
+        Tile tile = getTileAt(x, y);
+        if (tile == null ||  !this.containsPoint(x, y))
+            return true;
+        return tile.isFull();
+    }
 
     @Override
     public void update() {

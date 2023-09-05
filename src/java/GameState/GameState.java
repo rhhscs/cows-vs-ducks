@@ -1,6 +1,7 @@
 package src.java.GameState;
 
 import src.java.State;
+import src.java.Updatable;
 import src.java.GameState.Cows.Cow;
 import src.java.LoseState.LoseState;
 import src.java.PauseState.PauseState;
@@ -19,6 +20,7 @@ public class GameState extends State {
     private UI gooey;
     private DuckManager ducks;
     private WaveManager waveManager;
+    private Dev dev = new Dev();
 
     @Override
     public void start() {
@@ -52,25 +54,7 @@ public class GameState extends State {
         this.waveManager.update();
         ProjectileManager.projectileManager.update();
 
-        if (Input.globalInput.keyIsTapped(KeyEvent.VK_1)){
-            if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
-                ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
-                Duck.BASIC_DUCK.clone());
-            }
-        } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_2)){
-            if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
-                ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
-                Duck.DUCK_WITH_BREAD.clone());
-            }
-        } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_4)){
-            if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
-                ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
-                Duck.RUBBER_DUCK.clone());
-            }
-        }
-        if (Input.globalInput.keyIsTapped(KeyEvent.VK_EQUALS)){
-            CheerioManager.getGlobalCheerios().addCheerios(200);
-        }
+        dev.update();
 
         if (this.ducks.isGameOver()) {
             this.appendState = new LoseState();
@@ -99,5 +83,47 @@ public class GameState extends State {
     @Override
     public String toString() {
         return "GameState:" + Integer.toHexString(hashCode());
+    }
+
+    private class Dev implements Updatable{
+
+        @Override
+        public void update() {
+            if (Input.globalInput.keyIsTapped(KeyEvent.VK_1)){
+                if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                    ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                    Duck.BASIC_DUCK.clone());
+                }
+            } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_2)){
+                if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                    ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                    Duck.RIVER_DUCK.clone());
+                }
+            } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_3)){
+                if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                    ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                    Duck.DUCK_WITH_BREAD.clone());
+                }
+            } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_4)){
+                if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                    ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                    Duck.DUCK_WITH_KNIFE.clone());
+                }
+            } else if (Input.globalInput.keyIsTapped(KeyEvent.VK_5)){
+                if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                    ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                    Duck.RUBBER_DUCK.clone());
+                }
+            }else if (Input.globalInput.keyIsTapped(KeyEvent.VK_6)){
+                if (lawn.containsPoint(Input.globalInput.mouseX(), Input.globalInput.mouseY())){
+                    ducks.addDuck(lawn.getCellTileCoordinate(Input.globalInput.mouseX(), Input.globalInput.mouseY()).y, 
+                    Duck.GARGANTUAR_DUCK.clone());
+                }
+            }
+            if (Input.globalInput.keyIsTapped(KeyEvent.VK_EQUALS)){
+                CheerioManager.getGlobalCheerios().addCheerios(200);
+            }
+        }
+
     }
 }

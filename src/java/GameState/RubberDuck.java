@@ -26,7 +26,7 @@ public class RubberDuck extends Duck{
 
         if (this.getState() == State.WALK) {
             if (movementVariableB == 0) {
-                this.move((int)(-this.moveSpeed.getValue() * movementVariableA), 0);
+                this.move(Math.min((int)(-this.moveSpeed.getValue() * movementVariableA), 0), 0);
                 movementVariableA-=0.2;
                 if (movementVariableA < 0){
                     movementVariableB = 50;

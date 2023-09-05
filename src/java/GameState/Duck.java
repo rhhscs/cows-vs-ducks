@@ -128,7 +128,7 @@ public class Duck extends Entity implements Drawable, Updatable {
         this.attackSpeed.update();
 
         if (this.state == State.WALK) {
-            this.move(-this.moveSpeed.getValue(), 0);
+            this.move();
             this.attackTimer = this.attackDuration;
         } else if (this.state == State.ATTACK || this.attackTimer > this.attackDuration) {
             this.attackTimer--;
@@ -239,6 +239,9 @@ public class Duck extends Entity implements Drawable, Updatable {
         return this.health > 0;
     }
 
+    protected void move(){
+        this.move(-this.moveSpeed.getValue(), 0);
+    }
     public void attack() {
         if (target != null) {
             target.takeDamage(this.getDamage());

@@ -92,17 +92,15 @@ public class DocumentManager implements Drawable{
                     focusedIndex = i;
                     dragged = true;
                 } else if (i == focusedIndex && !dragged){
-                    if (field.isOccupied(input.mouseX(), input.mouseY())) {
-                        focusedIndex = -1;
-                    } else {
+                    if ((applicant.hire() instanceof StackableCow && !field.isFull(input.mouseX(), input.mouseY())) || !field.isOccupied(input.mouseX(), input.mouseY())){
                         if (applicant.getSalary() <= cheerioManager.getCheerios()){
-                            if ((applicant.hire() instanceof StackableCow && !field.getTileAt(input.mouseX(), input.mouseY()).isFull()) || !field.isOccupied(input.mouseX(), input.mouseY())){
-                                field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
-                                removeIndex = i;
-                                focusedIndex = -1;
-                                cheerioManager.spendCheerios(applicant.getSalary());
-                            }
+                            field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
+                            removeIndex = i;
+                            focusedIndex = -1;
+                            cheerioManager.spendCheerios(applicant.getSalary());
                         }
+                    } else {
+                        focusedIndex = -1;
                     }
                 }
             }
@@ -116,14 +114,12 @@ public class DocumentManager implements Drawable{
                 }
                 if (input.mouseReleased()){
                     dragged = false;
-                    if (!field.isOccupied(input.mouseX(), input.mouseY())) {
+                    if (!field.isOccupied(input.mouseX(), input.mouseY()) || ((applicant.hire() instanceof StackableCow) && !field.isFull(input.mouseX(), input.mouseY()))) {
                         if (applicant.getSalary() <= cheerioManager.getCheerios()){
-                            if ((applicant.hire() instanceof StackableCow && !field.getTileAt(input.mouseX(), input.mouseY()).isFull()) || !field.isOccupied(input.mouseX(), input.mouseY())){
-                                field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
-                                removeIndex = i;
-                                focusedIndex = -1;
-                                cheerioManager.spendCheerios(applicant.getSalary());
-                            }
+                            field.placeCow(applicant.hire(), input.mouseX(), input.mouseY());
+                            removeIndex = i;
+                            focusedIndex = -1;
+                            cheerioManager.spendCheerios(applicant.getSalary());
                         }
                     } else if (trashCan.containsPoint(input.mouseX(), input.mouseY())){
                         removeIndex = i;
@@ -243,9 +239,6 @@ public class DocumentManager implements Drawable{
                 if (newDocTimer <= 0){
                     Document applicant;
                     if (isFirst){
-                        applicants.add(new Document(Cow.PEA_POD));
-                        applicants.add(new Document(Cow.PEA_POD));
-                        applicants.add(new Document(Cow.PEA_POD));
                         applicant = new Document(Cow.CHEERIO_CATAPULT);
                         isFirst = false;
                     } else {
