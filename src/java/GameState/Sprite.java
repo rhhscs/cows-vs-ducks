@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 
 import src.java.Updatable;
 import src.java.GameState.Cows.CerealBox;
-import src.java.GameState.Cows.Cow;
 import src.java.GameState.Cows.StackableCow;
 import src.java.GameState.Cows.WheatCrop;
 
