@@ -1,17 +1,6 @@
 # cows-vs-ducks
 club fair project!
 
-## todo list
-- menus
-  - test overlayed menu
-- game
-  - cow
-  - duck manager
-    - 10 ducks
-  - UI
-- score for killing ducks
-- "file for bankruptcy" is how cows lose
-
 ## cows
 [x] cowapult (cabbage pult)
 [ ] cheerio cannon (cob cannon)
