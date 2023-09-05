@@ -255,7 +255,7 @@ public class Duck extends Entity implements Drawable, Updatable {
      */
     public void takeDamage(int damage) {
         this.health -= damage;
-        this.wasHit = 15;
+        this.wasHit = 8;
     }
 
     /**

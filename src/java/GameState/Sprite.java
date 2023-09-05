@@ -46,6 +46,7 @@ public class Sprite implements Updatable {
     public final static Sprite CHEERIO = new Sprite(PROJECTILE_SPRITE_TILE_SIZE, PROJECTILE_SPRITE_TILE_SIZE, 1);
     public final static Sprite FROZEN_CHEERIO = new Sprite(PROJECTILE_SPRITE_TILE_SIZE, PROJECTILE_SPRITE_TILE_SIZE, 1);
     public final static Sprite RAINBOW = new Sprite(PROJECTILE_SPRITE_TILE_SIZE, PROJECTILE_SPRITE_TILE_SIZE, 1);
+    public final static Sprite RAINBOW_TRAIL = new Sprite(PROJECTILE_SPRITE_TILE_SIZE*4, PROJECTILE_SPRITE_TILE_SIZE, 1);
 
     public static void init() {
         String folder = "cow/cereal_box/";
@@ -101,6 +102,8 @@ public class Sprite implements Updatable {
         CHEERIO.setCycle("projectile", folder + "default" + EXTENSION, 1);
         FROZEN_CHEERIO.setCycle("projectile", folder + "frozen" + EXTENSION, 1);
         RAINBOW.setCycle("projectile", folder + "rainbow" + EXTENSION, 1);
+        RAINBOW_TRAIL.setCycle("projectile", folder + "rainbow_trail" + EXTENSION, 1);
+        RAINBOW_TRAIL.useCycle("projectile");
     }
     
     private int ticksPerFrame;

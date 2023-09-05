@@ -7,6 +7,7 @@ import src.java.GameState.CowSprite;
 import src.java.GameState.Duck;
 import src.java.GameState.DuckManager;
 import src.java.GameState.Entity;
+import src.java.GameState.LaserProjectile;
 import src.java.GameState.PiercingProjectile;
 import src.java.GameState.PlayingField;
 import src.java.GameState.ProjectileManager;
@@ -70,7 +71,7 @@ public class Cow extends Entity implements Drawable, Updatable {
     public static final Cow PEA_POD = new StackableCow(175, Sprite.STACK_COW);
 
     public static final Cow CEREAL_LASER = new Cow(100, 70, 20, 3, true, 400, Sprite.LASER,
-            new PiercingProjectile(40, 65, 50, 50, 45, 3, 1000, Sprite.RAINBOW), AI.SHOOTER_COW_AI);
+            new LaserProjectile(60, 65, 50, 50, 140, 20, Sprite.RAINBOW), AI.SHOOTER_COW_AI);
 
     /**
      * This constructs a single-tile cow.

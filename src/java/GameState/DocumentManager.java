@@ -197,7 +197,7 @@ public class DocumentManager implements Drawable{
 
         private final int applicantTypes;
         private final Cow[] cows =     { Cow.WHEAT_CROP, Cow.CHEERIO_CATAPULT, Cow.CEREAL_BOX, Cow.COLD_FRIDGE, Cow.PEA_POD, Cow.CRUSHED_CEREAL, Cow.CEREAL_LASER, Cow.CEREAL_BOMB};
-        private int[] newDocWeight =   { LOWMED_CHANCE , HI_CHANCE           , MED_CHANCE    , LOWMED_CHANCE  , MED_CHANCE , MED_CHANCE        , LOWMED_CHANCE   , LOW_CHANCE}; // chance of document appearing
+        private int[] newDocWeight =   { MED_CHANCE    , HI_CHANCE           , MED_CHANCE    , LOWMED_CHANCE  , MED_CHANCE , MED_CHANCE        , LOWMED_CHANCE   , LOW_CHANCE}; // chance of document appearing
         private final int[] nextStageDelays =  {40, 760, 1200, 700, 800, 750, 1250};
         private int nextStageTimer = nextStageDelays[0];
 
@@ -240,7 +240,7 @@ public class DocumentManager implements Drawable{
                 if (newDocTimer <= 0){
                     Document applicant;
                     if (isFirst){
-                        applicant = new Document(Cow.CHEERIO_CATAPULT);
+                        applicant = new Document(Cow.CEREAL_LASER);
                         isFirst = false;
                     } else {
                         applicant = getRandomDocument(stage);

@@ -102,6 +102,10 @@ public class Projectile extends Entity implements Drawable, Updatable {
         return this.sprite;
     }
 
+    protected void setDamage(int damage){
+        this.damage = damage;
+    }
+
     public void setDuration(int duration) {
         this.duration = duration;
     }

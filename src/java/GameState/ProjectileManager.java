@@ -38,20 +38,22 @@ public class ProjectileManager implements Drawable, Updatable {
                 for (Duck duck : ducks) {
                     if (projectile.getActive() && duck.collides(projectile)) {
                         // collision occurred.
+                        if ((projectile instanceof LaserProjectile && ((LaserProjectile)projectile).fullWidth) || !(projectile instanceof LaserProjectile)){
+                            if (projectile.getSingleTarget()) {
+                                // delete projectile after hit.
+                                projectile.setActive(false);
+                                projectile.setDuration(0);
+                            } else {
+                                // delete projectile at the end of this frame.
+                                used = true;
+                            }
 
-                        if (projectile.getSingleTarget()) {
-                            // delete projectile after hit.
-                            projectile.setActive(false);
-                            projectile.setDuration(0);
-                        } else {
-                            // delete projectile at the end of this frame.
-                            used = true;
+                            // damage duck and apply status effects.
+                            duck.takeDamage(projectile.getDamage());
+                            duck.applyMoveSpeedEffect(projectile.getSlowEffect(), projectile.getSlowTime());
+                            duck.applyAttackSpeedEffect(projectile.getSlowEffect(), projectile.getSlowTime());
                         }
-
-                        // damage duck and apply status effects.
-                        duck.takeDamage(projectile.getDamage());
-                        duck.applyMoveSpeedEffect(projectile.getSlowEffect(), projectile.getSlowTime());
-                        duck.applyAttackSpeedEffect(projectile.getSlowEffect(), projectile.getSlowTime());
+                       
                     }
                 }
             }
