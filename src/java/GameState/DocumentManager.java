@@ -108,9 +108,11 @@ public class DocumentManager implements Drawable{
 
             if (dragged && focusedIndex == i){
                 if (trashCan.containsPoint(input.mouseX(), input.mouseY())){
-                    trashCan.moveTo(ResolutionManager.HEIGHT-300);
+                    trashCan.hovered = true;
+                    trashCan.moveTo(ResolutionManager.HEIGHT-280);
                 } else {
-                    trashCan.moveTo(ResolutionManager.HEIGHT-150);
+                    trashCan.hovered = false;
+                    trashCan.moveTo(ResolutionManager.HEIGHT-180);
                 }
                 if (input.mouseReleased()){
                     dragged = false;
@@ -124,7 +126,8 @@ public class DocumentManager implements Drawable{
                     } else if (trashCan.containsPoint(input.mouseX(), input.mouseY())){
                         removeIndex = i;
                         focusedIndex = -1;
-                        trashCan.moveTo(ResolutionManager.HEIGHT-150);
+                        trashCan.hovered = false;
+                        trashCan.moveTo(ResolutionManager.HEIGHT-180);
                     }
                 }
             }
@@ -240,7 +243,7 @@ public class DocumentManager implements Drawable{
                 if (newDocTimer <= 0){
                     Document applicant;
                     if (isFirst){
-                        applicant = new Document(Cow.CEREAL_LASER);
+                        applicant = new Document(Cow.CHEERIO_CATAPULT);
                         isFirst = false;
                     } else {
                         applicant = getRandomDocument(stage);
