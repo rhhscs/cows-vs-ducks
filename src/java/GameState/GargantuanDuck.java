@@ -2,10 +2,12 @@ package src.java.GameState;
 
 import java.awt.Graphics;
 
+import src.java.Consts;
+
 public class GargantuanDuck extends Duck{
 
     public GargantuanDuck(PlayingField lawn, int laneIndex, AI ai) {
-        super(1, 100, 20, 120, 600, lawn, laneIndex, ai, Sprite.BASIC_DUCK);
+        super(1, 100, 20, 120, 600, lawn, laneIndex, ai, Sprite.BASIC_DUCK, Consts.BUFF_DUCK);
     }
 
     @Override

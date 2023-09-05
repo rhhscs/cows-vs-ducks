@@ -2,9 +2,12 @@ package src.java.GameState;
 
 import src.java.State;
 import src.java.GameState.Cows.Cow;
+import src.java.LoseState.LoseState;
 import src.java.PauseState.PauseState;
 import src.java.Utilities.Input;
 import src.java.Utilities.ResolutionManager;
+import src.java.Utilities.Score;
+import src.java.Utilities.ScoreManager;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,6 +22,8 @@ public class GameState extends State {
 
     @Override
     public void start() {
+        ScoreManager.scoreManager.reset();
+        ScoreManager.scoreManager.load();
         Sprite.init();
 
         this.lawn = new PlayingField();
@@ -65,6 +70,10 @@ public class GameState extends State {
         }
         if (Input.globalInput.keyIsTapped(KeyEvent.VK_EQUALS)){
             CheerioManager.getGlobalCheerios().addCheerios(200);
+        }
+
+        if (this.ducks.isGameOver()) {
+            this.appendState = new LoseState();
         }
     }
 

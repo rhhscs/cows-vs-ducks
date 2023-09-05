@@ -19,7 +19,9 @@ public class CsvScoreFile implements ScoreFile {
             String[] parts = line.split(",");
             String name = parts[0];
             int score = Integer.parseInt(parts[1]);
-            manager.add(name, score);
+            int level = Integer.parseInt(parts[2]);
+            int wave = Integer.parseInt(parts[3]);
+            manager.add(name, score, level, wave);
         }
 
         reader.close();
@@ -30,9 +32,8 @@ public class CsvScoreFile implements ScoreFile {
         File scoreFile = new File(manager.getFilePath());
         FileWriter writer = new FileWriter(scoreFile, false);
 
-        writer.write("Name,Score\n");
         for (Score score: manager) {
-            writer.write(score.getName() + "," + score.getScore() + "\n");
+            writer.write(score.getName() + "," + score.getPoints() + "," + score.getLevel() + "," + score.getWave() + "\n");
         }
 
         writer.close();

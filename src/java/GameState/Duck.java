@@ -2,6 +2,8 @@ package src.java.GameState;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import src.java.Consts;
 import src.java.Drawable;
 import src.java.Updatable;
 import src.java.GameState.Cows.Cow;
@@ -12,21 +14,21 @@ public class Duck extends Entity implements Drawable, Updatable {
         WALK,
         IDLE,
         ATTACK,
-        DIE
     }
 
     public static final int WIDTH = PlayingField.Tile.SIZE;
     public static final int HEIGHT = PlayingField.Tile.SIZE;
     public static final int X = PlayingField.X + PlayingField.WIDTH;
 
-    public static final Duck NULL_DUCK = new Duck(0, 0, 0, 0, 0, null, 0, null, Sprite.BASIC_DUCK);
-    public static final Duck BASIC_DUCK = new Duck(1, 10, 10, 50, 100, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK);
-    public static final Duck RIVER_DUCK = new Duck(1, 10, 10, 60, 200, null, 0, AI.MELEE_DUCK_AI, Sprite.RIVER_DUCK);
-    public static final Duck DUCK_WITH_KNIFE = new Duck(1, 20, 10, 40, 150, null, 0, AI.MELEE_DUCK_AI, Sprite.KNIFE_DUCK);
-    public static final Duck DUCK_WITH_BREAD = new Duck(1, 10, 10, 60, 300, null, 0, AI.MELEE_DUCK_AI, Sprite.BREAD_DUCK);
+    public static final Duck NULL_DUCK = new Duck(0, 0, 0, 0, 0, null, 0, null, Sprite.BASIC_DUCK, 0);
+    public static final Duck BASIC_DUCK = new Duck(1, 10, 10, 50, 100, null, 0, AI.MELEE_DUCK_AI, Sprite.BASIC_DUCK, Consts.BASIC_DUCK);
+    public static final Duck RIVER_DUCK = new Duck(1, 10, 10, 60, 200, null, 0, AI.MELEE_DUCK_AI, Sprite.RIVER_DUCK, Consts.RIVER_DUCK);
+    public static final Duck DUCK_WITH_KNIFE = new Duck(1, 20, 10, 40, 150, null, 0, AI.MELEE_DUCK_AI,
+            Sprite.KNIFE_DUCK, Consts.KNIFE_DUCK);
+    public static final Duck DUCK_WITH_BREAD = new Duck(1, 10, 10, 60, 300, null, 0, AI.MELEE_DUCK_AI,
+            Sprite.BREAD_DUCK, Consts.BREAD_DUCK);
     public static final Duck RUBBER_DUCK = new RubberDuck(null, 0, AI.RUBBER_DUCK_AI);
     public static final Duck GARGANTUAR_DUCK = new GargantuanDuck(null, 0, AI.MELEE_DUCK_AI);
-
 
     protected Stat moveSpeed;
     protected Stat damage;
@@ -48,6 +50,8 @@ public class Duck extends Entity implements Drawable, Updatable {
     protected Cow target;
     private AI ai;
 
+    private int points;
+
     /**
      * This creates a new duck object.
      * 
@@ -60,9 +64,10 @@ public class Duck extends Entity implements Drawable, Updatable {
      * @param lawn           The lawn that this duck should interact with.
      * @param laneIndex      The index of the lane this duck is in.
      * @param sprite         The duck sprite.
+     * @param points         The amount of points given on defeat
      */
     public Duck(int moveSpeed, int damage, int attackDuration, int attackSpeed, int health,
-            PlayingField lawn, int laneIndex, AI ai, DuckSprite sprite) {
+            PlayingField lawn, int laneIndex, AI ai, DuckSprite sprite, int points) {
         super(X, PlayingField.Y + PlayingField.Tile.SIZE * laneIndex, WIDTH, HEIGHT);
         this.moveSpeed = new Stat(moveSpeed);
         this.damage = new Stat(damage);
@@ -81,9 +86,11 @@ public class Duck extends Entity implements Drawable, Updatable {
         this.laneIndex = laneIndex;
         this.ai = ai;
         this.target = null;
+
+        this.points = points;
     }
 
-    public static void init(PlayingField lawn){
+    public static void init(PlayingField lawn) {
         BASIC_DUCK.setPlayingField(lawn);
         DUCK_WITH_BREAD.setPlayingField(lawn);
         RIVER_DUCK.setPlayingField(lawn);
@@ -107,14 +114,15 @@ public class Duck extends Entity implements Drawable, Updatable {
             g.fillOval(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         } else {
             this.sprite.draw(g, this.getX() - 50, this.getY(), this.getWidth(), this.getHeight(), this.wasHit > 0);
-            if(this.wasHit > 0){
-                this.wasHit --;
+            if (this.wasHit > 0) {
+                this.wasHit--;
             }
         }
     }
 
     @Override
     public void update() {
+        this.sprite.update();
         this.moveSpeed.update();
         this.damage.update();
         this.attackSpeed.update();
@@ -177,11 +185,11 @@ public class Duck extends Entity implements Drawable, Updatable {
         this.health = health;
     }
 
-    public void setLaneIndex(int index){
+    public void setLaneIndex(int index) {
         this.laneIndex = index;
     }
 
-    public void setPlayingField(PlayingField playingField){
+    public void setPlayingField(PlayingField playingField) {
         this.lawn = playingField;
     }
 
@@ -193,20 +201,24 @@ public class Duck extends Entity implements Drawable, Updatable {
         return state;
     }
 
-    public Sprite getSprite(){
+    public Sprite getSprite() {
         return sprite;
     }
 
-    public PlayingField getPlayingField(){
+    public PlayingField getPlayingField() {
         return lawn;
     }
-    
-    public AI getAI(){
+
+    public AI getAI() {
         return ai;
     }
 
-    public int getLane(){
+    public int getLane() {
         return laneIndex;
+    }
+
+    public int getPoints() {
+        return this.points;
     }
 
     public void setState(State newState) {
@@ -277,6 +289,6 @@ public class Duck extends Entity implements Drawable, Updatable {
     protected Duck clone() {
         return new Duck(this.moveSpeed.getBaseValue(), this.damage.getBaseValue(),
                 this.attackDuration, this.attackSpeed.getBaseValue(), this.getHealth(), this.lawn, this.laneIndex,
-                this.ai, this.sprite);
+                this.ai, this.sprite, this.points);
     }
 }

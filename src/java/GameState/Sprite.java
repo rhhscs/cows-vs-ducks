@@ -216,13 +216,11 @@ public class Sprite implements Updatable {
 
     public void draw(Graphics g, int x, int y, int width, int height) {
         this.curCycle.draw(g, x, y, width, height);
-        this.update();
     }
     
     public void draw(Graphics g, int x, int y, int width, int height, boolean wasHit){
         if(wasHit){
             this.curCycle.draw(g, x, y, width, height, wasHit);
-            this.update();
         }else{
             draw(g, x, y, width, height);
         }

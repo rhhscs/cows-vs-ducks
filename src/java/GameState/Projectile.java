@@ -65,6 +65,7 @@ public class Projectile extends Entity implements Drawable, Updatable {
 
     @Override
     public void update() {
+        this.sprite.update();
         this.setX(this.getX() + this.speed);
         this.duration--;
     }

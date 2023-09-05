@@ -2,16 +2,19 @@ package src.java.GameState;
 
 import java.awt.Graphics;
 
+import src.java.Consts;
+
 public class RubberDuck extends Duck{
     private float movementVariableA = 8;
     private int movementVariableB = 0;
 
     public RubberDuck(PlayingField lawn, int laneIndex, AI ai) {
-        super(1, 0, 1, 1000, 500, lawn, laneIndex, ai, Sprite.RUBBER_DUCK);
+        super(1, 0, 1, 1000, 500, lawn, laneIndex, ai, Sprite.RUBBER_DUCK, Consts.RUBBER_DUCK);
     }
 
     @Override
     public void draw(Graphics g){
+        getSprite().update();
         getSprite().draw(g, this.getX(), this.getY()-20, this.getWidth(), this.getHeight());
     }
     

@@ -6,12 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class manages scores.
+ * This class manages scores. It also maintains the current score.
  */
 public class ScoreManager implements Iterable<Score> {
     private ScoreFile scoreFile;
     private ArrayList<Score> scores;
     private String filePath;
+
+    private Score curScore;
+
+    public static final ScoreManager scoreManager = new ScoreManager("src/saves/scores.txt");
 
     /**
      * Creates a new Score Manager object.
@@ -21,6 +25,7 @@ public class ScoreManager implements Iterable<Score> {
         this.scoreFile = new CsvScoreFile(); // can be changed to other format later
         this.scores = new ArrayList<Score>();
         this.filePath = filePath;
+        this.curScore = new Score("Player", 0, 0, 0);
     }
 
     /**
@@ -46,6 +51,14 @@ public class ScoreManager implements Iterable<Score> {
     }
 
     /**
+     * This emtpies the score manager.
+     */
+    public void reset() {
+        this.scores.clear();
+        this.curScore = new Score("Player", 0, 0, 0);
+    }
+
+    /**
      * This gets the score file's file path.
      * @return The file path.
      */
@@ -56,19 +69,68 @@ public class ScoreManager implements Iterable<Score> {
     /**
      * Adds a new score.
      * @param name The name of the scorer.
-     * @param score The score.
+     * @param points The score.
+     * @param level The level reached.
+     * @param wave The wave reached.
      */
-    public void add(String name, int score) {
-        Score newScore = new Score(name, score);
+    public void add(String name, int points, int level, int wave) {
+        Score newScore = new Score(name, points, level, wave);
 
+        this.add(newScore);
+    }
+
+    /**
+     * Adds a new score.
+     * @param score
+     */
+    public void add(Score score) {
         for (int i = 0; i < this.scores.size(); i++) {
-            if (this.scores.get(i).getScore() < score) {
-                this.scores.add(i, newScore);
+            if (this.scores.get(i).getPoints() < score.getPoints()) {
+                this.scores.add(i, score);
                 return;
             }
         }
 
-        this.scores.add(newScore);
+        this.scores.add(score);
+    }
+
+    /**
+     * Adds the current score to the file.
+     */
+    public void addCurScore() {
+        this.add(this.curScore);
+    }
+
+    public void setCurName(String name) {
+        this.curScore.setName(name);
+    }
+
+    public String getCurName() {
+        return this.curScore.getName();
+    }
+
+    public void addCurPoints(int points) {
+        this.curScore.addPoints(points);
+    }
+
+    public int getCurPoints() {
+        return this.curScore.getPoints();
+    }
+
+    public int getCurLevel() {
+        return this.curScore.getLevel();
+    }
+
+    public void setCurLevel(int level) {
+        this.curScore.setLevel(level);
+    }
+
+    public int getCurWave() {
+        return this.curScore.getWave();
+    }
+
+    public void setCurWave(int wave) {
+        this.curScore.setWave(wave);
     }
 
     /**

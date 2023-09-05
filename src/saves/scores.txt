@@ -1,1 +1,3 @@
-Boomer,50
+Player,420,1,0
+Player1,20,0,0
+Player,10,0,0
