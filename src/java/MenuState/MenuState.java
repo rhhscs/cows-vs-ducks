@@ -18,7 +18,7 @@ public class MenuState extends State {
     private Button scoresButton = new Button(100, ResolutionManager.HEIGHT / 2, 700, 80);
 
     // Scores Banner
-    private boolean showScores = true;
+    private boolean showScores = false;
     private Text scoresTitle = new Text("HIGH SCORES", Consts.TITLE_FONT, Consts.SCORES_COLOR,
             Consts.SCORES_X + (Consts.SCORES_WIDTH / 2), Consts.SCORES_Y + 25);
     private Text score = new Text("", Consts.SCORES_FONT, Consts.SCORES_COLOR,
