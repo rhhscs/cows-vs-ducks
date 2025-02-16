@@ -3,7 +3,7 @@ package src.java.LoseState;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.sun.glass.events.KeyEvent;
+import java.awt.event.KeyEvent;
 
 import src.java.Consts;
 import src.java.State;
@@ -49,7 +49,7 @@ public class LoseState extends State {
     public void update() {
         submitButton.update();
 
-        if (Input.globalInput.keyIsTapped(KeyEvent.VK_BACKSPACE)) {
+        if (Input.globalInput.keyIsTapped(KeyEvent.VK_BACK_SPACE)) {
             name = name.substring(0, name.length() - 1);
         } else {
             for (int keyCode = KeyEvent.VK_0; keyCode <= KeyEvent.VK_9; keyCode++) {
