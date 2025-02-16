@@ -1,6 +1,24 @@
 # cows-vs-ducks
 club fair project!
 
+## How to Run
+
+Make sure you are in the root directory.
+
+```bash
+$ basename $PWD 
+cows-vs-ducks
+```
+
+Run the following commands to build and run:
+
+```bash
+javac *.java
+java Main
+```
+
+Enjoy!
+
 ## cows
 [x] cowapult (cabbage pult)
 [ ] cheerio cannon (cob cannon)
