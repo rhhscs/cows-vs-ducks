@@ -68,7 +68,7 @@ public class WaveManager implements Drawable, Updatable{
             }
             startWeight += currentWeight;
         }
-        return this.ducks[0];
+        return this.ducks[0].clone();
     }
 
     @Override
